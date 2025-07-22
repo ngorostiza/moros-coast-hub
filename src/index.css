@@ -8,33 +8,59 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Coastal Theme - Bahía de los Moros */
+    --background: 210 25% 98%;
+    --foreground: 220 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Ocean Blue Primary */
+    --primary: 210 85% 45%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 200 90% 60%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Sandy Secondary */
+    --secondary: 45 25% 88%;
+    --secondary-foreground: 220 15% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Soft Coastal Muted */
+    --muted: 210 20% 95%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Turquoise Accent */
+    --accent: 185 75% 55%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Wave Destructive */
+    --destructive: 350 85% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Coastal Borders */
+    --border: 210 20% 90%;
+    --input: 210 20% 94%;
+    --ring: 210 85% 45%;
+
+    /* Custom Coastal Colors */
+    --ocean-deep: 215 90% 35%;
+    --ocean-light: 200 80% 85%;
+    --sand: 45 35% 80%;
+    --sand-dark: 35 25% 65%;
+    --coral: 15 85% 65%;
+    --seafoam: 165 60% 75%;
+    
+    /* Gradients */
+    --gradient-ocean: linear-gradient(135deg, hsl(210, 85%, 45%), hsl(200, 90%, 60%));
+    --gradient-sunset: linear-gradient(135deg, hsl(15, 85%, 65%), hsl(45, 35%, 80%));
+    --gradient-beach: linear-gradient(180deg, hsl(200, 80%, 85%), hsl(45, 35%, 80%));
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-coastal: 0 10px 30px -10px hsl(210 85% 45% / 0.3);
+    --shadow-wave: 0 0 40px hsl(200 90% 60% / 0.4);
 
     --radius: 0.5rem;
 
