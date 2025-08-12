@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import GISMap from "@/components/GISMap";
+import ExpandableWidget from "@/components/ExpandableWidget";
 import { 
   Users, 
   DollarSign, 
@@ -17,6 +18,30 @@ import {
   Waves,
   MapPin
 } from "lucide-react";
+
+const recentActivity = [
+  {
+    time: "10:45",
+    type: "security",
+    icon: CheckCircle,
+    title: "Entrada autorizada",
+    description: "Propietario Lugar 87 - Juan Pérez"
+  },
+  {
+    time: "10:30", 
+    type: "payment",
+    icon: DollarSign,
+    title: "Pago recibido",
+    description: "Expensa Febrero - Lugar 92 - $89,500"
+  },
+  {
+    time: "09:15",
+    type: "reservation",
+    icon: Calendar,
+    title: "Nueva reserva",
+    description: "Cancha de tenis - 15:00 - Lugar 34"
+  }
+];
 
 export default function AdminDashboard() {
   const liveStats = {
@@ -257,46 +282,40 @@ export default function AdminDashboard() {
           </Card>
 
           {/* Recent Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Actividad Reciente</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-center gap-3 p-2 bg-emerald-50 rounded">
-                  <CheckCircle className="h-4 w-4 text-emerald-600" />
-                  <div>
-                    <p className="font-medium">Pago recibido</p>
-                    <p className="text-muted-foreground">Lote 23 - $89,500</p>
-                  </div>
+          <ExpandableWidget expandUrl="/activity-log">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
+                  Actividad Reciente
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {recentActivity.map((activity, index) => (
+                    <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+                      <div className={`p-1 rounded-full ${
+                        activity.type === 'security' ? 'bg-red-100' :
+                        activity.type === 'payment' ? 'bg-green-100' :
+                        'bg-blue-100'
+                      }`}>
+                        <activity.icon className={`h-4 w-4 ${
+                          activity.type === 'security' ? 'text-red-600' :
+                          activity.type === 'payment' ? 'text-green-600' :
+                          'text-blue-600'
+                        }`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium">{activity.title}</p>
+                        <p className="text-xs text-muted-foreground">{activity.description}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{activity.time}</span>
+                    </div>
+                  ))}
                 </div>
-                
-                <div className="flex items-center gap-3 p-2 bg-blue-50 rounded">
-                  <Car className="h-4 w-4 text-blue-600" />
-                  <div>
-                    <p className="font-medium">Vehículo ingresó</p>
-                    <p className="text-muted-foreground">ABC123 - Lote 47</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-2 bg-orange-50 rounded">
-                  <Calendar className="h-4 w-4 text-orange-600" />
-                  <div>
-                    <p className="font-medium">Nueva reserva</p>
-                    <p className="text-muted-foreground">Quincho Norte - Sáb 17/02</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-2 bg-purple-50 rounded">
-                  <Users className="h-4 w-4 text-purple-600" />
-                  <div>
-                    <p className="font-medium">Autorización generada</p>
-                    <p className="text-muted-foreground">3 invitados - Lote 12</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </ExpandableWidget>
 
           {/* Alerts */}
           <Card>

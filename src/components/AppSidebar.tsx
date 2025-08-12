@@ -62,18 +62,22 @@ export function AppSidebar() {
             <div className="w-8 h-8 bg-gradient-ocean rounded-lg flex items-center justify-center flex-shrink-0">
               <Waves className="h-5 w-5 text-white" />
             </div>
-            <div className="min-w-0">
-              <h2 className="text-sm font-semibold text-foreground truncate">Bahía de los Moros</h2>
-              <p className="text-xs text-muted-foreground truncate">Costa Argentina</p>
-            </div>
+            {!collapsed && (
+              <div className="min-w-0">
+                <h2 className="text-sm font-semibold text-foreground truncate">Bahía de los Moros</h2>
+                <p className="text-xs text-muted-foreground truncate">Costa Argentina</p>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Owner Section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground px-4">
-            Propietario
-          </SidebarGroupLabel>
+          {!collapsed && (
+            <SidebarGroupLabel className="text-muted-foreground px-4">
+              Propietario
+            </SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {ownerItems.map((item) => (
@@ -81,7 +85,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls}>
                       <item.icon className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">{item.title}</span>
+                      {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,9 +96,11 @@ export function AppSidebar() {
 
         {/* Admin Section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground px-4">
-            Administración
-          </SidebarGroupLabel>
+          {!collapsed && (
+            <SidebarGroupLabel className="text-muted-foreground px-4">
+              Administración
+            </SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
@@ -102,7 +108,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls}>
                       <item.icon className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">{item.title}</span>
+                      {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

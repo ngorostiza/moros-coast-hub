@@ -122,25 +122,81 @@ export default function GISMap() {
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-blue-300 to-transparent rounded-b-lg" />
             <div className="absolute bottom-0 left-0 right-0 h-4 bg-blue-400/50" />
             
-            {/* Sectors */}
-            <div className="absolute top-4 left-4 w-20 h-16 bg-red-200/60 rounded border border-red-300 flex items-center justify-center text-xs font-medium cursor-pointer hover:bg-red-200/80"
+            {/* Access and Administration */}
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-blue-200/60 rounded border border-blue-300 flex items-center justify-center text-xs font-medium">
+              ACCESO
+            </div>
+            
+            {/* Airstrip */}
+            <div className="absolute top-6 left-1/3 w-32 h-4 bg-gray-300/60 rounded border border-gray-400 flex items-center justify-center text-xs font-medium">
+              PISTA DE ATERRIZAJE
+            </div>
+            
+            {/* Del Campo Sector - Northern red area */}
+            <div className="absolute top-16 left-8 w-40 h-32 bg-red-200/60 rounded border border-red-300 cursor-pointer hover:bg-red-200/80"
                  onClick={() => setSelectedSector("Del Campo")}>
-              Del Campo
+              <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
+                {/* Simulate lots 72-97 */}
+                {Array.from({length: 16}, (_, i) => (
+                  <div key={i} className="bg-red-300/40 rounded-sm text-xs flex items-center justify-center">
+                    {72 + i}
+                  </div>
+                ))}
+              </div>
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold">
+                DEL CAMPO
+              </div>
             </div>
             
-            <div className="absolute top-4 right-4 w-24 h-20 bg-green-200/60 rounded border border-green-300 flex items-center justify-center text-xs font-medium cursor-pointer hover:bg-green-200/80"
-                 onClick={() => setSelectedSector("Costa Norte")}>
-              Costa Norte
-            </div>
-            
-            <div className="absolute bottom-20 left-8 w-16 h-12 bg-yellow-200/60 rounded border border-yellow-300 flex items-center justify-center text-xs font-medium cursor-pointer hover:bg-yellow-200/80"
+            {/* El Club Sector - Yellow area */}
+            <div className="absolute bottom-28 left-4 w-24 h-20 bg-yellow-200/60 rounded border border-yellow-300 cursor-pointer hover:bg-yellow-200/80"
                  onClick={() => setSelectedSector("El Club")}>
-              El Club
+              <div className="absolute inset-0 grid grid-cols-3 gap-px p-1">
+                {Array.from({length: 9}, (_, i) => (
+                  <div key={i} className="bg-yellow-300/40 rounded-sm text-xs flex items-center justify-center">
+                    {50 + i}
+                  </div>
+                ))}
+              </div>
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold">
+                EL CLUB
+              </div>
             </div>
             
-            <div className="absolute bottom-20 right-8 w-20 h-14 bg-purple-200/60 rounded border border-purple-300 flex items-center justify-center text-xs font-medium cursor-pointer hover:bg-purple-200/80"
+            {/* Playa Mía - Coastal area */}
+            <div className="absolute bottom-8 right-12 w-28 h-16 bg-orange-200/60 rounded border border-orange-300 cursor-pointer hover:bg-orange-200/80"
                  onClick={() => setSelectedSector("Playa Mía")}>
-              Playa Mía
+              <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
+                {Array.from({length: 8}, (_, i) => (
+                  <div key={i} className="bg-orange-300/40 rounded-sm text-xs flex items-center justify-center">
+                    {115 + i}
+                  </div>
+                ))}
+              </div>
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold">
+                PLAYA MÍA
+              </div>
+            </div>
+            
+            {/* Green Spaces */}
+            <div className="absolute top-20 right-8 w-20 h-16 bg-green-200/60 rounded border border-green-300">
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold">
+                ESPACIO VERDE
+              </div>
+            </div>
+            
+            <div className="absolute bottom-32 center w-24 h-12 bg-green-200/60 rounded border border-green-300">
+            </div>
+            
+            {/* Central lots area */}
+            <div className="absolute top-24 left-20 w-48 h-24 bg-pink-200/60 rounded border border-pink-300">
+              <div className="absolute inset-0 grid grid-cols-6 gap-px p-1">
+                {Array.from({length: 18}, (_, i) => (
+                  <div key={i} className="bg-pink-300/40 rounded-sm text-xs flex items-center justify-center">
+                    {20 + i}
+                  </div>
+                ))}
+              </div>
             </div>
             
             {/* Security Layer */}

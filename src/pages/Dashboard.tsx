@@ -17,6 +17,7 @@ import {
   Clock,
   Car
 } from "lucide-react";
+import TideWidget from "@/components/TideWidget";
 
 export default function Dashboard() {
   const weatherData = {
@@ -119,6 +120,22 @@ export default function Dashboard() {
         </Card>
       </div>
 
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Button variant="outline" className="flex items-center justify-center gap-2 h-12">
+          <Calendar className="h-4 w-4" />
+          Nueva Reserva
+        </Button>
+        <Button variant="outline" className="flex items-center justify-center gap-2 h-12">
+          <Users className="h-4 w-4" />
+          Autorizar Visita
+        </Button>
+        <Button variant="destructive" className="flex items-center justify-center gap-2 h-12">
+          <AlertTriangle className="h-4 w-4" />
+          Pánico / Emergencia
+        </Button>
+      </div>
+
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column */}
@@ -143,7 +160,7 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Superficie</p>
-                  <p className="font-semibold">1,847 m²</p>
+                  <p className="font-semibold">10,101 m²</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Tipo</p>
@@ -229,6 +246,10 @@ export default function Dashboard() {
               <div className="text-center">
                 <p className="text-3xl font-bold">{weatherData.current.temp}°C</p>
                 <p className="text-muted-foreground">{weatherData.current.condition}</p>
+                <div className="flex justify-center gap-4 text-sm text-muted-foreground mt-1">
+                  <span>Min: 12°C</span>
+                  <span>Max: 24°C</span>
+                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-3 text-sm">
@@ -240,9 +261,20 @@ export default function Dashboard() {
                   <Eye className="h-4 w-4 text-muted-foreground" />
                   <span>{weatherData.current.visibility} km</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <Cloud className="h-4 w-4 text-muted-foreground" />
+                  <span>75% humedad</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Cloud className="h-4 w-4 text-muted-foreground" />
+                  <span>15% precip.</span>
+                </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Tide Widget */}
+          <TideWidget />
 
           {/* Aviation Weather */}
           <Card>
@@ -275,26 +307,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Acciones Rápidas</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                <Calendar className="mr-2 h-4 w-4" />
-                Nueva Reserva
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Users className="mr-2 h-4 w-4" />
-                Autorizar Visita
-              </Button>
-              <Button variant="destructive" className="w-full justify-start">
-                <AlertTriangle className="mr-2 h-4 w-4" />
-                Pánico / Emergencia
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

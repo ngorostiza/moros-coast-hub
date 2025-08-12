@@ -1,45 +1,33 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Expand } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ExpandableWidgetProps {
-  title: string;
-  icon: React.ComponentType<any>;
   children: React.ReactNode;
-  expandedContent: React.ReactNode;
+  expandUrl?: string;
+  expandText?: string;
 }
 
-export default function ExpandableWidget({ title, icon: Icon, children, expandedContent }: ExpandableWidgetProps) {
+export default function ExpandableWidget({ 
+  children, 
+  expandUrl = "/admin", 
+  expandText = "Ver más" 
+}: ExpandableWidgetProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon className="h-5 w-5" />
-            {title}
-          </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <Expand className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[80vh] overflow-auto">
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-2">
-                  <Icon className="h-5 w-5" />
-                  {title} - Vista Detallada
-                </DialogTitle>
-              </DialogHeader>
-              {expandedContent}
-            </DialogContent>
-          </Dialog>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
-    </Card>
+    <div className="relative group">
+      {children}
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Link to={expandUrl}>
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="h-7 px-2 text-xs"
+          >
+            <ExternalLink className="h-3 w-3 mr-1" />
+            {expandText}
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 }
