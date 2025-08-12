@@ -57,7 +57,7 @@ export default function Dashboard() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Dashboard Propietario</h1>
-          <p className="text-muted-foreground">Lote 47 - Sector Costa Norte</p>
+          <p className="text-muted-foreground">Lugar 87 - Sector Del Campo</p>
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
@@ -134,20 +134,20 @@ export default function Dashboard() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Número de Lote</p>
-                  <p className="font-semibold">47</p>
+                  <p className="text-sm text-muted-foreground">Número de Lugar</p>
+                  <p className="font-semibold">87</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Sector</p>
-                  <p className="font-semibold">Costa Norte</p>
+                  <p className="font-semibold">Del Campo</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Superficie</p>
-                  <p className="font-semibold">2,500 m²</p>
+                  <p className="font-semibold">1,847 m²</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Frente al Mar</p>
-                  <p className="font-semibold">Sí - 45m</p>
+                  <p className="text-sm text-muted-foreground">Tipo</p>
+                  <p className="font-semibold">Lugar Residencial</p>
                 </div>
               </div>
               
@@ -289,9 +289,9 @@ export default function Dashboard() {
                 <Users className="mr-2 h-4 w-4" />
                 Autorizar Visita
               </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <Car className="mr-2 h-4 w-4" />
-                Registrar Vehículo
+              <Button variant="destructive" className="w-full justify-start">
+                <AlertTriangle className="mr-2 h-4 w-4" />
+                Pánico / Emergencia
               </Button>
             </CardContent>
           </Card>

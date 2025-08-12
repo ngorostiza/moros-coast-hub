@@ -54,27 +54,25 @@ export function AppSidebar() {
       : "hover:bg-ocean-light/50 text-foreground";
 
   return (
-    <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon">
+    <Sidebar className="w-64" collapsible="icon">
       <SidebarContent className="bg-card border-r border-border">
         {/* Logo/Brand */}
         <div className="p-4 border-b border-border">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-ocean rounded-lg flex items-center justify-center">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <div className="w-8 h-8 bg-gradient-ocean rounded-lg flex items-center justify-center flex-shrink-0">
               <Waves className="h-5 w-5 text-white" />
             </div>
-            {!collapsed && (
-              <div>
-                <h2 className="text-sm font-semibold text-foreground">Bahía de los Moros</h2>
-                <p className="text-xs text-muted-foreground">Costa Argentina</p>
-              </div>
-            )}
+            <div className="min-w-0">
+              <h2 className="text-sm font-semibold text-foreground truncate">Bahía de los Moros</h2>
+              <p className="text-xs text-muted-foreground truncate">Costa Argentina</p>
+            </div>
           </div>
         </div>
 
         {/* Owner Section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground">
-            {!collapsed && "Propietario"}
+          <SidebarGroupLabel className="text-muted-foreground px-4">
+            Propietario
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -82,8 +80,8 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -94,8 +92,8 @@ export function AppSidebar() {
 
         {/* Admin Section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground">
-            {!collapsed && "Administración"}
+          <SidebarGroupLabel className="text-muted-foreground px-4">
+            Administración
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -103,8 +101,8 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

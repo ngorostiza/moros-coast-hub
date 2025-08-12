@@ -20,27 +20,27 @@ import bahiaHero from "@/assets/bahia-hero.jpg";
 export default function Home() {
   const features = [
     {
-      icon: DollarSign,
-      title: "Gestión de Expensas",
-      description: "Visualización y pago de expensas mensuales integrado con sistema contable",
+      icon: Shield,
+      title: "Gestión Comunitaria",
+      description: "Herramientas para la administración responsable de nuestra comunidad",
       gradient: "from-emerald-500 to-teal-600"
     },
     {
       icon: Calendar,
-      title: "Reservas Deportivas",
-      description: "Sistema completo para reservar espacios deportivos y comunes",
+      title: "Espacios Naturales",
+      description: "Reserva y cuidado de nuestros espacios comunes preservados",
       gradient: "from-blue-500 to-cyan-600"
     },
     {
-      icon: Shield,
-      title: "Control de Acceso",
-      description: "Autorizaciones digitales integradas con sistema BioStar2",
+      icon: Users,
+      title: "Comunidad Unida",
+      description: "Conexión entre vecinos que comparten el amor por este lugar único",
       gradient: "from-violet-500 to-purple-600"
     },
     {
-      icon: BarChart3,
-      title: "Dashboard Administrativo",
-      description: "Métricas en tiempo real para optimizar la gestión del barrio",
+      icon: Waves,
+      title: "Conservación Natural",
+      description: "Tecnología al servicio de preservar la experiencia original de la bahía",
       gradient: "from-orange-500 to-red-600"
     }
   ];
@@ -66,7 +66,7 @@ export default function Home() {
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <Badge variant="secondary" className="mb-6 bg-white/20 text-white border-white/30">
             <Waves className="w-4 h-4 mr-2" />
-            Sistema Integral de Gestión
+            Donde la naturaleza y la comunidad se encuentran
           </Badge>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -77,7 +77,7 @@ export default function Home() {
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
-            Plataforma completa para la gestión moderna de nuestra comunidad costera en Lobería, Argentina
+            Un desarrollo único donde preservamos la inmensidad original de nuestros médanos y costa atlántica
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -117,10 +117,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              Funcionalidades Principales
+              Nuestros Principios
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Una solución integral que moderniza la gestión comunitaria con tecnología de punta
+              Herramientas digitales diseñadas para preservar la experiencia única de Bahía de los Moros
             </p>
           </div>
           
@@ -157,8 +157,8 @@ export default function Home() {
           </h2>
           
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Un desarrollo único en 600 hectáreas con 4 kilómetros de costa pristina, 
-            donde la naturaleza y la comunidad se encuentran en perfecta armonía.
+            Un pueblo de mar diseñado artesanalmente, donde cada Lugar fue creado para entregar 
+            una experiencia única, preservando la inmensidad original de nuestros médanos y costa.
           </p>
           
           <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">

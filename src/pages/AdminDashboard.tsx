@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import GISMap from "@/components/GISMap";
 import { 
   Users, 
   DollarSign, 
@@ -35,10 +36,10 @@ export default function AdminDashboard() {
   };
 
   const reservationStats = [
-    { facility: "Cancha de Tenis", bookings: 15, revenue: 45000 },
-    { facility: "Quincho Norte", bookings: 8, revenue: 120000 },
-    { facility: "Pileta", bookings: 22, revenue: 66000 },
-    { facility: "Sala de Eventos", bookings: 3, revenue: 180000 }
+    { facility: "Cancha de Tenis", bookings: 15, usage: "Alta" },
+    { facility: "Quincho Norte", bookings: 8, usage: "Media" },
+    { facility: "Pileta", bookings: 22, usage: "Muy Alta" },
+    { facility: "Sala de Eventos", bookings: 3, usage: "Baja" }
   ];
 
   return (
@@ -125,8 +126,13 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      {/* Main Dashboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* GIS Map - Central Feature */}
+        <div className="lg:col-span-3">
+          <GISMap />
+        </div>
+
+        {/* Main Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Financial Overview - Left Column */}
         <div className="lg:col-span-2 space-y-6">
           {/* Monthly Collection Summary */}
@@ -184,8 +190,14 @@ export default function AdminDashboard() {
                       <p className="text-sm text-muted-foreground">{facility.bookings} reservas este mes</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold">${facility.revenue.toLocaleString()}</p>
-                      <p className="text-sm text-muted-foreground">Ingresos</p>
+                      <Badge variant="outline" className={
+                        facility.usage === "Muy Alta" ? "bg-red-50 text-red-700 border-red-200" :
+                        facility.usage === "Alta" ? "bg-orange-50 text-orange-700 border-orange-200" :
+                        facility.usage === "Media" ? "bg-yellow-50 text-yellow-700 border-yellow-200" :
+                        "bg-gray-50 text-gray-700 border-gray-200"
+                      }>
+                        {facility.usage}
+                      </Badge>
                     </div>
                   </div>
                 ))}
@@ -224,19 +236,19 @@ export default function AdminDashboard() {
                 <p className="text-sm text-muted-foreground mb-2">Distribución por Sector</p>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Costa Norte</span>
-                    <span>34 personas</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Costa Sur</span>
-                    <span>28 personas</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Centro</span>
+                    <span>Del Campo</span>
                     <span>41 personas</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Hangares</span>
+                    <span>El Club</span>
+                    <span>28 personas</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Playa Mía</span>
+                    <span>34 personas</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Espacio Verde</span>
                     <span>24 personas</span>
                   </div>
                 </div>
