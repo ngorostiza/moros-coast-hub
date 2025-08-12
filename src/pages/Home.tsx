@@ -15,7 +15,7 @@ import {
   Sunset
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import bahiaLandscape from "@/assets/bahia-landscape.jpg";
+import bahiaHero from "@/assets/bahia-hero.jpg";
 
 export default function Home() {
   const features = [
@@ -58,7 +58,7 @@ export default function Home() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${bahiaLandscape})` }}
+          style={{ backgroundImage: `url(${bahiaHero})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
         </div>
