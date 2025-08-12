@@ -1,5 +1,5 @@
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Home,
   DollarSign,
@@ -121,6 +121,7 @@ const adminItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
   const [openGroups, setOpenGroups] = useState<string[]>([]);
@@ -181,7 +182,7 @@ export function AppSidebar() {
       <SidebarMenuItem key={item.title}>
         <Collapsible open={isOpen} onOpenChange={() => toggleGroup(item.title)}>
           <CollapsibleTrigger asChild>
-            <SidebarMenuButton className={getNavCls(parentActive)}>
+            <SidebarMenuButton className={getNavCls(parentActive)} onClick={() => navigate(item.subItems[0].url)}>
               <item.icon className="h-4 w-4 flex-shrink-0" />
               {!collapsed && (
                 <>

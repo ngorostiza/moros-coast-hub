@@ -7,32 +7,39 @@ import { Calendar, Clock, Users, MapPin } from "lucide-react";
 export default function ReservasEspacios() {
   const espacios = [
     {
-      nombre: "Cancha de Tenis",
-      disponibilidad: "Alta",
+      nombre: "Tennis Vivero (x1)",
+      disponibilidad: "Media",
       horarios: "06:00 - 22:00",
+      capacidad: "4 personas",
+      precio: "$3,000/hora"
+    },
+    {
+      nombre: "Tennis Bosque (x4)",
+      disponibilidad: "Muy Alta",
+      horarios: "06:00 - 22:00",
+      capacidad: "4 personas",
+      precio: "$3,000/hora"
+    },
+    {
+      nombre: "Paddle Campo (x2)",
+      disponibilidad: "Alta",
+      horarios: "07:00 - 23:00",
       capacidad: "4 personas",
       precio: "$2,500/hora"
     },
     {
-      nombre: "Quincho Norte",
+      nombre: "Peludo (tipo SUM)",
       disponibilidad: "Media",
-      horarios: "10:00 - 24:00",
-      capacidad: "20 personas",
-      precio: "$8,000/día"
+      horarios: "10:00 - 02:00",
+      capacidad: "40 personas",
+      precio: "$20,000/día"
     },
     {
-      nombre: "Pileta Comunitaria",
-      disponibilidad: "Baja",
-      horarios: "09:00 - 20:00",
-      capacidad: "Sin límite",
-      precio: "Incluido"
-    },
-    {
-      nombre: "Sala de Eventos",
+      nombre: "El Club (restaurante)",
       disponibilidad: "Alta",
-      horarios: "08:00 - 02:00",
-      capacidad: "50 personas",
-      precio: "$15,000/día"
+      horarios: "12:00 - 24:00",
+      capacidad: "60 cubiertos",
+      precio: "Según carta"
     }
   ];
 
