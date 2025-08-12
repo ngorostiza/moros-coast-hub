@@ -15,7 +15,7 @@ import {
   Sunset
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import bahiaHero from "@/assets/bahia-hero.jpg";
+import bahiaLandscape from "@/assets/bahia-landscape.jpg";
 
 export default function Home() {
   const features = [
@@ -58,23 +58,25 @@ export default function Home() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${bahiaHero})` }}
+          style={{ backgroundImage: `url(${bahiaLandscape})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
         </div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <Badge variant="secondary" className="mb-6 bg-white/20 text-white border-white/30">
             <Waves className="w-4 h-4 mr-2" />
-            Donde la naturaleza y la comunidad se encuentran
+            Costa Argentina
           </Badge>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Bahía de los
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent block">
-              Moros
-            </span>
-          </h1>
+          {/* Stylized handwritten-like logo */}
+          <div className="relative mb-6">
+            <div className="inline-block bg-gradient-to-r from-teal-400/90 to-cyan-400/90 backdrop-blur-sm px-8 py-4 rounded-full border border-white/30">
+              <h1 className="text-4xl md:text-6xl font-bold text-white" style={{ fontFamily: 'cursive' }}>
+                Bahía de los Moros
+              </h1>
+            </div>
+          </div>
           
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
             Un desarrollo único donde preservamos la inmensidad original de nuestros médanos y costa atlántica

@@ -48,7 +48,7 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const isExpanded = ownerItems.some((i) => isActive(i.url)) || adminItems.some((i) => isActive(i.url));
 
-  const getNavCls = ({ isActive }: { isActive: boolean }) =>
+  const getNavCls = (isActive: boolean) =>
     isActive 
       ? "bg-gradient-ocean text-white font-medium shadow-coastal" 
       : "hover:bg-ocean-light/50 text-foreground";
@@ -83,7 +83,10 @@ export function AppSidebar() {
               {ownerItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavCls}>
+                    <NavLink 
+                      to={item.url} 
+                      className={({ isActive }) => getNavCls(isActive)}
+                    >
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
@@ -106,7 +109,10 @@ export function AppSidebar() {
               {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavCls}>
+                    <NavLink 
+                      to={item.url} 
+                      className={({ isActive }) => getNavCls(isActive)}
+                    >
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
