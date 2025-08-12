@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +16,7 @@ import {
   Sunset
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import bahiaHero from "@/assets/bahia-hero.jpg";
+import bahiaHero from "@/assets/bahia-landscape.jpg";
 
 export default function Home() {
   const features = [
@@ -60,36 +61,39 @@ export default function Home() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${bahiaHero})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
         
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6 bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8">
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <Badge variant="secondary" className="mb-6 bg-white/20 text-white border-white/30">
             <Waves className="w-4 h-4 mr-2" />
             Costa Argentina
           </Badge>
           
-          {/* Stylized handwritten-like logo */}
-          <div className="relative mb-6">
-            <div className="inline-block bg-gradient-to-r from-teal-400/90 to-cyan-400/90 backdrop-blur-sm px-8 py-4 rounded-full border border-white/30">
-              <h1 className="text-4xl md:text-6xl font-bold text-white" style={{ fontFamily: 'cursive' }}>
+          {/* Real Logo */}
+          <div className="relative mb-8">
+            <div className="inline-block">
+              <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-2xl" style={{ 
+                fontFamily: 'serif',
+                textShadow: '3px 3px 6px rgba(0,0,0,0.8)'
+              }}>
                 Bahía de los Moros
               </h1>
             </div>
           </div>
           
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-lg max-w-2xl mx-auto leading-relaxed">
             Un desarrollo único donde preservamos la inmensidad original de nuestros médanos y costa atlántica
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="ocean" size="lg" className="text-lg px-8">
+            <Button asChild variant="ocean" size="lg" className="text-lg px-8 shadow-lg">
               <Link to="/dashboard">
                 Acceso Propietarios
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white/30 text-white hover:bg-white/20">
+            <Button asChild variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white/30 text-white hover:bg-white/20 shadow-lg">
               <Link to="/admin">
                 Panel Administrativo
                 <BarChart3 className="ml-2 h-5 w-5" />
@@ -159,7 +163,7 @@ export default function Home() {
           </h2>
           
           <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Un pueblo de mar diseñado artesanalmente, donde cada Lugar fue creado para entregar 
+            Un pueblo de mar diseñado artesanalmente, donde cada Lote fue creado para entregar 
             una experiencia única, preservando la inmensidad original de nuestros médanos y costa.
           </p>
           

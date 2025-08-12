@@ -25,21 +25,21 @@ const recentActivity = [
     type: "security",
     icon: CheckCircle,
     title: "Entrada autorizada",
-    description: "Propietario Lugar 87 - Juan Pérez"
+    description: "Propietario Lote 87 - Juan Pérez"
   },
   {
     time: "10:30", 
     type: "payment",
     icon: DollarSign,
     title: "Pago recibido",
-    description: "Expensa Febrero - Lugar 92 - $89,500"
+    description: "Expensa Febrero - Lote 92 - $89,500"
   },
   {
     time: "09:15",
     type: "reservation",
     icon: Calendar,
     title: "Nueva reserva",
-    description: "Cancha de tenis - 15:00 - Lugar 34"
+    description: "Cancha de tenis - 15:00 - Lote 34"
   }
 ];
 
