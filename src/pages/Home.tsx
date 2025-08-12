@@ -63,7 +63,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
         </div>
         
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
+        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6 bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8">
           <Badge variant="secondary" className="mb-6 bg-white/20 text-white border-white/30">
             <Waves className="w-4 h-4 mr-2" />
             Costa Argentina
