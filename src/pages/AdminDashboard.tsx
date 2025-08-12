@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import GISMap from "@/components/GISMap";
 import ExpandableWidget from "@/components/ExpandableWidget";
 import { 
@@ -16,8 +17,10 @@ import {
   Eye,
   Building,
   Waves,
-  MapPin
+  MapPin,
+  RefreshCw
 } from "lucide-react";
+import { useState } from "react";
 
 const recentActivity = [
   {
@@ -60,11 +63,15 @@ export default function AdminDashboard() {
     collectionRate: 92.5
   };
 
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const handleRefresh = () => setLastUpdated(new Date());
+
   const reservationStats = [
-    { facility: "Cancha de Tenis", bookings: 15, usage: "Alta" },
-    { facility: "Quincho Norte", bookings: 8, usage: "Media" },
-    { facility: "Pileta", bookings: 22, usage: "Muy Alta" },
-    { facility: "Sala de Eventos", bookings: 3, usage: "Baja" }
+    { facility: "Tennis Vivero (x1)", bookings: 12, usage: "Media" },
+    { facility: "Tennis Bosque (x4)", bookings: 28, usage: "Muy Alta" },
+    { facility: "Paddle Campo (x2)", bookings: 16, usage: "Alta" },
+    { facility: "Peludo (tipo SUM)", bookings: 6, usage: "Media" },
+    { facility: "El Club (restaurante)", bookings: 18, usage: "Alta" }
   ];
 
   return (
@@ -75,11 +82,20 @@ export default function AdminDashboard() {
           <h1 className="text-3xl font-bold text-foreground">Dashboard Administrativo</h1>
           <p className="text-muted-foreground">Vista en tiempo real - Bahía de los Moros</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse" />
-            En vivo
-          </Badge>
+        <div className="flex items-end gap-3">
+          <div className="flex flex-col items-start">
+            <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse" />
+              En vivo
+            </Badge>
+            <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span>{lastUpdated.toLocaleTimeString()}</span>
+              <Button variant="ghost" size="sm" className="h-6 px-2" onClick={handleRefresh}>
+                <RefreshCw className="h-3 w-3 mr-1" /> Refrescar
+              </Button>
+            </div>
+          </div>
           <Badge variant="outline">Admin</Badge>
         </div>
       </div>
@@ -290,61 +306,56 @@ export default function AdminDashboard() {
                   Actividad Reciente
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-                      <div className={`p-1 rounded-full ${
-                        activity.type === 'security' ? 'bg-red-100' :
-                        activity.type === 'payment' ? 'bg-green-100' :
-                        'bg-blue-100'
-                      }`}>
-                        <activity.icon className={`h-4 w-4 ${
-                          activity.type === 'security' ? 'text-red-600' :
-                          activity.type === 'payment' ? 'text-green-600' :
-                          'text-blue-600'
-                        }`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium">{activity.title}</p>
-                        <p className="text-xs text-muted-foreground">{activity.description}</p>
-                      </div>
-                      <span className="text-xs text-muted-foreground">{activity.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </ExpandableWidget>
-
-          {/* Alerts */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-orange-500" />
-                Alertas del Sistema
-              </CardTitle>
-            </CardHeader>
             <CardContent>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-start gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                  <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-yellow-800">Mantenimiento programado</p>
-                    <p className="text-yellow-700">Sistema de acceso - Mañana 10:00</p>
+              <div className="space-y-3">
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className={`p-1 rounded-full ${
+                      activity.type === 'security' ? 'bg-red-100' :
+                      activity.type === 'payment' ? 'bg-green-100' :
+                      'bg-blue-100'
+                    }`}>
+                      <activity.icon className={`h-4 w-4 ${
+                        activity.type === 'security' ? 'text-red-600' :
+                        activity.type === 'payment' ? 'text-green-600' :
+                        'text-blue-600'
+                      }`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium">{activity.title}</p>
+                      <p className="text-xs text-muted-foreground">{activity.description}</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{activity.time}</span>
                   </div>
-                </div>
-                
-                <div className="flex items-start gap-3 p-3 bg-blue-50 border border-blue-200 rounded">
-                  <Waves className="h-4 w-4 text-blue-600 mt-0.5" />
-                  <div>
-                    <p className="font-medium text-blue-800">Marea alta</p>
-                    <p className="text-blue-700">15:30 - Nivel máximo esperado</p>
+                ))}
+
+                <div className="pt-3 mt-2 border-t">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm font-medium">Alertas del Sistema</span>
+                  </div>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-start gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                      <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-yellow-800">Mantenimiento programado</p>
+                        <p className="text-yellow-700">Sistema de acceso - Mañana 10:00</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 bg-blue-50 border border-blue-200 rounded">
+                      <Waves className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-blue-800">Marea alta</p>
+                        <p className="text-blue-700">15:30 - Nivel máximo esperado</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </CardContent>
-          </Card>
+            </Card>
+          </ExpandableWidget>
+
         </div>
       </div>
     </div>

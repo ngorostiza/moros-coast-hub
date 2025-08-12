@@ -29,7 +29,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ownerItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
@@ -140,6 +140,16 @@ export function AppSidebar() {
         : [...prev, itemTitle]
     );
   };
+
+  useEffect(() => {
+    const groupsToOpen: string[] = [];
+    [...ownerItems, ...adminItems].forEach((item: any) => {
+      if (item.subItems && isParentActive(item)) {
+        groupsToOpen.push(item.title);
+      }
+    });
+    setOpenGroups((prev) => Array.from(new Set([...prev, ...groupsToOpen])));
+  }, [currentPath]);
 
   const getNavCls = (isActive: boolean) =>
     isActive 
