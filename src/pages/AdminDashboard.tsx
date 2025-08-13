@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-4 w-full max-w-6xl mx-auto px-4 sm:px-6 overflow-x-hidden">
+    <div className="space-y-4 w-full px-4 sm:px-6 lg:px-8 min-w-0 overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Live Stats - Real Time - 5 Widgets */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
         <Card className="bg-gradient-ocean text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Tank Levels - Full Width */}
-      <Card className="w-full max-w-full">
+      <Card className="w-full">
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-4">
             <MapPin className="h-5 w-5 text-muted-foreground" />
