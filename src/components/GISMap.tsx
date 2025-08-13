@@ -175,24 +175,117 @@ export default function GISMap() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {LAYERS.map((layer) => (
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+            <div className="flex flex-wrap gap-2">
+              {LAYERS.map((layer) => (
+                <Button
+                  key={layer.id}
+                  variant={activeLayers.includes(layer.id) ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => toggleLayer(layer.id)}
+                  className="flex items-center gap-2"
+                >
+                  <div className={`w-3 h-3 rounded-full ${layer.color}`} />
+                  <layer.icon className="h-4 w-4" />
+                  {layer.name}
+                </Button>
+              ))}
+            </div>
+            
+            {/* Edit Mode Controls */}
+            <div className="flex items-center gap-2">
               <Button
-                key={layer.id}
-                variant={activeLayers.includes(layer.id) ? "default" : "outline"}
+                variant={editMode ? "default" : "outline"}
                 size="sm"
-                onClick={() => toggleLayer(layer.id)}
+                onClick={() => setEditMode(!editMode)}
                 className="flex items-center gap-2"
               >
-                <div className={`w-3 h-3 rounded-full ${layer.color}`} />
-                <layer.icon className="h-4 w-4" />
-                {layer.name}
+                <FileText className="h-4 w-4" />
+                {editMode ? "Salir de Edición" : "Modo Edición"}
               </Button>
-            ))}
+              {editMode && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const newSector: Sector = {
+                        id: `sector-${Date.now()}`,
+                        name: `Nuevo Sector ${sectors.length + 1}`,
+                        x: 100,
+                        y: 100,
+                        w: 200,
+                        h: 120,
+                        color: "#e5e7eb"
+                      };
+                      setSectors([...sectors, newSector]);
+                    }}
+                  >
+                    + Sector
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const newLot: EditableLot = {
+                        id: Math.max(...editableLots.map(l => l.id)) + 1,
+                        status: "available" as const,
+                        sector: "Nuevo Sector",
+                        price: 800000,
+                        legal: "pending" as const,
+                        currentOwner: null,
+                        previousOwner: null,
+                        saleHistory: [],
+                        legalDocs: { deed: false, survey: false, permits: false },
+                        x: 200,
+                        y: 200,
+                        w: 40,
+                        h: 28,
+                        sectorId: sectors[0]?.id || "default"
+                      };
+                      setEditableLots([...editableLots, newLot]);
+                    }}
+                  >
+                    + Lote
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (drawingRoad.active && drawingRoad.points.length > 1) {
+                        // Finalizar el camino y guardarlo
+                        const newRoad = {
+                          id: `road-${Date.now()}`,
+                          points: drawingRoad.points
+                        };
+                        setRoads([...roads, newRoad]);
+                        setDrawingRoad({ active: false, points: [] });
+                      } else {
+                        setDrawingRoad({ active: !drawingRoad.active, points: [] });
+                      }
+                    }}
+                    className={drawingRoad.active ? "bg-blue-100" : ""}
+                  >
+                    {drawingRoad.active ? "Finalizar Camino" : "Dibujar Camino"}
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* MAP */}
-          <div className="relative rounded-lg border-2 border-dashed border-border overflow-hidden h-[500px] bg-gradient-to-br from-emerald-50 to-blue-50">
+          <div className="relative rounded-lg border-2 border-dashed border-border overflow-hidden h-[500px] bg-gradient-to-br from-emerald-50 to-blue-50"
+               onClick={(e) => {
+                 if (editMode && drawingRoad.active) {
+                   const rect = e.currentTarget.getBoundingClientRect();
+                   const x = ((e.clientX - rect.left) / rect.width) * 100;
+                   const y = ((e.clientY - rect.top) / rect.height) * 100;
+                   setDrawingRoad(prev => ({ 
+                     ...prev, 
+                     points: [...prev.points, { x, y }] 
+                   }));
+                 }
+               }}>
             {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-sky-100/40 via-emerald-100/30 to-blue-200/40" />
             
@@ -208,92 +301,287 @@ export default function GISMap() {
               PISTA DE ATERRIZAJE
             </div>
 
-            {/* DEL CAMPO sector */}
-            <div className="absolute top-28 left-12">
-              <div className="relative rounded-lg border-2 border-red-300 bg-pink-100/60 p-3">
-                {/* Top row 72-75 */}
-                <div className="grid grid-cols-4 gap-1 mb-2">
-                  {[72, 73, 74, 75].map((id) => {
-                    const lot = lotData.find((l) => l.id === id)!;
-                    return (
-                      <div
-                        key={id}
-                        className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                        onClick={() => handleLotClick(id)}
-                        title={`Lote ${id}`}
-                      >
-                        {id}
-                      </div>
-                    );
-                  })}
-                </div>
-                {/* Grid 20-37 */}
-                <div className="grid grid-cols-6 gap-1">
-                  {Array.from({ length: 18 }, (_, i) => 20 + i).map((id) => {
-                    const lot = lotData.find((l) => l.id === id)!;
-                    return (
-                      <div
-                        key={id}
-                        className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                        onClick={() => handleLotClick(id)}
-                        title={`Lote ${id}`}
-                      >
-                        {id}
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">DEL CAMPO</div>
-              </div>
-            </div>
+            {/* EDITABLE SECTORS - Show when in edit mode */}
+            {editMode ? (
+              <>
+                {sectors.map((sector) => (
+                  <div
+                    key={sector.id}
+                    className={`absolute border-2 border-dashed rounded-lg p-2 cursor-move transition-all ${
+                      selectedSectorId === sector.id ? 'ring-2 ring-blue-500' : 'hover:ring-1 hover:ring-gray-300'
+                    }`}
+                    style={{
+                      left: `${sector.x}px`,
+                      top: `${sector.y}px`,
+                      width: `${sector.w}px`,
+                      height: `${sector.h}px`,
+                      backgroundColor: sector.color + '80'
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSectorId(sector.id);
+                    }}
+                    onMouseDown={(e) => {
+                      if (!editMode) return;
+                      e.preventDefault();
+                      const startX = e.clientX;
+                      const startY = e.clientY;
+                      const startPosX = sector.x;
+                      const startPosY = sector.y;
+                      
+                      const handleMouseMove = (e: MouseEvent) => {
+                        const deltaX = e.clientX - startX;
+                        const deltaY = e.clientY - startY;
+                        setSectors(prev => prev.map(s => 
+                          s.id === sector.id 
+                            ? { ...s, x: Math.max(0, startPosX + deltaX), y: Math.max(0, startPosY + deltaY) }
+                            : s
+                        ));
+                      };
+                      
+                      const handleMouseUp = () => {
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                      };
+                      
+                      document.addEventListener('mousemove', handleMouseMove);
+                      document.addEventListener('mouseup', handleMouseUp);
+                    }}
+                  >
+                    <div className="font-bold text-sm text-center">{sector.name}</div>
+                    {selectedSectorId === sector.id && (
+                      <>
+                        <input
+                          className="absolute top-0 left-0 bg-white/90 text-xs p-1 rounded border"
+                          value={sector.name}
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => setSectors(prev => prev.map(s => 
+                            s.id === sector.id ? { ...s, name: e.target.value } : s
+                          ))}
+                        />
+                        {/* Resize handle */}
+                        <div
+                          className="absolute bottom-0 right-0 w-4 h-4 bg-blue-500 cursor-se-resize rounded-full"
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            const startX = e.clientX;
+                            const startY = e.clientY;
+                            const startW = sector.w;
+                            const startH = sector.h;
+                            
+                            const handleMouseMove = (e: MouseEvent) => {
+                              const deltaX = e.clientX - startX;
+                              const deltaY = e.clientY - startY;
+                              setSectors(prev => prev.map(s => 
+                                s.id === sector.id 
+                                  ? { ...s, w: Math.max(100, startW + deltaX), h: Math.max(80, startH + deltaY) }
+                                  : s
+                              ));
+                            };
+                            
+                            const handleMouseUp = () => {
+                              document.removeEventListener('mousemove', handleMouseMove);
+                              document.removeEventListener('mouseup', handleMouseUp);
+                            };
+                            
+                            document.addEventListener('mousemove', handleMouseMove);
+                            document.addEventListener('mouseup', handleMouseUp);
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                ))}
 
-            {/* EL CLUB sector */}
-            <div className="absolute bottom-36 left-8">
-              <div className="relative rounded-lg border-2 border-yellow-400 bg-yellow-100/60 p-3">
-                <div className="grid grid-cols-4 gap-1">
-                  {[50, 51, 52, 53, 54, 55, 56, 57].map((id) => {
-                    const lot = lotData.find((l) => l.id === id)!;
-                    return (
+                {/* EDITABLE LOTS */}
+                {editableLots.map((lot) => (
+                  <div
+                    key={lot.id}
+                    className={`absolute border border-gray-400 rounded cursor-move text-xs flex items-center justify-center font-medium transition-all ${
+                      selectedEditableLotId === lot.id ? 'ring-2 ring-green-500 z-10' : 'hover:ring-1 hover:ring-gray-400'
+                    } ${lotBgByLayer(lot)}`}
+                    style={{
+                      left: `${lot.x}px`,
+                      top: `${lot.y}px`,
+                      width: `${lot.w}px`,
+                      height: `${lot.h}px`
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedEditableLotId(lot.id);
+                    }}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      const startX = e.clientX;
+                      const startY = e.clientY;
+                      const startPosX = lot.x;
+                      const startPosY = lot.y;
+                      
+                      const handleMouseMove = (e: MouseEvent) => {
+                        const deltaX = e.clientX - startX;
+                        const deltaY = e.clientY - startY;
+                        setEditableLots(prev => prev.map(l => 
+                          l.id === lot.id 
+                            ? { ...l, x: Math.max(0, startPosX + deltaX), y: Math.max(0, startPosY + deltaY) }
+                            : l
+                        ));
+                      };
+                      
+                      const handleMouseUp = () => {
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                      };
+                      
+                      document.addEventListener('mousemove', handleMouseMove);
+                      document.addEventListener('mouseup', handleMouseUp);
+                    }}
+                  >
+                    {lot.id}
+                    {selectedEditableLotId === lot.id && (
                       <div
-                        key={id}
-                        className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                        onClick={() => handleLotClick(id)}
-                        title={`Lote ${id}`}
-                      >
-                        {id}
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">EL CLUB</div>
-              </div>
-            </div>
+                        className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 cursor-se-resize rounded-full"
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                          const startX = e.clientX;
+                          const startY = e.clientY;
+                          const startW = lot.w;
+                          const startH = lot.h;
+                          
+                          const handleMouseMove = (e: MouseEvent) => {
+                            const deltaX = e.clientX - startX;
+                            const deltaY = e.clientY - startY;
+                            setEditableLots(prev => prev.map(l => 
+                              l.id === lot.id 
+                                ? { ...l, w: Math.max(20, startW + deltaX), h: Math.max(16, startH + deltaY) }
+                                : l
+                            ));
+                          };
+                          
+                          const handleMouseUp = () => {
+                            document.removeEventListener('mousemove', handleMouseMove);
+                            document.removeEventListener('mouseup', handleMouseUp);
+                          };
+                          
+                          document.addEventListener('mousemove', handleMouseMove);
+                          document.addEventListener('mouseup', handleMouseUp);
+                        }}
+                      />
+                    )}
+                  </div>
+                ))}
 
-            {/* PLAYA MÍA sector */}
-            <div className="absolute bottom-14 right-16">
-              <div className="relative rounded-lg border-2 border-orange-400 bg-orange-100/60 p-3">
-                <div className="grid grid-cols-4 gap-1">
-                  {[115, 116, 117, 118, 119, 120, 121, 122].map((id) => {
-                    const lot = lotData.find((l) => l.id === id)!;
-                    return (
-                      <div
-                        key={id}
-                        className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                        onClick={() => handleLotClick(id)}
-                        title={`Lote ${id}`}
-                      >
-                        {id}
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">PLAYA MÍA</div>
-              </div>
-            </div>
+                {/* DRAWN ROADS */}
+                {roads.map((road) => (
+                  <svg key={road.id} className="absolute inset-0 pointer-events-none">
+                    <polyline
+                      points={road.points.map(p => `${(p.x / 100) * 500},${(p.y / 100) * 500}`).join(' ')}
+                      stroke="#6b7280"
+                      strokeWidth="6"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                ))}
 
-            {/* GREEN SPACE */}
-            <div className="absolute top-32 right-12 w-32 h-24 bg-green-200/70 rounded-lg border-2 border-green-400" />
-            <div className="absolute top-[calc(32px+6rem)] right-12 text-sm font-bold text-gray-700">ESPACIO VERDE</div>
+                {/* CURRENT DRAWING ROAD */}
+                {drawingRoad.points.length > 0 && (
+                  <svg className="absolute inset-0 pointer-events-none">
+                    <polyline
+                      points={drawingRoad.points.map(p => `${(p.x / 100) * 500},${(p.y / 100) * 500}`).join(' ')}
+                      stroke="#3b82f6"
+                      strokeWidth="6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeDasharray="10,5"
+                    />
+                  </svg>
+                )}
+              </>
+            ) : (
+              <>
+                {/* STATIC SECTORS - Show when not in edit mode */}
+                <div className="absolute top-28 left-12">
+                  <div className="relative rounded-lg border-2 border-red-300 bg-pink-100/60 p-3">
+                    <div className="grid grid-cols-4 gap-1 mb-2">
+                      {[72, 73, 74, 75].map((id) => {
+                        const lot = lotData.find((l) => l.id === id)!;
+                        return (
+                          <div
+                            key={id}
+                            className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
+                            onClick={() => handleLotClick(id)}
+                            title={`Lote ${id}`}
+                          >
+                            {id}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="grid grid-cols-6 gap-1">
+                      {Array.from({ length: 18 }, (_, i) => 20 + i).map((id) => {
+                        const lot = lotData.find((l) => l.id === id)!;
+                        return (
+                          <div
+                            key={id}
+                            className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
+                            onClick={() => handleLotClick(id)}
+                            title={`Lote ${id}`}
+                          >
+                            {id}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">DEL CAMPO</div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-36 left-8">
+                  <div className="relative rounded-lg border-2 border-yellow-400 bg-yellow-100/60 p-3">
+                    <div className="grid grid-cols-4 gap-1">
+                      {[50, 51, 52, 53, 54, 55, 56, 57].map((id) => {
+                        const lot = lotData.find((l) => l.id === id)!;
+                        return (
+                          <div
+                            key={id}
+                            className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
+                            onClick={() => handleLotClick(id)}
+                            title={`Lote ${id}`}
+                          >
+                            {id}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">EL CLUB</div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-14 right-16">
+                  <div className="relative rounded-lg border-2 border-orange-400 bg-orange-100/60 p-3">
+                    <div className="grid grid-cols-4 gap-1">
+                      {[115, 116, 117, 118, 119, 120, 121, 122].map((id) => {
+                        const lot = lotData.find((l) => l.id === id)!;
+                        return (
+                          <div
+                            key={id}
+                            className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
+                            onClick={() => handleLotClick(id)}
+                            title={`Lote ${id}`}
+                          >
+                            {id}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">PLAYA MÍA</div>
+                  </div>
+                </div>
+
+                <div className="absolute top-32 right-12 w-32 h-24 bg-green-200/70 rounded-lg border-2 border-green-400" />
+                <div className="absolute top-[calc(32px+6rem)] right-12 text-sm font-bold text-gray-700">ESPACIO VERDE</div>
+              </>
+            )}
 
             {/* SECURITY ELEMENTS */}
             {activeLayers.includes("security") && securityElements.map((element) => (

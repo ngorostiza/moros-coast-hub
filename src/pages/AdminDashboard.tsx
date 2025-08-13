@@ -100,14 +100,20 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Live Stats - Real Time */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      {/* Live Stats - Real Time - Reorganized */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-ocean text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-3xl font-bold">{liveStats.peopleInside}</p>
+                  <div className="text-right">
+                    <p className="text-xs text-white/60">Médicos</p>
+                    <p className="text-lg font-semibold">3</p>
+                  </div>
+                </div>
                 <p className="text-white/80 text-sm">Personas Adentro</p>
-                <p className="text-3xl font-bold">{liveStats.peopleInside}</p>
               </div>
               <Users className="h-8 w-8 text-white/80" />
             </div>
@@ -165,61 +171,86 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Médicos */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm">Médicos en Sitio</p>
-                <p className="text-3xl font-bold text-foreground">3</p>
-              </div>
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <div className="mt-2 text-xs text-muted-foreground">Registrados como personal de salud</div>
-          </CardContent>
-        </Card>
-
-        {/* Tanques */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-muted-foreground text-sm">Niveles de Tanques (máx 5000L)</p>
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="space-y-2">
-              <div>
-                <div className="flex justify-between text-xs"><span>GAS OIL</span><span>3,200L</span></div>
-                <Progress value={(3200/5000)*100} className="h-2" />
-              </div>
-              <div>
-                <div className="flex justify-between text-xs"><span>ION</span><span>2,750L</span></div>
-                <Progress value={(2750/5000)*100} className="h-2" />
-              </div>
-              <div>
-                <div className="flex justify-between text-xs"><span>JP1</span><span>4,100L</span></div>
-                <Progress value={(4100/5000)*100} className="h-2" />
-              </div>
-              <div>
-                <div className="flex justify-between text-xs"><span>100LL</span><span>1,900L</span></div>
-                <Progress value={(1900/5000)*100} className="h-2" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
-      {/* Barra de Alertas del Sistema */}
+      {/* Tank Levels - Full Width */}
       <Card>
-        <CardContent className="p-3">
-          <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-start md:items-center">
-            <div className="flex items-center gap-2 text-orange-700">
-              <AlertTriangle className="h-4 w-4" />
-              <span className="text-sm font-medium">Mantenimiento programado: Sistema de acceso - Mañana 10:00</span>
+        <CardContent className="p-4">
+          <div className="flex items-center gap-2 mb-4">
+            <MapPin className="h-5 w-5 text-muted-foreground" />
+            <h3 className="text-lg font-semibold">Niveles de Tanques de Combustible</h3>
+            <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">GAS OIL</span>
+                <span className="text-lg font-bold text-blue-700">3,200L</span>
+              </div>
+              <Progress value={(3200/5000)*100} className="h-3" />
+              <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
             </div>
-            <div className="flex items-center gap-2 text-blue-700">
-              <Waves className="h-4 w-4" />
-              <span className="text-sm font-medium">Marea alta 15:30 - Nivel máximo esperado</span>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">ION</span>
+                <span className="text-lg font-bold text-green-700">2,750L</span>
+              </div>
+              <Progress value={(2750/5000)*100} className="h-3" />
+              <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">JP1</span>
+                <span className="text-lg font-bold text-emerald-700">4,100L</span>
+              </div>
+              <Progress value={(4100/5000)*100} className="h-3" />
+              <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium">100LL</span>
+                <span className="text-lg font-bold text-orange-700">1,900L</span>
+              </div>
+              <Progress value={(1900/5000)*100} className="h-3" />
+              <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Barra de Alertas del Sistema - Scrolling */}
+      <Card className="bg-gradient-to-r from-slate-50 to-blue-50 border-l-4 border-l-blue-500">
+        <CardContent className="p-3">
+          <div className="relative overflow-hidden">
+            <div className="animate-scroll-left whitespace-nowrap">
+              <span className="inline-flex items-center gap-2 text-orange-700 mx-8">
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-sm font-medium">Mantenimiento programado: Sistema de acceso - Mañana 10:00</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-blue-700 mx-8">
+                <Waves className="h-4 w-4" />
+                <span className="text-sm font-medium">Marea alta 15:30 - Nivel máximo esperado</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-green-700 mx-8">
+                <CheckCircle className="h-4 w-4" />
+                <span className="text-sm font-medium">Último backup exitoso: 14:25 - Todos los sistemas operativos</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-purple-700 mx-8">
+                <Calendar className="h-4 w-4" />
+                <span className="text-sm font-medium">Evento especial: Inauguración Quincho Norte - Sábado 18:00</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-red-700 mx-8">
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-sm font-medium">Cámara de seguridad #4 requiere mantenimiento</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-amber-700 mx-8">
+                <TrendingUp className="h-4 w-4" />
+                <span className="text-sm font-medium">Ocupación alta esperada para el fin de semana</span>
+              </span>
+              <span className="inline-flex items-center gap-2 text-teal-700 mx-8">
+                <Building className="h-4 w-4" />
+                <span className="text-sm font-medium">Nueva conexión WiFi disponible en El Club</span>
+              </span>
             </div>
           </div>
         </CardContent>
