@@ -272,7 +272,9 @@ export default function GISMap() {
                     variant="default"
                     size="sm"
                     onClick={() => {
-                      // Save changes and exit edit mode
+                      // Save changes with visual feedback
+                      console.log("Guardando cambios del mapa...", { sectors, editableLots, roads });
+                      alert("¡Cambios guardados exitosamente!");
                       setEditMode(false);
                       setSelectedSectorId(null);
                       setSelectedEditableLotId(null);
@@ -285,29 +287,31 @@ export default function GISMap() {
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      // Cancel changes and revert to original state
-                      setSectors(initialSectors);
-                      setEditableLots(() => {
-                        const placed: EditableLot[] = [];
-                        const gridCell = { w: 40, h: 28, gap: 6 };
-                        initialSectors.forEach((s) => {
-                          const lotsInSector = lotData.filter((l) => l.sector === s.name);
-                          lotsInSector.forEach((lot, i) => {
-                            const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
-                            const col = i % cols;
-                            const row = Math.floor(i / cols);
-                            const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
-                            const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
-                            placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
+                      if (confirm("¿Estás seguro de cancelar todos los cambios?")) {
+                        // Cancel changes and revert to original state
+                        setSectors(initialSectors);
+                        setEditableLots(() => {
+                          const placed: EditableLot[] = [];
+                          const gridCell = { w: 40, h: 28, gap: 6 };
+                          initialSectors.forEach((s) => {
+                            const lotsInSector = lotData.filter((l) => l.sector === s.name);
+                            lotsInSector.forEach((lot, i) => {
+                              const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
+                              const col = i % cols;
+                              const row = Math.floor(i / cols);
+                              const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
+                              const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
+                              placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
+                            });
                           });
+                          return placed;
                         });
-                        return placed;
-                      });
-                      setRoads([]);
-                      setDrawingRoad({ active: false, points: [] });
-                      setEditMode(false);
-                      setSelectedSectorId(null);
-                      setSelectedEditableLotId(null);
+                        setRoads([]);
+                        setDrawingRoad({ active: false, points: [] });
+                        setEditMode(false);
+                        setSelectedSectorId(null);
+                        setSelectedEditableLotId(null);
+                      }
                     }}
                   >
                     Cancelar
