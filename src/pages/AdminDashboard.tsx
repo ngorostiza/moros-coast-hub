@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-4 w-full px-4 sm:px-6 lg:px-8 min-w-0 overflow-x-hidden">
+    <div className="container mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
