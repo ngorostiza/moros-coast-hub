@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-6 max-w-full overflow-x-hidden">
+    <div className="space-y-4 w-full max-w-7xl mx-auto px-4 overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -108,9 +108,9 @@ export default function AdminDashboard() {
               <div>
                 <div className="flex items-baseline gap-3">
                   <p className="text-3xl font-bold">{liveStats.peopleInside}</p>
-                  <div className="flex flex-col items-center bg-white/10 rounded px-2 py-1 min-w-[60px]">
-                    <p className="text-[10px] text-white/70 leading-tight">MÉDICOS</p>
-                    <p className="text-base font-bold text-white">3</p>
+                  <div className="flex flex-col items-center bg-white/15 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-white/20">
+                    <p className="text-[10px] text-white/80 font-medium tracking-wide">MÉDICOS</p>
+                    <p className="text-lg font-bold text-white">3</p>
                   </div>
                 </div>
                 <p className="text-white/80 text-sm">Personas Adentro</p>
@@ -219,50 +219,46 @@ export default function AdminDashboard() {
       </Card>
 
       {/* Barra de Alertas del Sistema - Scrolling */}
-      <Card className="bg-gradient-to-r from-slate-50 to-blue-50 border-l-4 border-l-blue-500 w-full">
+      <Card className="bg-gradient-to-r from-slate-50 to-blue-50 border-l-4 border-l-blue-500">
         <CardContent className="p-3">
-          <div className="relative overflow-hidden w-full">
+          <div className="relative overflow-hidden">
             <div className="animate-scroll-left whitespace-nowrap">
-              <span className="inline-flex items-center gap-2 text-orange-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-orange-700 mx-4">
                 <AlertTriangle className="h-4 w-4" />
                 <span className="text-sm font-medium">Mantenimiento programado: Sistema de acceso - Mañana 10:00</span>
               </span>
-              <span className="inline-flex items-center gap-2 text-blue-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-blue-700 mx-4">
                 <Waves className="h-4 w-4" />
                 <span className="text-sm font-medium">Marea alta 15:30 - Nivel máximo esperado</span>
               </span>
-              <span className="inline-flex items-center gap-2 text-green-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-green-700 mx-4">
                 <CheckCircle className="h-4 w-4" />
                 <span className="text-sm font-medium">Último backup exitoso: 14:25 - Todos los sistemas operativos</span>
               </span>
-              <span className="inline-flex items-center gap-2 text-purple-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-purple-700 mx-4">
                 <Calendar className="h-4 w-4" />
                 <span className="text-sm font-medium">Evento especial: Inauguración Quincho Norte - Sábado 18:00</span>
               </span>
-              <span className="inline-flex items-center gap-2 text-red-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-red-700 mx-4">
                 <AlertTriangle className="h-4 w-4" />
                 <span className="text-sm font-medium">Cámara de seguridad #4 requiere mantenimiento</span>
               </span>
-              <span className="inline-flex items-center gap-2 text-amber-700 mx-6">
+              <span className="inline-flex items-center gap-2 text-amber-700 mx-4">
                 <TrendingUp className="h-4 w-4" />
                 <span className="text-sm font-medium">Ocupación alta esperada para el fin de semana</span>
-              </span>
-              <span className="inline-flex items-center gap-2 text-teal-700 mx-6">
-                <Building className="h-4 w-4" />
-                <span className="text-sm font-medium">Nueva conexión WiFi disponible en El Club</span>
               </span>
             </div>
           </div>
         </CardContent>
       </Card>
 
-        {/* GIS Map - Central Feature */}
-        <div className="lg:col-span-3">
-          <GISMap />
-        </div>
+      {/* GIS Map - Central Feature */}
+      <div className="w-full">
+        <GISMap />
+      </div>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Financial Overview - Left Column */}
         <div className="lg:col-span-2 space-y-6">
           {/* Monthly Collection Summary */}
