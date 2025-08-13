@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-4 w-full max-w-7xl mx-auto px-4 overflow-x-hidden">
+    <div className="space-y-4 w-full max-w-none mx-auto px-6 overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
@@ -100,19 +100,13 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Live Stats - Real Time - Reorganized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Live Stats - Real Time - 5 Widgets */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <Card className="bg-gradient-ocean text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="flex items-baseline gap-3">
-                  <p className="text-3xl font-bold">{liveStats.peopleInside}</p>
-                  <div className="flex flex-col items-center bg-white/15 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-white/20">
-                    <p className="text-[10px] text-white/80 font-medium tracking-wide">MÉDICOS</p>
-                    <p className="text-lg font-bold text-white">3</p>
-                  </div>
-                </div>
+                <p className="text-3xl font-bold">{liveStats.peopleInside}</p>
                 <p className="text-white/80 text-sm">Personas Adentro</p>
               </div>
               <Users className="h-8 w-8 text-white/80" />
@@ -120,6 +114,24 @@ export default function AdminDashboard() {
             <div className="mt-2 flex items-center gap-1">
               <TrendingUp className="h-3 w-3" />
               <span className="text-xs text-white/80">+12 en la última hora</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold">3</p>
+                <p className="text-white/80 text-sm">Médicos</p>
+              </div>
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm">+</span>
+              </div>
+            </div>
+            <div className="mt-2 flex items-center gap-1">
+              <CheckCircle className="h-3 w-3" />
+              <span className="text-xs text-white/80">Guardia 24hs</span>
             </div>
           </CardContent>
         </Card>
