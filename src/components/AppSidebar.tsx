@@ -11,7 +11,9 @@ import {
   Building,
   Users,
   Cloud,
-  ChevronRight
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight
 } from "lucide-react";
 
 import {
@@ -26,6 +28,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -215,51 +218,64 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="w-64" collapsible="icon">
-      <SidebarContent className="bg-card border-r border-border">
-        {/* Logo/Brand */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <div className="w-8 h-8 bg-gradient-ocean rounded-lg flex items-center justify-center flex-shrink-0">
-              <Waves className="h-5 w-5 text-white" />
-            </div>
-            {!collapsed && (
-              <div className="min-w-0">
-                <h2 className="text-sm font-semibold text-foreground truncate">Bahía de los Moros</h2>
-                <p className="text-xs text-muted-foreground truncate">Costa Argentina</p>
+    <div className="relative">
+      <Sidebar className="w-64" collapsible="icon">
+        <SidebarContent className="bg-card border-r border-border">
+          {/* Logo/Brand */}
+          <div className="p-4 border-b border-border">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <div className="w-8 h-8 bg-gradient-ocean rounded-lg flex items-center justify-center flex-shrink-0">
+                <Waves className="h-5 w-5 text-white" />
               </div>
-            )}
+              {!collapsed && (
+                <div className="min-w-0">
+                  <h2 className="text-sm font-semibold text-foreground truncate">Bahía de los Moros</h2>
+                  <p className="text-xs text-muted-foreground truncate">Costa Argentina</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Owner Section */}
-        <SidebarGroup>
-          {!collapsed && (
-            <SidebarGroupLabel className="text-muted-foreground px-4">
-              Propietario
-            </SidebarGroupLabel>
-          )}
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {ownerItems.map((item) => renderMenuItem(item))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          {/* Owner Section */}
+          <SidebarGroup>
+            {!collapsed && (
+              <SidebarGroupLabel className="text-muted-foreground px-4">
+                Propietario
+              </SidebarGroupLabel>
+            )}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {ownerItems.map((item) => renderMenuItem(item))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
 
-        {/* Admin Section */}
-        <SidebarGroup>
-          {!collapsed && (
-            <SidebarGroupLabel className="text-muted-foreground px-4">
-              Administración
-            </SidebarGroupLabel>
+          {/* Admin Section */}
+          <SidebarGroup>
+            {!collapsed && (
+              <SidebarGroupLabel className="text-muted-foreground px-4">
+                Administración
+              </SidebarGroupLabel>
+            )}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminItems.map((item) => renderMenuItem(item, true))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      
+      {/* Floating Toggle Button on Sidebar Edge */}
+      <div className="absolute top-1/2 -translate-y-1/2 -right-3 z-50">
+        <SidebarTrigger className="h-6 w-6 rounded-full bg-gradient-ocean border border-white/20 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
+          {collapsed ? (
+            <ChevronsRight className="h-3 w-3 text-white" />
+          ) : (
+            <ChevronsLeft className="h-3 w-3 text-white" />
           )}
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map((item) => renderMenuItem(item, true))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+        </SidebarTrigger>
+      </div>
+    </div>
   );
 }
