@@ -101,7 +101,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Live Stats - Real Time */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
         <Card className="bg-gradient-ocean text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -165,7 +165,65 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Médicos */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-muted-foreground text-sm">Médicos en Sitio</p>
+                <p className="text-3xl font-bold text-foreground">3</p>
+              </div>
+              <Users className="h-8 w-8 text-primary" />
+            </div>
+            <div className="mt-2 text-xs text-muted-foreground">Registrados como personal de salud</div>
+          </CardContent>
+        </Card>
+
+        {/* Tanques */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-muted-foreground text-sm">Niveles de Tanques (máx 5000L)</p>
+              <MapPin className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="space-y-2">
+              <div>
+                <div className="flex justify-between text-xs"><span>GAS OIL</span><span>3,200L</span></div>
+                <Progress value={(3200/5000)*100} className="h-2" />
+              </div>
+              <div>
+                <div className="flex justify-between text-xs"><span>ION</span><span>2,750L</span></div>
+                <Progress value={(2750/5000)*100} className="h-2" />
+              </div>
+              <div>
+                <div className="flex justify-between text-xs"><span>JP1</span><span>4,100L</span></div>
+                <Progress value={(4100/5000)*100} className="h-2" />
+              </div>
+              <div>
+                <div className="flex justify-between text-xs"><span>100LL</span><span>1,900L</span></div>
+                <Progress value={(1900/5000)*100} className="h-2" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Barra de Alertas del Sistema */}
+      <Card>
+        <CardContent className="p-3">
+          <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-start md:items-center">
+            <div className="flex items-center gap-2 text-orange-700">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="text-sm font-medium">Mantenimiento programado: Sistema de acceso - Mañana 10:00</span>
+            </div>
+            <div className="flex items-center gap-2 text-blue-700">
+              <Waves className="h-4 w-4" />
+              <span className="text-sm font-medium">Marea alta 15:30 - Nivel máximo esperado</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
         {/* GIS Map - Central Feature */}
         <div className="lg:col-span-3">
@@ -329,28 +387,6 @@ export default function AdminDashboard() {
                   </div>
                 ))}
 
-                <div className="pt-3 mt-2 border-t">
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-500" />
-                    <span className="text-sm font-medium">Alertas del Sistema</span>
-                  </div>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-start gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                      <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
-                      <div>
-                        <p className="font-medium text-yellow-800">Mantenimiento programado</p>
-                        <p className="text-yellow-700">Sistema de acceso - Mañana 10:00</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3 bg-blue-50 border border-blue-200 rounded">
-                      <Waves className="h-4 w-4 text-blue-600 mt-0.5" />
-                      <div>
-                        <p className="font-medium text-blue-800">Marea alta</p>
-                        <p className="text-blue-700">15:30 - Nivel máximo esperado</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </CardContent>
             </Card>

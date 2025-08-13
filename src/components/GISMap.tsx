@@ -19,7 +19,7 @@ import {
   History,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 // Layers
 const LAYERS = [
@@ -81,6 +81,60 @@ export default function GISMap() {
   const [activeLayers, setActiveLayers] = useState<string[]>(["security", "sales"]);
   const [selectedLot, setSelectedLot] = useState<number | null>(null);
   const [selectedElement, setSelectedElement] = useState<{ type: string; data: any } | null>(null);
+
+  // Edit mode state and editable structures
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [editMode, setEditMode] = useState(false);
+
+  type Sector = { id: string; name: string; x: number; y: number; w: number; h: number; color: string };
+  type EditableLot = Lot & { x: number; y: number; w: number; h: number; sectorId: string };
+
+  const initialSectors: Sector[] = (() => {
+    const uniqueSectors = Array.from(new Set(lotData.map((l) => l.sector)));
+    const palette = [
+      "#fecaca", // red-200
+      "#fde68a", // yellow-200
+      "#bfdbfe", // blue-200
+      "#bbf7d0", // green-200
+      "#fbcfe8", // pink-200
+    ];
+    const defaults: Sector[] = uniqueSectors.map((name, idx) => ({
+      id: name.toLowerCase().replace(/\s+/g, "-"),
+      name,
+      x: 80 + (idx % 3) * 260,
+      y: 80 + Math.floor(idx / 3) * 180,
+      w: 240,
+      h: 140,
+      color: palette[idx % palette.length],
+    }));
+    return defaults;
+  })();
+
+  const [sectors, setSectors] = useState<Sector[]>(initialSectors);
+
+  const sectorByName = (name: string) => sectors.find((s) => s.name === name) ?? sectors[0];
+
+  const [editableLots, setEditableLots] = useState<EditableLot[]>(() => {
+    const placed: EditableLot[] = [];
+    const gridCell = { w: 40, h: 28, gap: 6 };
+    sectors.forEach((s) => {
+      const lotsInSector = lotData.filter((l) => l.sector === s.name);
+      lotsInSector.forEach((lot, i) => {
+        const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
+        const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
+        placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
+      });
+    });
+    return placed;
+  });
+
+  const [selectedSectorId, setSelectedSectorId] = useState<string | null>(null);
+  const [selectedEditableLotId, setSelectedEditableLotId] = useState<number | null>(null);
+  const [roads, setRoads] = useState<{ id: string; points: { x: number; y: number }[] }[]>([]);
+  const [drawingRoad, setDrawingRoad] = useState<{ active: boolean; points: { x: number; y: number }[] }>({ active: false, points: [] });
 
   const selectedLotData: Lot | undefined = useMemo(
     () => lotData.find((l) => l.id === selectedLot),
