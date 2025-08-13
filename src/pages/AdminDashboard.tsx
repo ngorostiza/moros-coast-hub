@@ -101,7 +101,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Live Stats - Real Time - Reorganized */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-gradient-ocean text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
             <h3 className="text-lg font-semibold">Niveles de Tanques de Combustible</h3>
             <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="font-medium">GAS OIL</span>
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Financial Overview - Left Column */}
         <div className="lg:col-span-2 space-y-6">
           {/* Monthly Collection Summary */}

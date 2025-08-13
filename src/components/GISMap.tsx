@@ -268,6 +268,50 @@ export default function GISMap() {
                   >
                     {drawingRoad.active ? "Finalizar Camino" : "Dibujar Camino"}
                   </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => {
+                      // Save changes and exit edit mode
+                      setEditMode(false);
+                      setSelectedSectorId(null);
+                      setSelectedEditableLotId(null);
+                      setDrawingRoad({ active: false, points: [] });
+                    }}
+                  >
+                    Guardar Cambios
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      // Cancel changes and revert to original state
+                      setSectors(initialSectors);
+                      setEditableLots(() => {
+                        const placed: EditableLot[] = [];
+                        const gridCell = { w: 40, h: 28, gap: 6 };
+                        initialSectors.forEach((s) => {
+                          const lotsInSector = lotData.filter((l) => l.sector === s.name);
+                          lotsInSector.forEach((lot, i) => {
+                            const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
+                            const col = i % cols;
+                            const row = Math.floor(i / cols);
+                            const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
+                            const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
+                            placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
+                          });
+                        });
+                        return placed;
+                      });
+                      setRoads([]);
+                      setDrawingRoad({ active: false, points: [] });
+                      setEditMode(false);
+                      setSelectedSectorId(null);
+                      setSelectedEditableLotId(null);
+                    }}
+                  >
+                    Cancelar
+                  </Button>
                 </>
               )}
             </div>
@@ -278,8 +322,8 @@ export default function GISMap() {
                onClick={(e) => {
                  if (editMode && drawingRoad.active) {
                    const rect = e.currentTarget.getBoundingClientRect();
-                   const x = ((e.clientX - rect.left) / rect.width) * 100;
-                   const y = ((e.clientY - rect.top) / rect.height) * 100;
+                   const x = (e.clientX - rect.left);
+                   const y = (e.clientY - rect.top);
                    setDrawingRoad(prev => ({ 
                      ...prev, 
                      points: [...prev.points, { x, y }] 
@@ -472,9 +516,9 @@ export default function GISMap() {
 
                 {/* DRAWN ROADS */}
                 {roads.map((road) => (
-                  <svg key={road.id} className="absolute inset-0 pointer-events-none">
+                  <svg key={road.id} className="absolute inset-0 pointer-events-none" width="100%" height="100%">
                     <polyline
-                      points={road.points.map(p => `${(p.x / 100) * 500},${(p.y / 100) * 500}`).join(' ')}
+                      points={road.points.map(p => `${p.x},${p.y}`).join(' ')}
                       stroke="#6b7280"
                       strokeWidth="6"
                       fill="none"
@@ -485,15 +529,25 @@ export default function GISMap() {
 
                 {/* CURRENT DRAWING ROAD */}
                 {drawingRoad.points.length > 0 && (
-                  <svg className="absolute inset-0 pointer-events-none">
+                  <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
                     <polyline
-                      points={drawingRoad.points.map(p => `${(p.x / 100) * 500},${(p.y / 100) * 500}`).join(' ')}
+                      points={drawingRoad.points.map(p => `${p.x},${p.y}`).join(' ')}
                       stroke="#3b82f6"
                       strokeWidth="6"
                       fill="none"
                       strokeLinecap="round"
                       strokeDasharray="10,5"
                     />
+                    {/* Draw points for better visualization */}
+                    {drawingRoad.points.map((point, index) => (
+                      <circle
+                        key={index}
+                        cx={point.x}
+                        cy={point.y}
+                        r="4"
+                        fill="#3b82f6"
+                      />
+                    ))}
                   </svg>
                 )}
               </>
