@@ -1,856 +1,381 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  MapPin,
-  Shield,
-  DollarSign,
-  Scale,
-  Navigation,
-  Users,
-  Camera,
-  Car,
-  Eye,
-  FileText,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  History,
-  X,
-} from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { MapPin, Layers, Info, Maximize2, X } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
 
-// Layers
-const LAYERS = [
-  { id: "security", name: "Seguridad", icon: Shield, color: "bg-red-500", description: "Cámaras, sensores y patrullas" },
-  { id: "sales", name: "Ventas", icon: DollarSign, color: "bg-green-500", description: "Disponibilidad por lote" },
-  { id: "legal", name: "Legales", icon: Scale, color: "bg-blue-500", description: "Documentación por lote" },
-  { id: "roads", name: "Caminos", icon: Navigation, color: "bg-yellow-500", description: "Vías y servicios" },
-  { id: "occupation", name: "Ocupación", icon: Users, color: "bg-purple-500", description: "Mapa de calor" },
-] as const;
-
-// Security elements data
-const securityElements = [
-  { id: "cam1", type: "camera", x: 15, y: 22, status: "online", name: "Cámara Entrada Principal" },
-  { id: "cam2", type: "camera", x: 45, y: 55, status: "online", name: "Cámara Quincho" },
-  { id: "patrol1", type: "patrol", x: 30, y: 40, status: "moving", name: "Patrulla Norte" },
-  { id: "gate1", type: "gate", x: 50, y: 10, status: "closed", name: "Acceso Principal" },
-];
-
-// Roads data
-const roadsElements = [
-  { id: "road1", type: "main", x: 50, y: 50, condition: "good", name: "Camino Principal" },
-  { id: "ditch1", type: "ditch", x: 25, y: 30, condition: "needs_repair", name: "Cuneta Norte" },
-];
-
-// Sample lot data with enhanced information
-const lotData = (() => {
-  const createLot = (id: number, status: "available" | "sold", sector: string) => ({
-    id,
-    status,
-    sector,
-    price: status === "available" ? 780000 + id * 1000 : null,
-    legal: Math.random() > 0.3 ? "complete" : "pending" as const,
-    currentOwner: status === "sold" ? `Propietario ${id}` : null,
-    previousOwner: status === "sold" && Math.random() > 0.5 ? `Anterior ${id}` : null,
-    saleHistory: status === "sold" ? [
-      { date: "2023-06-15", price: 750000, buyer: `Propietario ${id}` },
-      ...(Math.random() > 0.5 ? [{ date: "2020-03-20", price: 650000, buyer: `Anterior ${id}` }] : [])
-    ] : [],
-    legalDocs: {
-      deed: Math.random() > 0.2,
-      survey: Math.random() > 0.1,
-      permits: Math.random() > 0.3,
-    }
-  });
-
-  const topRow = [72, 73, 74, 75].map((id) => createLot(id, id === 74 ? "available" : "sold", "Del Campo"));
-  const delCampo = Array.from({ length: 18 }, (_, i) => 20 + i).map((id) => createLot(id, id % 3 === 0 ? "available" : "sold", "Del Campo"));
-  const elClub = [50, 51, 52, 53, 54, 55, 56, 57].map((id) => createLot(id, id % 4 === 0 ? "available" : "sold", "El Club"));
-  const playaMia = [115, 116, 117, 118, 119, 120, 121, 122].map((id) => createLot(id, id === 117 || id === 121 ? "available" : "sold", "Playa Mía"));
+// Lot data with status and area information
+const lotData = new Map([
+  // West Group (Del Campo & Las Flores bands)
+  [1, { area: 742, status: "sold" }], [2, { area: 732, status: "sold" }], [3, { area: 730, status: "sold" }],
+  [4, { area: 756, status: "sold" }], [5, { area: 732, status: "sold" }], [6, { area: 764, status: "sold" }],
+  [7, { area: 770, status: "sold" }], [8, { area: 751, status: "sold" }], [9, { area: 713, status: "sold" }],
+  [10, { area: 762, status: "sold" }], [11, { area: 734, status: "sold" }], [12, { area: 812, status: "sold" }],
+  [13, { area: 819, status: "sold" }], [14, { area: 751, status: "sold" }], [15, { area: 862, status: "sold" }],
+  [16, { area: 812, status: "sold" }], [17, { area: 803, status: "sold" }], [18, { area: 772, status: "sold" }],
+  [19, { area: 780, status: "sold" }], [20, { area: 758, status: "sold" }], [21, { area: 753, status: "sold" }],
+  [22, { area: 762, status: "sold" }], [23, { area: 721, status: "sold" }], [24, { area: 766, status: "sold" }],
+  [25, { area: 731, status: "sold" }], [26, { area: 718, status: "sold" }], [27, { area: 726, status: "sold" }],
+  [28, { area: 716, status: "sold" }], [29, { area: 725, status: "sold" }], [30, { area: 709, status: "sold" }],
+  [31, { area: 725, status: "sold" }], [32, { area: 726, status: "sold" }], [33, { area: 732, status: "sold" }],
+  [34, { area: 912, status: "sold" }], [35, { area: 752, status: "sold" }], [36, { area: 725, status: "sold" }],
+  [37, { area: 735, status: "sold" }], [38, { area: 798, status: "sold" }], [39, { area: 732, status: "sold" }],
+  [40, { area: 731, status: "sold" }], [41, { area: 718, status: "sold" }], [78, { area: 716, status: "sold" }],
+  [79, { area: 716, status: "sold" }], [80, { area: 716, status: "sold" }],
   
-  return [...topRow, ...delCampo, ...elClub, ...playaMia];
-})();
+  // Central Group (Las Flores ↔ El Moro bands)
+  [42, { area: 736, status: "sold" }], [43, { area: 770, status: "sold" }], [44, { area: 800, status: "sold" }],
+  [45, { area: 764, status: "sold" }], [46, { area: 774, status: "sold" }], [47, { area: 789, status: "sold" }],
+  [48, { area: 764, status: "sold" }], [49, { area: 772, status: "sold" }], [50, { area: 750, status: "sold" }],
+  [51, { area: 756, status: "sold" }], [52, { area: 742, status: "sold" }], [53, { area: 758, status: "sold" }],
+  [54, { area: 764, status: "sold" }], [55, { area: 781, status: "sold" }], [56, { area: 782, status: "sold" }],
+  [57, { area: 764, status: "sold" }], [58, { area: 731, status: "sold" }], [59, { area: 780, status: "sold" }],
+  [60, { area: 815, status: "sold" }], [61, { area: 731, status: "sold" }], [62, { area: 780, status: "sold" }],
+  [63, { area: 772, status: "sold" }], [64, { area: 745, status: "sold" }], [65, { area: 781, status: "sold" }],
+  [66, { area: 775, status: "sold" }], [67, { area: 764, status: "sold" }], [68, { area: 752, status: "sold" }],
+  [69, { area: 799, status: "sold" }], [70, { area: 764, status: "sold" }], [71, { area: 799, status: "sold" }],
+  [72, { area: 772, status: "sold" }], [73, { area: 764, status: "sold" }], [74, { area: 770, status: "sold" }],
+  [75, { area: 772, status: "sold" }], [76, { area: 764, status: "sold" }], [77, { area: 789, status: "sold" }],
+  [82, { area: 781, status: "sold" }], [83, { area: 775, status: "sold" }], [84, { area: 764, status: "sold" }],
+  [85, { area: 752, status: "sold" }], [86, { area: 799, status: "sold" }], [87, { area: 764, status: "sold" }],
+  [88, { area: 770, status: "sold" }], [89, { area: 772, status: "sold" }], [90, { area: 764, status: "sold" }],
+  [91, { area: 1137, status: "sold" }], [92, { area: 799, status: "sold" }], [93, { area: 789, status: "sold" }],
+  [94, { area: 764, status: "sold" }], [95, { area: 799, status: "sold" }], [96, { area: 764, status: "sold" }],
+  [97, { area: 799, status: "sold" }], [98, { area: 770, status: "sold" }], [99, { area: 772, status: "sold" }],
+  [100, { area: 764, status: "sold" }], [101, { area: 799, status: "sold" }], [102, { area: 772, status: "sold" }],
+  [103, { area: 1137, status: "sold" }], [104, { area: 1137, status: "sold" }], [105, { area: 770, status: "sold" }],
+  [106, { area: 772, status: "sold" }], [107, { area: 764, status: "sold" }], [108, { area: 799, status: "sold" }],
+  [109, { area: 764, status: "sold" }], [110, { area: 770, status: "sold" }], [111, { area: 772, status: "sold" }],
+  [112, { area: 764, status: "sold" }], [113, { area: 799, status: "sold" }], [114, { area: 772, status: "sold" }],
+  [115, { area: 1137, status: "sold" }], [116, { area: 1137, status: "sold" }], [117, { area: 1137, status: "sold" }],
+  [118, { area: 772, status: "sold" }], [119, { area: 810, status: "sold" }], [120, { area: 1137, status: "sold" }],
+  
+  // East Group (Las Dunas ↔ La Ballena bands; some Available)
+  [121, { area: 812, status: "available" }], [122, { area: 783, status: "sold" }], [123, { area: 830, status: "sold" }],
+  [124, { area: 1133, status: "sold" }], [125, { area: 1133, status: "sold" }], [126, { area: 1137, status: "sold" }],
+  [127, { area: 1137, status: "sold" }], [128, { area: 1137, status: "sold" }], [129, { area: 1137, status: "sold" }],
+  [130, { area: 1137, status: "sold" }], [131, { area: 1137, status: "sold" }], [132, { area: 872, status: "sold" }],
+  [133, { area: 1078, status: "sold" }], [134, { area: 1137, status: "sold" }], [135, { area: 1137, status: "sold" }],
+  [136, { area: 1137, status: "sold" }], [137, { area: 1137, status: "sold" }], [138, { area: 1137, status: "sold" }],
+  [139, { area: 1137, status: "sold" }], [140, { area: 1137, status: "sold" }], [141, { area: 1137, status: "sold" }],
+  [142, { area: 1137, status: "sold" }], [143, { area: 1137, status: "sold" }], [144, { area: 1132, status: "available" }],
+  [145, { area: 1137, status: "available" }], [146, { area: 1137, status: "available" }], [147, { area: 1137, status: "available" }],
+  [148, { area: 1137, status: "available" }], [149, { area: 1137, status: "available" }], [150, { area: 850, status: "available" }],
+  
+  // Administración
+  [81, { area: 800, status: "admin" }]
+]);
 
-type Lot = (typeof lotData)[number];
-type SecurityElement = (typeof securityElements)[number];
-type RoadElement = (typeof roadsElements)[number];
+// Block definitions for lot placement
+const blocks = [
+  // Block A - between Del Campo (88-91%) and Las Flores (73-76%)
+  { id: "A", x: 10, y: 76, w: 85, h: 12, lots: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16, 17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32] },
+  
+  // Block B - between Las Flores (73-76%) and El Estero (59-62%)
+  { id: "B", x: 10, y: 62, w: 85, h: 11, lots: [42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57, 58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73] },
+  
+  // Block C - between El Estero (59-62%) and El Moro (46-49%) - with green spaces
+  { id: "C", x: 10, y: 49, w: 85, h: 10, lots: [74,75,76,77,78,79,80,82,83,84,85,86,87,88,89,90, 91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106] },
+  
+  // Block D - between El Moro (46-49%) and Las Dunas (33-36%)
+  { id: "D", x: 10, y: 36, w: 85, h: 10, lots: [107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122, 123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138] },
+  
+  // Block E - between Las Dunas (33-36%) and La Ballena (20-23%)
+  { id: "E", x: 10, y: 23, w: 85, h: 10, lots: [139,140,141,142,143,144,145,146,147,148,149,150] },
+  
+  // West tail - around admin/services
+  { id: "West", x: 3, y: 82, w: 7, h: 14, lots: [33,34,35,36, 37,38,39,40,41] }
+];
 
 export default function GISMap() {
-  const [activeLayers, setActiveLayers] = useState<string[]>(["security", "sales"]);
   const [selectedLot, setSelectedLot] = useState<number | null>(null);
-  const [selectedElement, setSelectedElement] = useState<{ type: string; data: any } | null>(null);
+  const [showFullscreen, setShowFullscreen] = useState(false);
+  const svgRef = useRef<SVGSVGElement>(null);
 
-  // Edit mode state and editable structures
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const [editMode, setEditMode] = useState(false);
+  const handleLotClick = useCallback((lotId: number) => {
+    setSelectedLot(lotId);
+  }, []);
 
-  type Sector = { id: string; name: string; x: number; y: number; w: number; h: number; color: string };
-  type EditableLot = Lot & { x: number; y: number; w: number; h: number; sectorId: string };
+  const renderLot = useCallback((lotId: number, x: number, y: number, w: number, h: number) => {
+    const lotInfo = lotData.get(lotId);
+    if (!lotInfo) return null;
 
-  const initialSectors: Sector[] = (() => {
-    const uniqueSectors = Array.from(new Set(lotData.map((l) => l.sector)));
-    const palette = [
-      "#fecaca", // red-200
-      "#fde68a", // yellow-200
-      "#bfdbfe", // blue-200
-      "#bbf7d0", // green-200
-      "#fbcfe8", // pink-200
-    ];
-    const defaults: Sector[] = uniqueSectors.map((name, idx) => ({
-      id: name.toLowerCase().replace(/\s+/g, "-"),
-      name,
-      x: 80 + (idx % 3) * 260,
-      y: 80 + Math.floor(idx / 3) * 180,
-      w: 240,
-      h: 140,
-      color: palette[idx % palette.length],
-    }));
-    return defaults;
-  })();
+    const fillColor = lotInfo.status === "sold" ? "#E74C3C" : 
+                     lotInfo.status === "available" ? "#ECF0F1" :
+                     lotInfo.status === "admin" ? "#2874A6" : "#ECF0F1";
 
-  const [sectors, setSectors] = useState<Sector[]>(initialSectors);
+    return (
+      <g key={lotId} className="cursor-pointer group" onClick={() => handleLotClick(lotId)}>
+        <rect
+          x={x}
+          y={y}
+          width={w}
+          height={h}
+          fill={fillColor}
+          stroke="#BDC3C7"
+          strokeWidth="0.5"
+          className="transition-all duration-200 group-hover:stroke-2 group-hover:stroke-blue-500"
+        />
+        <text
+          x={x + w/2}
+          y={y + h/2 - 1}
+          textAnchor="middle"
+          fontSize="3"
+          fontWeight="bold"
+          fill={lotInfo.status === "available" ? "#2C3E50" : "#FFFFFF"}
+        >
+          {lotId}
+        </text>
+        <text
+          x={x + w/2}
+          y={y + h/2 + 2}
+          textAnchor="middle"
+          fontSize="2"
+          fill={lotInfo.status === "available" ? "#7F8C8D" : "#FFFFFF"}
+        >
+          {lotInfo.area}m²
+        </text>
+      </g>
+    );
+  }, [handleLotClick]);
 
-  const sectorByName = (name: string) => sectors.find((s) => s.name === name) ?? sectors[0];
-
-  const [editableLots, setEditableLots] = useState<EditableLot[]>(() => {
-    const placed: EditableLot[] = [];
-    const gridCell = { w: 40, h: 28, gap: 6 };
-    sectors.forEach((s) => {
-      const lotsInSector = lotData.filter((l) => l.sector === s.name);
-      lotsInSector.forEach((lot, i) => {
-        const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
-        const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
-        placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
-      });
+  const generateLotsForBlock = useCallback((block: typeof blocks[0]) => {
+    const lots = [];
+    const lotWidth = 4;
+    const lotHeight = 3;
+    const gap = 0.3;
+    const cols = Math.floor(block.w / (lotWidth + gap));
+    
+    block.lots.forEach((lotId, index) => {
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+      const x = block.x + col * (lotWidth + gap);
+      const y = block.y + row * (lotHeight + gap);
+      
+      lots.push(renderLot(lotId, x, y, lotWidth, lotHeight));
     });
-    return placed;
-  });
+    
+    return lots;
+  }, [renderLot]);
 
-  const [selectedSectorId, setSelectedSectorId] = useState<string | null>(null);
-  const [selectedEditableLotId, setSelectedEditableLotId] = useState<number | null>(null);
-  const [roads, setRoads] = useState<{ id: string; points: { x: number; y: number }[] }[]>([]);
-  const [drawingRoad, setDrawingRoad] = useState<{ active: boolean; points: { x: number; y: number }[] }>({ active: false, points: [] });
-
-  const selectedLotData: Lot | undefined = useMemo(
-    () => lotData.find((l) => l.id === selectedLot),
-    [selectedLot]
+  const MapContent = () => (
+    <svg
+      ref={svgRef}
+      viewBox="0 0 100 100"
+      className="w-full h-full"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      {/* Ocean background */}
+      <rect x="0" y="0" width="100" height="3.5" fill="#3498DB" />
+      
+      {/* Beach - Playa Mía */}
+      <rect x="0" y="0" width="100" height="3.5" fill="#F39C12" />
+      <text x="50" y="2" textAnchor="middle" fontSize="2" fontWeight="bold" fill="#FFFFFF">
+        PLAYA MÍA
+      </text>
+      
+      {/* Horizontal Roads */}
+      {[
+        { name: "La Ballena", y: 20 },
+        { name: "Las Dunas", y: 33 },
+        { name: "El Moro", y: 46 },
+        { name: "El Estero", y: 59 },
+        { name: "Las Flores", y: 73 },
+        { name: "Del Campo", y: 88 }
+      ].map(road => (
+        <g key={road.name}>
+          <rect x="10" y={road.y} width="85" height="3" fill="#FFFFFF" stroke="#BDC3C7" strokeWidth="0.1" />
+          <text x="12" y={road.y + 1.8} fontSize="1.5" fontWeight="bold" fill="#2C3E50">
+            {road.name}
+          </text>
+        </g>
+      ))}
+      
+      {/* Vertical Access Road */}
+      <rect x="3" y="0" width="4" height="100" fill="#FFFFFF" stroke="#BDC3C7" strokeWidth="0.1" />
+      <text x="5" y="50" textAnchor="middle" fontSize="1.5" fontWeight="bold" fill="#2C3E50" transform="rotate(-90, 5, 50)">
+        ACCESO
+      </text>
+      
+      {/* Airstrip */}
+      <rect x="12" y="94" width="84" height="6" fill="#95A5A6" stroke="#7F8C8D" strokeWidth="0.2" />
+      <text x="54" y="97" textAnchor="middle" fontSize="1.8" fontWeight="bold" fill="#2C3E50">
+        PISTA DE ATERRIZAJE 1000m
+      </text>
+      
+      {/* Green Spaces */}
+      {[
+        { name: "Espacio Verde Central", x: 44, y: 51, w: 14, h: 15 },
+        { name: "Espacio Verde Este", x: 66, y: 49, w: 12, h: 13 },
+        { name: "Espacio Verde Sur", x: 45, y: 16, w: 17, h: 6 },
+        { name: "Espacio Verde Las Dunas", x: 80, y: 38, w: 16, h: 23 }
+      ].map(space => (
+        <g key={space.name}>
+          <rect 
+            x={space.x} 
+            y={space.y} 
+            width={space.w} 
+            height={space.h} 
+            fill="#27AE60" 
+            stroke="#229954"
+            strokeWidth="0.2"
+            rx="1"
+          />
+          <text 
+            x={space.x + space.w/2} 
+            y={space.y + space.h/2} 
+            textAnchor="middle" 
+            fontSize="1.2" 
+            fontWeight="bold" 
+            fill="#FFFFFF"
+          >
+            {space.name}
+          </text>
+        </g>
+      ))}
+      
+      {/* Service Buildings */}
+      <rect x="8" y="92" width="4" height="4" fill="#2874A6" stroke="#1B4F72" strokeWidth="0.2" rx="0.2" />
+      <text x="10" y="94.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">ADM</text>
+      
+      <rect x="10" y="82" width="4" height="4" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+      <text x="12" y="84.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">SER</text>
+      
+      <rect x="16" y="94" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+      <text x="19" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">TENIS</text>
+      
+      <rect x="30" y="3.5" width="10" height="3.5" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+      <text x="35" y="6" textAnchor="middle" fontSize="1.2" fontWeight="bold" fill="#FFFFFF">EL CLUB</text>
+      
+      <rect x="84" y="94" width="5" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+      <text x="86.5" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">PADDLE</text>
+      
+      <rect x="90" y="96" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+      <text x="93" y="98" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">HANGARS</text>
+      
+      {/* Render all lots */}
+      {blocks.map(block => generateLotsForBlock(block))}
+    </svg>
   );
 
-  const toggleLayer = (id: string) =>
-    setActiveLayers((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-
-  const lotBgByLayer = (lot: Lot) => {
-    if (activeLayers.includes("sales")) return lot.status === "available" ? "bg-green-300/80" : "bg-gray-300/70";
-    if (activeLayers.includes("legal")) return lot.legalDocs.deed && lot.legalDocs.survey && lot.legalDocs.permits ? "bg-green-300/80" : "bg-red-300/80";
-    return "bg-white/50";
-  };
-
-  const handleSecurityElementClick = (element: SecurityElement) => {
-    setSelectedElement({ type: "security", data: element });
-    setSelectedLot(null);
-  };
-
-  const handleRoadElementClick = (element: RoadElement) => {
-    setSelectedElement({ type: "road", data: element });
-    setSelectedLot(null);
-  };
-
-  const handleLotClick = (lotId: number) => {
-    setSelectedLot(lotId);
-    setSelectedElement(null);
-  };
+  const selectedLotData = selectedLot ? lotData.get(selectedLot) : null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Controls */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" /> Sistema GIS - Etapa 1
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-ocean" />
+              Mapa Maestro - Bahía de los Moros (Etapa 1)
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowFullscreen(true)}
+              className="flex items-center gap-2"
+            >
+              <Maximize2 className="h-4 w-4" />
+              Pantalla Completa
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-            <div className="flex flex-wrap gap-2">
-              {LAYERS.map((layer) => (
-                <Button
-                  key={layer.id}
-                  variant={activeLayers.includes(layer.id) ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => toggleLayer(layer.id)}
-                  className="flex items-center gap-2"
-                >
-                  <div className={`w-3 h-3 rounded-full ${layer.color}`} />
-                  <layer.icon className="h-4 w-4" />
-                  {layer.name}
-                </Button>
-              ))}
-            </div>
-            
-            {/* Edit Mode Controls */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant={editMode ? "default" : "outline"}
-                size="sm"
-                onClick={() => setEditMode(!editMode)}
-                className="flex items-center gap-2"
-              >
-                <FileText className="h-4 w-4" />
-                {editMode ? "Salir de Edición" : "Modo Edición"}
-              </Button>
-              {editMode && (
-                <>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const newSector: Sector = {
-                        id: `sector-${Date.now()}`,
-                        name: `Nuevo Sector ${sectors.length + 1}`,
-                        x: 100,
-                        y: 100,
-                        w: 200,
-                        h: 120,
-                        color: "#e5e7eb"
-                      };
-                      setSectors([...sectors, newSector]);
-                    }}
-                  >
-                    + Sector
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const newLot: EditableLot = {
-                        id: Math.max(...editableLots.map(l => l.id)) + 1,
-                        status: "available" as const,
-                        sector: "Nuevo Sector",
-                        price: 800000,
-                        legal: "pending" as const,
-                        currentOwner: null,
-                        previousOwner: null,
-                        saleHistory: [],
-                        legalDocs: { deed: false, survey: false, permits: false },
-                        x: 200,
-                        y: 200,
-                        w: 40,
-                        h: 28,
-                        sectorId: sectors[0]?.id || "default"
-                      };
-                      setEditableLots([...editableLots, newLot]);
-                    }}
-                  >
-                    + Lote
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (drawingRoad.active && drawingRoad.points.length > 1) {
-                        // Finalizar el camino y guardarlo
-                        const newRoad = {
-                          id: `road-${Date.now()}`,
-                          points: drawingRoad.points
-                        };
-                        setRoads([...roads, newRoad]);
-                        setDrawingRoad({ active: false, points: [] });
-                      } else {
-                        setDrawingRoad({ active: !drawingRoad.active, points: [] });
-                      }
-                    }}
-                    className={drawingRoad.active ? "bg-blue-100" : ""}
-                  >
-                    {drawingRoad.active ? "Finalizar Camino" : "Dibujar Camino"}
-                  </Button>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => {
-                      // Save changes with visual feedback
-                      console.log("Guardando cambios del mapa...", { sectors, editableLots, roads });
-                      alert("¡Cambios guardados exitosamente!");
-                      setEditMode(false);
-                      setSelectedSectorId(null);
-                      setSelectedEditableLotId(null);
-                      setDrawingRoad({ active: false, points: [] });
-                    }}
-                  >
-                    Guardar Cambios
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      if (confirm("¿Estás seguro de cancelar todos los cambios?")) {
-                        // Cancel changes and revert to original state
-                        setSectors(initialSectors);
-                        setEditableLots(() => {
-                          const placed: EditableLot[] = [];
-                          const gridCell = { w: 40, h: 28, gap: 6 };
-                          initialSectors.forEach((s) => {
-                            const lotsInSector = lotData.filter((l) => l.sector === s.name);
-                            lotsInSector.forEach((lot, i) => {
-                              const cols = Math.max(1, Math.floor((s.w - gridCell.gap) / (gridCell.w + gridCell.gap)));
-                              const col = i % cols;
-                              const row = Math.floor(i / cols);
-                              const x = s.x + gridCell.gap + col * (gridCell.w + gridCell.gap);
-                              const y = s.y + gridCell.gap + row * (gridCell.h + gridCell.gap);
-                              placed.push({ ...lot, sectorId: s.id, x, y, w: gridCell.w, h: gridCell.h });
-                            });
-                          });
-                          return placed;
-                        });
-                        setRoads([]);
-                        setDrawingRoad({ active: false, points: [] });
-                        setEditMode(false);
-                        setSelectedSectorId(null);
-                        setSelectedEditableLotId(null);
-                      }
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-                </>
-              )}
+          <div className="flex flex-wrap gap-4 mb-4">
+            {/* Legend */}
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-red-500 rounded"></div>
+                <span>Vendido</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-gray-300 rounded"></div>
+                <span>Disponible</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                <span>Administración</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-green-600 rounded"></div>
+                <span>Espacio Verde</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-purple-600 rounded"></div>
+                <span>Servicios</span>
+              </div>
             </div>
           </div>
 
-          {/* MAP */}
-          <div className="relative rounded-lg border-2 border-dashed border-border overflow-hidden h-[500px] bg-gradient-to-br from-emerald-50 to-blue-50"
-               onClick={(e) => {
-                 if (editMode && drawingRoad.active) {
-                   const rect = e.currentTarget.getBoundingClientRect();
-                   const x = (e.clientX - rect.left);
-                   const y = (e.clientY - rect.top);
-                   setDrawingRoad(prev => ({ 
-                     ...prev, 
-                     points: [...prev.points, { x, y }] 
-                   }));
-                 }
-               }}>
-            {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-sky-100/40 via-emerald-100/30 to-blue-200/40" />
-            
-            {/* Coast line */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-300/60 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-6 bg-blue-400/70" />
-
-            {/* Access and Airstrip */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-10 bg-gray-200/80 rounded border border-gray-400 flex items-center justify-center text-xs font-medium">
-              ACCESO
-            </div>
-            <div className="absolute top-16 left-1/3 w-48 h-6 bg-gray-300/70 rounded border border-gray-500 flex items-center justify-center text-xs font-medium">
-              PISTA DE ATERRIZAJE
-            </div>
-
-            {/* EDITABLE SECTORS - Show when in edit mode */}
-            {editMode ? (
-              <>
-                {sectors.map((sector) => (
-                  <div
-                    key={sector.id}
-                    className={`absolute border-2 border-dashed rounded-lg p-2 cursor-move transition-all ${
-                      selectedSectorId === sector.id ? 'ring-2 ring-blue-500' : 'hover:ring-1 hover:ring-gray-300'
-                    }`}
-                    style={{
-                      left: `${sector.x}px`,
-                      top: `${sector.y}px`,
-                      width: `${sector.w}px`,
-                      height: `${sector.h}px`,
-                      backgroundColor: sector.color + '80'
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedSectorId(sector.id);
-                    }}
-                    onMouseDown={(e) => {
-                      if (!editMode) return;
-                      e.preventDefault();
-                      const startX = e.clientX;
-                      const startY = e.clientY;
-                      const startPosX = sector.x;
-                      const startPosY = sector.y;
-                      
-                      const handleMouseMove = (e: MouseEvent) => {
-                        const deltaX = e.clientX - startX;
-                        const deltaY = e.clientY - startY;
-                        setSectors(prev => prev.map(s => 
-                          s.id === sector.id 
-                            ? { ...s, x: Math.max(0, startPosX + deltaX), y: Math.max(0, startPosY + deltaY) }
-                            : s
-                        ));
-                      };
-                      
-                      const handleMouseUp = () => {
-                        document.removeEventListener('mousemove', handleMouseMove);
-                        document.removeEventListener('mouseup', handleMouseUp);
-                      };
-                      
-                      document.addEventListener('mousemove', handleMouseMove);
-                      document.addEventListener('mouseup', handleMouseUp);
-                    }}
-                  >
-                    <div className="font-bold text-sm text-center">{sector.name}</div>
-                    {selectedSectorId === sector.id && (
-                      <>
-                        <input
-                          className="absolute top-0 left-0 bg-white/90 text-xs p-1 rounded border"
-                          value={sector.name}
-                          onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => setSectors(prev => prev.map(s => 
-                            s.id === sector.id ? { ...s, name: e.target.value } : s
-                          ))}
-                        />
-                        {/* Resize handle */}
-                        <div
-                          className="absolute bottom-0 right-0 w-4 h-4 bg-blue-500 cursor-se-resize rounded-full"
-                          onMouseDown={(e) => {
-                            e.stopPropagation();
-                            const startX = e.clientX;
-                            const startY = e.clientY;
-                            const startW = sector.w;
-                            const startH = sector.h;
-                            
-                            const handleMouseMove = (e: MouseEvent) => {
-                              const deltaX = e.clientX - startX;
-                              const deltaY = e.clientY - startY;
-                              setSectors(prev => prev.map(s => 
-                                s.id === sector.id 
-                                  ? { ...s, w: Math.max(100, startW + deltaX), h: Math.max(80, startH + deltaY) }
-                                  : s
-                              ));
-                            };
-                            
-                            const handleMouseUp = () => {
-                              document.removeEventListener('mousemove', handleMouseMove);
-                              document.removeEventListener('mouseup', handleMouseUp);
-                            };
-                            
-                            document.addEventListener('mousemove', handleMouseMove);
-                            document.addEventListener('mouseup', handleMouseUp);
-                          }}
-                        />
-                      </>
-                    )}
-                  </div>
-                ))}
-
-                {/* EDITABLE LOTS */}
-                {editableLots.map((lot) => (
-                  <div
-                    key={lot.id}
-                    className={`absolute border border-gray-400 rounded cursor-move text-xs flex items-center justify-center font-medium transition-all ${
-                      selectedEditableLotId === lot.id ? 'ring-2 ring-green-500 z-10' : 'hover:ring-1 hover:ring-gray-400'
-                    } ${lotBgByLayer(lot)}`}
-                    style={{
-                      left: `${lot.x}px`,
-                      top: `${lot.y}px`,
-                      width: `${lot.w}px`,
-                      height: `${lot.h}px`
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedEditableLotId(lot.id);
-                    }}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      const startX = e.clientX;
-                      const startY = e.clientY;
-                      const startPosX = lot.x;
-                      const startPosY = lot.y;
-                      
-                      const handleMouseMove = (e: MouseEvent) => {
-                        const deltaX = e.clientX - startX;
-                        const deltaY = e.clientY - startY;
-                        setEditableLots(prev => prev.map(l => 
-                          l.id === lot.id 
-                            ? { ...l, x: Math.max(0, startPosX + deltaX), y: Math.max(0, startPosY + deltaY) }
-                            : l
-                        ));
-                      };
-                      
-                      const handleMouseUp = () => {
-                        document.removeEventListener('mousemove', handleMouseMove);
-                        document.removeEventListener('mouseup', handleMouseUp);
-                      };
-                      
-                      document.addEventListener('mousemove', handleMouseMove);
-                      document.addEventListener('mouseup', handleMouseUp);
-                    }}
-                  >
-                    {lot.id}
-                    {selectedEditableLotId === lot.id && (
-                      <div
-                        className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 cursor-se-resize rounded-full"
-                        onMouseDown={(e) => {
-                          e.stopPropagation();
-                          const startX = e.clientX;
-                          const startY = e.clientY;
-                          const startW = lot.w;
-                          const startH = lot.h;
-                          
-                          const handleMouseMove = (e: MouseEvent) => {
-                            const deltaX = e.clientX - startX;
-                            const deltaY = e.clientY - startY;
-                            setEditableLots(prev => prev.map(l => 
-                              l.id === lot.id 
-                                ? { ...l, w: Math.max(20, startW + deltaX), h: Math.max(16, startH + deltaY) }
-                                : l
-                            ));
-                          };
-                          
-                          const handleMouseUp = () => {
-                            document.removeEventListener('mousemove', handleMouseMove);
-                            document.removeEventListener('mouseup', handleMouseUp);
-                          };
-                          
-                          document.addEventListener('mousemove', handleMouseMove);
-                          document.addEventListener('mouseup', handleMouseUp);
-                        }}
-                      />
-                    )}
-                  </div>
-                ))}
-
-                {/* DRAWN ROADS */}
-                {roads.map((road) => (
-                  <svg key={road.id} className="absolute inset-0 pointer-events-none" width="100%" height="100%">
-                    <polyline
-                      points={road.points.map(p => `${p.x},${p.y}`).join(' ')}
-                      stroke="#6b7280"
-                      strokeWidth="6"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                ))}
-
-                {/* CURRENT DRAWING ROAD */}
-                {drawingRoad.points.length > 0 && (
-                  <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
-                    <polyline
-                      points={drawingRoad.points.map(p => `${p.x},${p.y}`).join(' ')}
-                      stroke="#3b82f6"
-                      strokeWidth="6"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeDasharray="10,5"
-                    />
-                    {/* Draw points for better visualization */}
-                    {drawingRoad.points.map((point, index) => (
-                      <circle
-                        key={index}
-                        cx={point.x}
-                        cy={point.y}
-                        r="4"
-                        fill="#3b82f6"
-                      />
-                    ))}
-                  </svg>
-                )}
-              </>
-            ) : (
-              <>
-                {/* STATIC SECTORS - Show when not in edit mode */}
-                <div className="absolute top-28 left-12">
-                  <div className="relative rounded-lg border-2 border-red-300 bg-pink-100/60 p-3">
-                    <div className="grid grid-cols-4 gap-1 mb-2">
-                      {[72, 73, 74, 75].map((id) => {
-                        const lot = lotData.find((l) => l.id === id)!;
-                        return (
-                          <div
-                            key={id}
-                            className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                            onClick={() => handleLotClick(id)}
-                            title={`Lote ${id}`}
-                          >
-                            {id}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="grid grid-cols-6 gap-1">
-                      {Array.from({ length: 18 }, (_, i) => 20 + i).map((id) => {
-                        const lot = lotData.find((l) => l.id === id)!;
-                        return (
-                          <div
-                            key={id}
-                            className={`w-10 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                            onClick={() => handleLotClick(id)}
-                            title={`Lote ${id}`}
-                          >
-                            {id}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">DEL CAMPO</div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-36 left-8">
-                  <div className="relative rounded-lg border-2 border-yellow-400 bg-yellow-100/60 p-3">
-                    <div className="grid grid-cols-4 gap-1">
-                      {[50, 51, 52, 53, 54, 55, 56, 57].map((id) => {
-                        const lot = lotData.find((l) => l.id === id)!;
-                        return (
-                          <div
-                            key={id}
-                            className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                            onClick={() => handleLotClick(id)}
-                            title={`Lote ${id}`}
-                          >
-                            {id}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">EL CLUB</div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-14 right-16">
-                  <div className="relative rounded-lg border-2 border-orange-400 bg-orange-100/60 p-3">
-                    <div className="grid grid-cols-4 gap-1">
-                      {[115, 116, 117, 118, 119, 120, 121, 122].map((id) => {
-                        const lot = lotData.find((l) => l.id === id)!;
-                        return (
-                          <div
-                            key={id}
-                            className={`w-8 h-8 text-xs flex items-center justify-center border border-gray-400 rounded cursor-pointer transition-all hover:scale-110 hover:shadow-md ${lotBgByLayer(lot)}`}
-                            onClick={() => handleLotClick(id)}
-                            title={`Lote ${id}`}
-                          >
-                            {id}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-sm font-bold text-gray-700">PLAYA MÍA</div>
-                  </div>
-                </div>
-
-                <div className="absolute top-32 right-12 w-32 h-24 bg-green-200/70 rounded-lg border-2 border-green-400" />
-                <div className="absolute top-[calc(32px+6rem)] right-12 text-sm font-bold text-gray-700">ESPACIO VERDE</div>
-              </>
-            )}
-
-            {/* SECURITY ELEMENTS */}
-            {activeLayers.includes("security") && securityElements.map((element) => (
-              <div
-                key={element.id}
-                className={`absolute w-4 h-4 rounded-full cursor-pointer transition-transform hover:scale-125 ${
-                  element.type === "camera" ? "bg-red-500" :
-                  element.type === "patrol" ? "bg-green-500 animate-pulse" :
-                  "bg-blue-500"
-                }`}
-                style={{ left: `${element.x}%`, top: `${element.y}%` }}
-                onClick={() => handleSecurityElementClick(element)}
-                title={element.name}
-              >
-                {element.type === "camera" && <Camera className="w-3 h-3 text-white" />}
-                {element.type === "patrol" && <Car className="w-3 h-3 text-white" />}
-                {element.type === "gate" && <Shield className="w-3 h-3 text-white" />}
-              </div>
-            ))}
-
-            {/* ROADS */}
-            {activeLayers.includes("roads") && (
-              <>
-                <div className="absolute top-1/2 left-0 right-0 h-2 bg-gray-400/60 rounded" />
-                <div className="absolute top-0 bottom-0 left-1/2 w-2 bg-gray-400/60 rounded" />
-                {roadsElements.map((element) => (
-                  <div
-                    key={element.id}
-                    className={`absolute w-6 h-6 rounded cursor-pointer transition-transform hover:scale-125 ${
-                      element.condition === "good" ? "bg-green-500" : "bg-orange-500"
-                    }`}
-                    style={{ left: `${element.x}%`, top: `${element.y}%` }}
-                    onClick={() => handleRoadElementClick(element)}
-                    title={element.name}
-                  >
-                    <Navigation className="w-4 h-4 text-white" />
-                  </div>
-                ))}
-              </>
-            )}
-
-            {/* OCCUPATION HEAT */}
-            {activeLayers.includes("occupation") && (
-              <>
-                <div className="absolute w-12 h-12 bg-red-500/30 rounded-full top-1/3 left-1/3 animate-pulse" />
-                <div className="absolute w-10 h-10 bg-orange-500/30 rounded-full top-1/2 right-1/4 animate-pulse" />
-              </>
-            )}
+          {/* Map Container */}
+          <div className="relative border border-border rounded-lg bg-gradient-to-b from-sky-50 to-blue-100 h-[600px] overflow-hidden">
+            <MapContent />
           </div>
         </CardContent>
       </Card>
 
-      {/* Selected Lot Details */}
-      {selectedLotData && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>Lote #{selectedLotData.id} - {selectedLotData.sector}</span>
-              <Button variant="outline" size="sm" onClick={() => setSelectedLot(null)}>
-                <X className="h-4 w-4" />
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Sales Info */}
-              <div className="space-y-3">
-                <h4 className="font-semibold flex items-center gap-2">
-                  <DollarSign className="h-4 w-4" /> Información de Ventas
-                </h4>
-                <Badge variant={selectedLotData.status === "available" ? "default" : "secondary"}>
-                  {selectedLotData.status === "available" ? "Disponible" : "Vendido"}
-                </Badge>
-                {selectedLotData.price && (
-                  <p className="text-sm">${selectedLotData.price.toLocaleString()}</p>
-                )}
-                {selectedLotData.currentOwner && (
-                  <p className="text-sm"><strong>Propietario:</strong> {selectedLotData.currentOwner}</p>
-                )}
-                {selectedLotData.previousOwner && (
-                  <p className="text-sm"><strong>Propietario Anterior:</strong> {selectedLotData.previousOwner}</p>
-                )}
-              </div>
-
-              {/* Legal Status */}
-              <div className="space-y-3">
-                <h4 className="font-semibold flex items-center gap-2">
-                  <Scale className="h-4 w-4" /> Estado Legal
-                </h4>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    {selectedLotData.legalDocs.deed ? <CheckCircle className="h-4 w-4 text-green-500" /> : <AlertTriangle className="h-4 w-4 text-red-500" />}
-                    <span className="text-sm">Escritura</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {selectedLotData.legalDocs.survey ? <CheckCircle className="h-4 w-4 text-green-500" /> : <AlertTriangle className="h-4 w-4 text-red-500" />}
-                    <span className="text-sm">Plano de Mensura</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {selectedLotData.legalDocs.permits ? <CheckCircle className="h-4 w-4 text-green-500" /> : <AlertTriangle className="h-4 w-4 text-red-500" />}
-                    <span className="text-sm">Permisos</span>
-                  </div>
+      {/* Lot Info Dialog */}
+      {selectedLot && selectedLotData && (
+        <Dialog open={!!selectedLot} onOpenChange={() => setSelectedLot(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Info className="h-5 w-5" />
+                Lote #{selectedLot}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Área</label>
+                  <p className="text-lg font-bold">{selectedLotData.area} m²</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Estado</label>
+                  <Badge variant={selectedLotData.status === "sold" ? "destructive" : "secondary"}>
+                    {selectedLotData.status === "sold" ? "Vendido" : 
+                     selectedLotData.status === "available" ? "Disponible" :
+                     selectedLotData.status === "admin" ? "Administración" : "Reservado"}
+                  </Badge>
                 </div>
               </div>
-
-              {/* Sale History */}
-              {selectedLotData.saleHistory.length > 0 && (
-                <div className="space-y-3">
-                  <h4 className="font-semibold flex items-center gap-2">
-                    <History className="h-4 w-4" /> Historial de Ventas
-                  </h4>
-                  <div className="space-y-2">
-                    {selectedLotData.saleHistory.map((sale, index) => (
-                      <div key={index} className="text-sm p-2 bg-muted rounded">
-                        <p><strong>{sale.date}</strong></p>
-                        <p>${sale.price.toLocaleString()}</p>
-                        <p>{sale.buyer}</p>
-                      </div>
-                    ))}
-                  </div>
+              
+              {selectedLotData.status === "available" && (
+                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <p className="text-sm text-green-800 font-medium">
+                    Este lote está disponible para la venta.
+                  </p>
+                </div>
+              )}
+              
+              {selectedLotData.status === "sold" && (
+                <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                  <p className="text-sm text-red-800 font-medium">
+                    Este lote ya ha sido vendido.
+                  </p>
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </DialogContent>
+        </Dialog>
       )}
 
-      {/* Selected Element Details */}
-      {selectedElement && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>{selectedElement.data.name}</span>
-              <Button variant="outline" size="sm" onClick={() => setSelectedElement(null)}>
-                <X className="h-4 w-4" />
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {selectedElement.type === "security" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Tipo</p>
-                  <Badge variant="outline">
-                    {selectedElement.data.type === "camera" ? "Cámara" :
-                     selectedElement.data.type === "patrol" ? "Patrulla" : "Puerta"}
-                  </Badge>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Estado</p>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${
-                      selectedElement.data.status === "online" ? "bg-green-500" :
-                      selectedElement.data.status === "moving" ? "bg-blue-500" : "bg-gray-500"
-                    }`} />
-                    <span className="text-sm">{selectedElement.data.status}</span>
-                  </div>
-                </div>
-                {selectedElement.data.type === "camera" && (
-                  <div className="col-span-2">
-                    <p className="text-sm text-muted-foreground mb-2">Feed de Cámara</p>
-                    <div className="bg-black/90 rounded p-4 text-white text-center">
-                      <Camera className="h-8 w-8 mx-auto mb-2" />
-                      <p className="text-sm">Vista en vivo disponible</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            {selectedElement.type === "road" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Tipo</p>
-                  <Badge variant="outline">
-                    {selectedElement.data.type === "main" ? "Camino Principal" : "Cuneta"}
-                  </Badge>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Condición</p>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${
-                      selectedElement.data.condition === "good" ? "bg-green-500" : "bg-orange-500"
-                    }`} />
-                    <span className="text-sm">
-                      {selectedElement.data.condition === "good" ? "Buen estado" : "Requiere reparación"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Legend */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm">Capas Activas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {LAYERS.filter((l) => activeLayers.includes(l.id)).map((layer) => (
-              <div key={layer.id} className="flex items-center gap-3 text-sm">
-                <div className={`w-3 h-3 rounded-full ${layer.color}`} />
-                <span className="font-medium">{layer.name}:</span>
-                <span className="text-muted-foreground">{layer.description}</span>
-              </div>
-            ))}
+      {/* Fullscreen Dialog */}
+      <Dialog open={showFullscreen} onOpenChange={setShowFullscreen}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] p-2">
+          <DialogHeader className="flex flex-row items-center justify-between p-4">
+            <DialogTitle>Mapa Maestro - Pantalla Completa</DialogTitle>
+            <Button variant="ghost" size="sm" onClick={() => setShowFullscreen(false)}>
+              <X className="h-4 w-4" />
+            </Button>
+          </DialogHeader>
+          <div className="relative border border-border rounded-lg bg-gradient-to-b from-sky-50 to-blue-100 h-[85vh] overflow-hidden">
+            <MapContent />
           </div>
-        </CardContent>
-      </Card>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
