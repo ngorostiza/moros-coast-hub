@@ -2,11 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Layers, Info, Maximize2, X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { MapPin, Layers, Info, Maximize2, X, Edit3, Eye, EyeOff } from "lucide-react";
 import { useState, useRef, useCallback } from "react";
 
 // Lot data with status and area information
-const lotData = new Map([
+const initialLotData = new Map([
   // West Group (Del Campo & Las Flores bands)
   [1, { area: 742, status: "sold" }], [2, { area: 732, status: "sold" }], [3, { area: 730, status: "sold" }],
   [4, { area: 756, status: "sold" }], [5, { area: 732, status: "sold" }], [6, { area: 764, status: "sold" }],
@@ -91,54 +93,92 @@ const blocks = [
 export default function GISMap() {
   const [selectedLot, setSelectedLot] = useState<number | null>(null);
   const [showFullscreen, setShowFullscreen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [layers, setLayers] = useState({
+    lots: true,
+    roads: true,
+    greenSpaces: true,
+    services: true,
+    labels: true
+  });
+  const [lotData, setLotData] = useState(new Map(initialLotData));
   const svgRef = useRef<SVGSVGElement>(null);
 
   const handleLotClick = useCallback((lotId: number) => {
+    if (editMode) {
+      // In edit mode, don't open dialog
+      return;
+    }
     setSelectedLot(lotId);
+  }, [editMode]);
+
+  const handleLotStatusChange = useCallback((lotId: number, newStatus: string) => {
+    setLotData(prev => {
+      const newData = new Map(prev);
+      const lot = newData.get(lotId);
+      if (lot) {
+        newData.set(lotId, { ...lot, status: newStatus });
+      }
+      return newData;
+    });
+  }, []);
+
+  const toggleLayer = useCallback((layerName: keyof typeof layers) => {
+    setLayers(prev => ({ ...prev, [layerName]: !prev[layerName] }));
   }, []);
 
   const renderLot = useCallback((lotId: number, x: number, y: number, w: number, h: number) => {
     const lotInfo = lotData.get(lotId);
-    if (!lotInfo) return null;
+    if (!lotInfo || !layers.lots) return null;
 
     const fillColor = lotInfo.status === "sold" ? "#E74C3C" : 
                      lotInfo.status === "available" ? "#ECF0F1" :
                      lotInfo.status === "admin" ? "#2874A6" : "#ECF0F1";
 
     return (
-      <g key={lotId} className="cursor-pointer group" onClick={() => handleLotClick(lotId)}>
+      <g key={lotId} className={`cursor-pointer group ${editMode ? 'edit-mode' : ''}`} onClick={() => handleLotClick(lotId)}>
         <rect
           x={x}
           y={y}
           width={w}
           height={h}
           fill={fillColor}
-          stroke="#BDC3C7"
-          strokeWidth="0.5"
+          stroke={editMode ? "#3498DB" : "#BDC3C7"}
+          strokeWidth={editMode ? "1" : "0.5"}
           className="transition-all duration-200 group-hover:stroke-2 group-hover:stroke-blue-500"
         />
-        <text
-          x={x + w/2}
-          y={y + h/2 - 1}
-          textAnchor="middle"
-          fontSize="3"
-          fontWeight="bold"
-          fill={lotInfo.status === "available" ? "#2C3E50" : "#FFFFFF"}
-        >
-          {lotId}
-        </text>
-        <text
-          x={x + w/2}
-          y={y + h/2 + 2}
-          textAnchor="middle"
-          fontSize="2"
-          fill={lotInfo.status === "available" ? "#7F8C8D" : "#FFFFFF"}
-        >
-          {lotInfo.area}m²
-        </text>
+        {layers.labels && (
+          <>
+            <text
+              x={x + w/2}
+              y={y + h/2 - 1}
+              textAnchor="middle"
+              fontSize="3"
+              fontWeight="bold"
+              fill={lotInfo.status === "available" ? "#2C3E50" : "#FFFFFF"}
+            >
+              {lotId}
+            </text>
+            <text
+              x={x + w/2}
+              y={y + h/2 + 2}
+              textAnchor="middle"
+              fontSize="2"
+              fill={lotInfo.status === "available" ? "#7F8C8D" : "#FFFFFF"}
+            >
+              {lotInfo.area}m²
+            </text>
+          </>
+        )}
+        {editMode && (
+          <g className="edit-controls opacity-0 group-hover:opacity-100 transition-opacity">
+            <rect x={x + w - 1.5} y={y} width="1.5" height="1.5" fill="#3498DB" rx="0.2" />
+            <text x={x + w - 0.75} y={y + 1} textAnchor="middle" fontSize="0.8" fill="#FFFFFF">E</text>
+          </g>
+        )}
       </g>
     );
-  }, [handleLotClick]);
+  }, [handleLotClick, lotData, layers.lots, layers.labels, editMode]);
 
   const generateLotsForBlock = useCallback((block: typeof blocks[0]) => {
     const lots = [];
@@ -176,7 +216,7 @@ export default function GISMap() {
       </text>
       
       {/* Horizontal Roads */}
-      {[
+      {layers.roads && [
         { name: "La Ballena", y: 20 },
         { name: "Las Dunas", y: 33 },
         { name: "El Moro", y: 46 },
@@ -186,17 +226,25 @@ export default function GISMap() {
       ].map(road => (
         <g key={road.name}>
           <rect x="10" y={road.y} width="85" height="3" fill="#FFFFFF" stroke="#BDC3C7" strokeWidth="0.1" />
-          <text x="12" y={road.y + 1.8} fontSize="1.5" fontWeight="bold" fill="#2C3E50">
-            {road.name}
-          </text>
+          {layers.labels && (
+            <text x="12" y={road.y + 1.8} fontSize="1.5" fontWeight="bold" fill="#2C3E50">
+              {road.name}
+            </text>
+          )}
         </g>
       ))}
       
       {/* Vertical Access Road */}
-      <rect x="3" y="0" width="4" height="100" fill="#FFFFFF" stroke="#BDC3C7" strokeWidth="0.1" />
-      <text x="5" y="50" textAnchor="middle" fontSize="1.5" fontWeight="bold" fill="#2C3E50" transform="rotate(-90, 5, 50)">
-        ACCESO
-      </text>
+      {layers.roads && (
+        <g>
+          <rect x="3" y="0" width="4" height="100" fill="#FFFFFF" stroke="#BDC3C7" strokeWidth="0.1" />
+          {layers.labels && (
+            <text x="5" y="50" textAnchor="middle" fontSize="1.5" fontWeight="bold" fill="#2C3E50" transform="rotate(-90, 5, 50)">
+              ACCESO
+            </text>
+          )}
+        </g>
+      )}
       
       {/* Airstrip */}
       <rect x="12" y="94" width="84" height="6" fill="#95A5A6" stroke="#7F8C8D" strokeWidth="0.2" />
@@ -205,7 +253,7 @@ export default function GISMap() {
       </text>
       
       {/* Green Spaces */}
-      {[
+      {layers.greenSpaces && [
         { name: "Espacio Verde Central", x: 44, y: 51, w: 14, h: 15 },
         { name: "Espacio Verde Este", x: 66, y: 49, w: 12, h: 13 },
         { name: "Espacio Verde Sur", x: 45, y: 16, w: 17, h: 6 },
@@ -222,37 +270,43 @@ export default function GISMap() {
             strokeWidth="0.2"
             rx="1"
           />
-          <text 
-            x={space.x + space.w/2} 
-            y={space.y + space.h/2} 
-            textAnchor="middle" 
-            fontSize="1.2" 
-            fontWeight="bold" 
-            fill="#FFFFFF"
-          >
-            {space.name}
-          </text>
+          {layers.labels && (
+            <text 
+              x={space.x + space.w/2} 
+              y={space.y + space.h/2} 
+              textAnchor="middle" 
+              fontSize="1.2" 
+              fontWeight="bold" 
+              fill="#FFFFFF"
+            >
+              {space.name}
+            </text>
+          )}
         </g>
       ))}
       
       {/* Service Buildings */}
-      <rect x="8" y="92" width="4" height="4" fill="#2874A6" stroke="#1B4F72" strokeWidth="0.2" rx="0.2" />
-      <text x="10" y="94.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">ADM</text>
-      
-      <rect x="10" y="82" width="4" height="4" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
-      <text x="12" y="84.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">SER</text>
-      
-      <rect x="16" y="94" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
-      <text x="19" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">TENIS</text>
-      
-      <rect x="30" y="3.5" width="10" height="3.5" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
-      <text x="35" y="6" textAnchor="middle" fontSize="1.2" fontWeight="bold" fill="#FFFFFF">EL CLUB</text>
-      
-      <rect x="84" y="94" width="5" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
-      <text x="86.5" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">PADDLE</text>
-      
-      <rect x="90" y="96" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
-      <text x="93" y="98" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">HANGARS</text>
+      {layers.services && (
+        <g>
+          <rect x="8" y="92" width="4" height="4" fill="#2874A6" stroke="#1B4F72" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="10" y="94.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">ADM</text>}
+          
+          <rect x="10" y="82" width="4" height="4" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="12" y="84.5" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">SER</text>}
+          
+          <rect x="16" y="94" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="19" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">TENIS</text>}
+          
+          <rect x="30" y="3.5" width="10" height="3.5" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="35" y="6" textAnchor="middle" fontSize="1.2" fontWeight="bold" fill="#FFFFFF">EL CLUB</text>}
+          
+          <rect x="84" y="94" width="5" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="86.5" y="96" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">PADDLE</text>}
+          
+          <rect x="90" y="96" width="6" height="3" fill="#7D3C98" stroke="#6C3483" strokeWidth="0.2" rx="0.2" />
+          {layers.labels && <text x="93" y="98" textAnchor="middle" fontSize="1" fontWeight="bold" fill="#FFFFFF">HANGARS</text>}
+        </g>
+      )}
       
       {/* Render all lots */}
       {blocks.map(block => generateLotsForBlock(block))}
@@ -283,7 +337,68 @@ export default function GISMap() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-4 mb-4">
+          <div className="flex flex-col gap-4 mb-4">
+            {/* Controls Row */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              {/* Edit Mode Toggle */}
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="edit-mode"
+                  checked={editMode}
+                  onCheckedChange={setEditMode}
+                />
+                <label htmlFor="edit-mode" className="flex items-center gap-2 text-sm font-medium">
+                  <Edit3 className="h-4 w-4" />
+                  Modo Edición
+                </label>
+              </div>
+
+              {/* Layer Controls */}
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium">Capas:</span>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="lots-layer"
+                    checked={layers.lots}
+                    onCheckedChange={() => toggleLayer('lots')}
+                  />
+                  <label htmlFor="lots-layer" className="text-sm">Lotes</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="roads-layer"
+                    checked={layers.roads}
+                    onCheckedChange={() => toggleLayer('roads')}
+                  />
+                  <label htmlFor="roads-layer" className="text-sm">Vías</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="green-layer"
+                    checked={layers.greenSpaces}
+                    onCheckedChange={() => toggleLayer('greenSpaces')}
+                  />
+                  <label htmlFor="green-layer" className="text-sm">Verde</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="services-layer"
+                    checked={layers.services}
+                    onCheckedChange={() => toggleLayer('services')}
+                  />
+                  <label htmlFor="services-layer" className="text-sm">Servicios</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    id="labels-layer"
+                    checked={layers.labels}
+                    onCheckedChange={() => toggleLayer('labels')}
+                  />
+                  <label htmlFor="labels-layer" className="text-sm">Etiquetas</label>
+                </div>
+              </div>
+            </div>
+
             {/* Legend */}
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
@@ -341,6 +456,23 @@ export default function GISMap() {
                   </Badge>
                 </div>
               </div>
+
+              {/* Edit Controls */}
+              {editMode && selectedLotData.status !== "admin" && (
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Cambiar Estado</label>
+                  <Select value={selectedLotData.status} onValueChange={(value) => handleLotStatusChange(selectedLot!, value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sold">Vendido</SelectItem>
+                      <SelectItem value="available">Disponible</SelectItem>
+                      <SelectItem value="reserved">Reservado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               
               {selectedLotData.status === "available" && (
                 <div className="p-4 bg-green-50 rounded-lg border border-green-200">
