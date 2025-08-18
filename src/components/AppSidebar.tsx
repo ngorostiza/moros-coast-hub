@@ -265,6 +265,17 @@ export function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
+      
+      {/* Floating Toggle Button on Sidebar Edge */}
+      <div className="absolute top-1/2 -translate-y-1/2 -right-3 z-50">
+        <SidebarTrigger className="h-6 w-6 rounded-full bg-gradient-ocean border border-white/20 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
+          {collapsed ? (
+            <ChevronsRight className="h-3 w-3 text-white" />
+          ) : (
+            <ChevronsLeft className="h-3 w-3 text-white" />
+          )}
+        </SidebarTrigger>
+      </div>
     </div>
   );
 }
