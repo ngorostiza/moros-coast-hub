@@ -11,11 +11,9 @@ import {
   Wind, 
   Thermometer,
   Eye,
-  Plane,
   AlertTriangle,
   CheckCircle,
-  Clock,
-  Car
+  Clock
 } from "lucide-react";
 import TideWidget from "@/components/TideWidget";
 
@@ -28,14 +26,6 @@ export default function Dashboard() {
       wind: 12,
       visibility: 8,
       pressure: 1015
-    },
-    aviation: {
-      ceiling: 2500,
-      visibility: 8,
-      windDirection: "SE",
-      windSpeed: 12,
-      gusts: 18,
-      altimeter: 30.15
     }
   };
 
@@ -47,8 +37,7 @@ export default function Dashboard() {
     },
     history: [
       { month: "Enero 2024", amount: 85200, status: "paid" },
-      { month: "Diciembre 2023", amount: 82100, status: "paid" },
-      { month: "Noviembre 2023", amount: 78900, status: "paid" }
+      { month: "Diciembre 2023", amount: 82100, status: "paid" }
     ]
   };
 
@@ -275,37 +264,6 @@ export default function Dashboard() {
 
           {/* Tide Widget */}
           <TideWidget />
-
-          {/* Aviation Weather */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Plane className="h-5 w-5" />
-                Condiciones de Vuelo
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-emerald-600" />
-                <span className="text-sm font-medium text-emerald-700">Condiciones VFR</span>
-              </div>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Techo</span>
-                  <span>{weatherData.aviation.ceiling} ft</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Viento</span>
-                  <span>{weatherData.aviation.windDirection} {weatherData.aviation.windSpeed} G{weatherData.aviation.gusts}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Altímetro</span>
-                  <span>{weatherData.aviation.altimeter} inHg</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
         </div>
       </div>

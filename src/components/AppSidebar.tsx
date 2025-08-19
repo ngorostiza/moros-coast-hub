@@ -11,9 +11,8 @@ import {
   Building,
   Users,
   Cloud,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight
+  Plane,
+  ChevronRight
 } from "lucide-react";
 
 import {
@@ -77,15 +76,18 @@ const ownerItems = [
     ]
   },
   { 
-    title: "Clima & Aviación", 
+    title: "Clima", 
     url: "/clima", 
     icon: Cloud,
     subItems: [
       { title: "Condiciones Actuales", url: "/clima/actual" },
       { title: "Pronóstico", url: "/clima/pronostico" },
-      { title: "Información Aeronáutica", url: "/clima/aviacion" },
     ]
   },
+];
+
+const aviationItems = [
+  { title: "Dashboard Aviación", url: "/aviacion/dashboard", icon: Plane },
 ];
 
 const adminItems = [
@@ -99,13 +101,14 @@ const adminItems = [
       { title: "Monitoreo", url: "/admin/monitoreo" },
     ]
   },
-  { 
+    { 
     title: "Gestión Usuarios", 
     url: "/admin/usuarios", 
     icon: Users,
     subItems: [
       { title: "Propietarios", url: "/admin/usuarios/propietarios" },
       { title: "Personal", url: "/admin/usuarios/personal" },
+      { title: "Pilotos", url: "/admin/usuarios/pilotos" },
       { title: "Permisos", url: "/admin/usuarios/permisos" },
     ]
   },
@@ -147,7 +150,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     const groupsToOpen: string[] = [];
-    [...ownerItems, ...adminItems].forEach((item: any) => {
+    [...ownerItems, ...aviationItems, ...adminItems].forEach((item: any) => {
       if (item.subItems && isParentActive(item)) {
         groupsToOpen.push(item.title);
       }
@@ -250,6 +253,20 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
+          {/* Aviation Section */}
+          <SidebarGroup>
+            {!collapsed && (
+              <SidebarGroupLabel className="text-muted-foreground px-4">
+                Aviación
+              </SidebarGroupLabel>
+            )}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {aviationItems.map((item) => renderMenuItem(item))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
           {/* Admin Section */}
           <SidebarGroup>
             {!collapsed && (
@@ -265,17 +282,6 @@ export function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      
-      {/* Floating Toggle Button on Sidebar Edge */}
-      <div className="absolute top-1/2 -translate-y-1/2 -right-3 z-50">
-        <SidebarTrigger className="h-6 w-6 rounded-full bg-gradient-ocean border border-white/20 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
-          {collapsed ? (
-            <ChevronsRight className="h-3 w-3 text-white" />
-          ) : (
-            <ChevronsLeft className="h-3 w-3 text-white" />
-          )}
-        </SidebarTrigger>
-      </div>
     </div>
   );
 }

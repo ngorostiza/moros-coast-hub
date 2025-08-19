@@ -10,8 +10,10 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ActivityLog from "./pages/ActivityLog";
 import NotFound from "./pages/NotFound";
 import LoteInfo from "./pages/LoteInfo";
-import LotePlanos from "./pages/LotePlanos";
-import LoteHistorial from "./pages/LoteHistorial";
+import LotePlanos from "./pages/LotePlanosDocumentos";
+import LoteHistorial from "./pages/LoteHistorialCompleto";
+import AviacionDashboard from "./pages/AviacionDashboard";
+import AdminUsuariosPilotos from "./pages/AdminUsuariosPilotos";
 import ExpensasEstado from "./pages/ExpensasEstado";
 import ExpensasPagos from "./pages/ExpensasPagos";
 import ExpensasFacturas from "./pages/ExpensasFacturas";
@@ -66,6 +68,9 @@ const App = () => (
             <Route path="/clima/pronostico" element={<ClimaPronostico />} />
             <Route path="/clima/aviacion" element={<ClimaAviacion />} />
 
+            {/* Aviación */}
+            <Route path="/aviacion/dashboard" element={<AviacionDashboard />} />
+
             {/* Administración */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -73,6 +78,7 @@ const App = () => (
             <Route path="/admin/monitoreo" element={<AdminMonitoreo />} />
             <Route path="/admin/usuarios/propietarios" element={<AdminUsuariosPropietarios />} />
             <Route path="/admin/usuarios/personal" element={<AdminUsuariosPersonal />} />
+            <Route path="/admin/usuarios/pilotos" element={<AdminUsuariosPilotos />} />
             <Route path="/admin/usuarios/permisos" element={<AdminUsuariosPermisos />} />
             <Route path="/admin/config/sistema" element={<AdminConfigSistema />} />
             <Route path="/admin/config/seguridad" element={<AdminConfigSeguridad />} />
