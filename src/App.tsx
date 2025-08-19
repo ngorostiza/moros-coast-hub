@@ -64,8 +64,11 @@ const App = () => (
             <Route path="/autorizaciones/lista" element={<AutorizacionesLista />} />
             <Route path="/autorizaciones/historial" element={<AutorizacionesHistorial />} />
 
-            <Route path="/clima/actual" element={<ClimaActual />} />
-            <Route path="/clima/pronostico" element={<ClimaPronostico />} />
+        <Route path="/clima/actual" element={<ClimaActual />} />
+        <Route path="/clima/pronostico" element={<ClimaPronostico />} />
+        
+        {/* Surf School Routes */}
+        <Route path="/surf-classes" element={() => import("./pages/SurfClasses")} />
             <Route path="/clima/aviacion" element={<ClimaAviacion />} />
 
             {/* Aviación */}

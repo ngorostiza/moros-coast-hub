@@ -138,12 +138,49 @@ export default function AviacionDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
+        {/* METAR Data */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                METAR AR-0726 - Bahía de los Moros
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-gray-100 p-3 rounded-lg font-mono text-sm mb-4">
+                METAR SAZM 191300Z 11012G18KT 0800 R13/0175 -DZ FG OVC001 11/11 Q1016
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Viento</p>
+                  <p className="font-semibold">110° 12G18 kt</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Visibilidad RVR</p>
+                  <p className="font-semibold">175m (RWY 13)</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Fenómenos</p>
+                  <p className="font-semibold">Llovizna, Niebla</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">Nubes</p>
+                  <p className="font-semibold">OVC 100 ft</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">QNH</p>
+                  <p className="font-semibold">1016 hPa</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Detailed Weather */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Cloud className="h-5 w-5" />
-                Condiciones Meteorológicas Detalladas
+                Condiciones Actuales Detalladas
               </CardTitle>
             </CardHeader>
             <CardContent>
