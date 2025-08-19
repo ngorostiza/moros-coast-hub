@@ -13,7 +13,8 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  Activity
+  Activity,
+  Fuel
 } from "lucide-react";
 
 export default function AviacionDashboard() {
@@ -373,6 +374,29 @@ export default function AviacionDashboard() {
               </div>
               <p className="text-xs text-muted-foreground">Personal de tierra disponible 24/7</p>
               <p className="text-sm font-mono">{fieldInfo.emergency}</p>
+            </CardContent>
+          </Card>
+
+          {/* Fuel Stock */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Fuel className="h-5 w-5" />
+                Stock Combustible PUMA
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">ION</span>
+                  <span className="font-medium">15,067.54 L</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">GAS OIL</span>
+                  <span className="font-medium">28,292.00 L</span>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">Stock disponible en proveedor PUMA</p>
             </CardContent>
           </Card>
 
