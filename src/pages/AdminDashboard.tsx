@@ -210,6 +210,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
+                <div className="text-xs text-muted-foreground font-medium">Stock PUMA: 28,292.00 L</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -226,6 +227,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
+                <div className="text-xs text-muted-foreground font-medium">Stock PUMA: 15,067.54 L</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -258,33 +260,6 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* PUMA Stock Levels */}
-        <Card className="w-full">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="h-5 w-5 text-muted-foreground" />
-              <h3 className="text-lg font-semibold">Stock Combustible PUMA</h3>
-              <span className="text-sm text-muted-foreground">(Disponible en proveedor)</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">ION</span>
-                  <span className="text-lg font-bold text-blue-700">15,067.54 L</span>
-                </div>
-                <div className="text-xs text-muted-foreground">Stock disponible PUMA</div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">GAS OIL</span>
-                  <span className="text-lg font-bold text-blue-700">28,292.00 L</span>
-                </div>
-                <div className="text-xs text-muted-foreground">Stock disponible PUMA</div>
               </div>
             </div>
           </CardContent>
