@@ -168,12 +168,12 @@ export default function AviacionDashboard() {
             </div>
             
             {/* Runway numbers */}
-            <div className="absolute left-8 top-1/2 transform -translate-y-1/2 rotate-12">
+            <div className="absolute left-8 top-1/2 transform -translate-y-1/2 rotate-6">
               <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 08
               </div>
             </div>
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 -rotate-12">
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 -rotate-6">
               <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 26
               </div>
@@ -192,7 +192,7 @@ export default function AviacionDashboard() {
                   {fieldInfo.length} • {fieldInfo.surface}
                 </div>
               </div>
-              <Badge className={`${getStatusColor(runwayStatus.status)} shadow-sm`}>
+              <Badge className={`${getStatusColor(runwayStatus.status)} shadow-sm ml-6`}>
                 {runwayStatus.condition}
               </Badge>
             </div>
