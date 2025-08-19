@@ -168,12 +168,12 @@ export default function AviacionDashboard() {
             </div>
             
             {/* Runway numbers */}
-            <div className="absolute left-8 top-1/2 transform -translate-y-1/2" style={{ transform: 'translateY(-50%) rotate(96deg)' }}>
+            <div className="absolute left-8 top-1/2 transform -translate-y-1/2" style={{ transform: 'translateY(-50%) rotate(90deg)' }}>
               <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 08
               </div>
             </div>
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2" style={{ transform: 'translateY(-50%) rotate(-96deg)' }}>
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2" style={{ transform: 'translateY(-50%) rotate(-90deg)' }}>
               <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 26
               </div>
@@ -297,7 +297,7 @@ export default function AviacionDashboard() {
                   <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
                     <Camera className="h-8 w-8 text-gray-400" />
                   </div>
-                  <p className="text-sm font-medium">Torre de Control</p>
+                  <p className="text-sm font-medium">Panorámica RWY</p>
                   <Button variant="outline" size="sm" className="w-full">Ver en vivo</Button>
                 </div>
                 <div className="space-y-2">
