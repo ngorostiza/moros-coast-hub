@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import FuelAnalysis from "./pages/FuelAnalysis";
 import ActivityLog from "./pages/ActivityLog";
 import NotFound from "./pages/NotFound";
 import LoteInfo from "./pages/LoteInfo";
@@ -82,6 +83,7 @@ const App = () => (
             {/* Administración */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/fuel" element={<FuelAnalysis />} />
             <Route path="/admin/reportes" element={<AdminReportes />} />
             <Route path="/admin/monitoreo" element={<AdminMonitoreo />} />
             <Route path="/admin/usuarios/propietarios" element={<AdminUsuariosPropietarios />} />

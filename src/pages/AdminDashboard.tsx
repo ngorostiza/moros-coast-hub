@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import GISMap from "@/components/GISMap";
+import CollapsibleGISMap from "@/components/CollapsibleGISMap";
+import MachineryHoursWidget from "@/components/MachineryHoursWidget";
 import ExpandableWidget from "@/components/ExpandableWidget";
 import { 
   Users, 
@@ -186,84 +187,86 @@ export default function AdminDashboard() {
         </Card>
         </div>
 
-        {/* Tank Levels - Full Width */}
-        <Card className="w-full">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="h-5 w-5 text-muted-foreground" />
-              <h3 className="text-lg font-semibold">Niveles de Tanques de Combustible</h3>
-              <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">GAS OIL</span>
-                  <span className={`text-lg font-bold ${(3200/5000)*100 >= 41 ? 'text-blue-700' : (3200/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,200L</span>
-                </div>
-                <div className="relative">
-                  <Progress value={(3200/5000)*100} className="h-3" />
-                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full transition-all ${(3200/5000)*100 >= 41 ? 'bg-blue-500' : (3200/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                      style={{ width: `${(3200/5000)*100}%` }}
-                    />
-                  </div>
-                </div>
-                <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
-                <div className="text-sm text-foreground font-bold">Stock PUMA: 28,292.00 L</div>
+        {/* Tank Levels - Full Width - Expandable */}
+        <ExpandableWidget expandUrl="/admin/fuel" expandText="Análisis Completo">
+          <Card className="w-full">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="h-5 w-5 text-muted-foreground" />
+                <h3 className="text-lg font-semibold">Niveles de Tanques de Combustible</h3>
+                <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">ION</span>
-                  <span className={`text-lg font-bold ${(2750/5000)*100 >= 41 ? 'text-blue-700' : (2750/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>2,750L</span>
-                </div>
-                <div className="relative">
-                  <Progress value={(2750/5000)*100} className="h-3" />
-                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full transition-all ${(2750/5000)*100 >= 41 ? 'bg-blue-500' : (2750/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                      style={{ width: `${(2750/5000)*100}%` }}
-                    />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">GAS OIL</span>
+                    <span className={`text-lg font-bold ${(3198.77/5000)*100 >= 41 ? 'text-blue-700' : (3198.77/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,199L</span>
                   </div>
-                </div>
-                <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
-                <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">JP1</span>
-                  <span className={`text-lg font-bold ${(4100/5000)*100 >= 41 ? 'text-blue-700' : (4100/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,100L</span>
-                </div>
-                <div className="relative">
-                  <Progress value={(4100/5000)*100} className="h-3" />
-                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full transition-all ${(4100/5000)*100 >= 41 ? 'bg-blue-500' : (4100/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                      style={{ width: `${(4100/5000)*100}%` }}
-                    />
+                  <div className="relative">
+                    <Progress value={(3198.77/5000)*100} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${(3198.77/5000)*100 >= 41 ? 'bg-blue-500' : (3198.77/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(3198.77/5000)*100}%` }}
+                      />
+                    </div>
                   </div>
+                  <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 28,292.00 L</div>
                 </div>
-                <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">100LL</span>
-                  <span className={`text-lg font-bold ${(1900/5000)*100 >= 41 ? 'text-blue-700' : (1900/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,900L</span>
-                </div>
-                <div className="relative">
-                  <Progress value={(1900/5000)*100} className="h-3" />
-                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full transition-all ${(1900/5000)*100 >= 41 ? 'bg-blue-500' : (1900/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                      style={{ width: `${(1900/5000)*100}%` }}
-                    />
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">ION</span>
+                    <span className={`text-lg font-bold ${(3676.66/5000)*100 >= 41 ? 'text-blue-700' : (3676.66/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,677L</span>
                   </div>
+                  <div className="relative">
+                    <Progress value={(3676.66/5000)*100} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${(3676.66/5000)*100 >= 41 ? 'bg-blue-500' : (3676.66/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(3676.66/5000)*100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">74% - Nivel Normal</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
                 </div>
-                <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">JP1</span>
+                    <span className={`text-lg font-bold ${(4100/5000)*100 >= 41 ? 'text-blue-700' : (4100/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,100L</span>
+                  </div>
+                  <div className="relative">
+                    <Progress value={(4100/5000)*100} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${(4100/5000)*100 >= 41 ? 'bg-blue-500' : (4100/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(4100/5000)*100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">100LL</span>
+                    <span className={`text-lg font-bold ${(1900/5000)*100 >= 41 ? 'text-blue-700' : (1900/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,900L</span>
+                  </div>
+                  <div className="relative">
+                    <Progress value={(1900/5000)*100} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${(1900/5000)*100 >= 41 ? 'bg-blue-500' : (1900/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(1900/5000)*100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </ExpandableWidget>
 
         {/* Barra de Alertas del Sistema - Scrolling */}
         <Card className="bg-gradient-to-r from-slate-50 to-blue-50 border-l-4 border-l-blue-500">
@@ -299,9 +302,14 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* GIS Map - Central Feature */}
+        {/* GIS Map - Collapsible */}
         <div className="w-full">
-          <GISMap />
+          <CollapsibleGISMap />
+        </div>
+
+        {/* Machinery Hours Widget - Above Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          <MachineryHoursWidget />
         </div>
 
         {/* Main Dashboard Grid */}
