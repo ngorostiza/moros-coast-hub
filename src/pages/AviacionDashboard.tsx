@@ -138,23 +138,52 @@ export default function AviacionDashboard() {
       </div>
 
       {/* Runway Status Banner */}
-      <Card className={`${runwayStatus.status === 'green' ? 'bg-emerald-50 border-emerald-200' : runwayStatus.status === 'yellow' ? 'bg-yellow-50 border-yellow-200' : 'bg-red-50 border-red-200'}`}>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                {getStatusIcon(runwayStatus.status)}
-                <span className={`font-bold ${runwayStatus.status === 'green' ? 'text-emerald-700' : runwayStatus.status === 'yellow' ? 'text-yellow-700' : 'text-red-700'}`}>
-                  PISTA {fieldInfo.runway}
-                </span>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {fieldInfo.length} • {fieldInfo.surface}
+      <Card className="overflow-hidden border-emerald-200">
+        <CardContent className="p-0">
+          <div className="relative bg-gradient-to-r from-green-200 via-green-300 to-green-200 p-4">
+            {/* Grass texture overlay */}
+            <div className="absolute inset-0 opacity-30" style={{
+              backgroundImage: `repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(34, 197, 94, 0.3) 2px,
+                rgba(34, 197, 94, 0.3) 4px
+              ), repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 1px,
+                rgba(22, 163, 74, 0.2) 1px,
+                rgba(22, 163, 74, 0.2) 2px
+              )`
+            }} />
+            
+            {/* Runway markings */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-16 bg-white opacity-20 transform -translate-x-1/2">
+              <div className="h-full flex items-center justify-center">
+                <div className="w-2 h-8 bg-white opacity-80 mx-1" />
+                <div className="w-2 h-8 bg-white opacity-80 mx-1" />
+                <div className="w-2 h-8 bg-white opacity-80 mx-1" />
               </div>
             </div>
-            <Badge className={getStatusColor(runwayStatus.status)}>
-              {runwayStatus.condition}
-            </Badge>
+            
+            {/* Content */}
+            <div className="relative flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  {getStatusIcon(runwayStatus.status)}
+                  <span className={`font-bold text-lg ${runwayStatus.status === 'green' ? 'text-emerald-800' : runwayStatus.status === 'yellow' ? 'text-yellow-800' : 'text-red-800'}`}>
+                    PISTA {fieldInfo.runway}
+                  </span>
+                </div>
+                <div className="text-sm text-emerald-700 font-medium">
+                  {fieldInfo.length} • {fieldInfo.surface}
+                </div>
+              </div>
+              <Badge className={`${getStatusColor(runwayStatus.status)} shadow-sm`}>
+                {runwayStatus.condition}
+              </Badge>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -200,7 +200,15 @@ export default function AdminDashboard() {
                   <span className="font-medium">GAS OIL</span>
                   <span className={`text-lg font-bold ${(3200/5000)*100 >= 41 ? 'text-blue-700' : (3200/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,200L</span>
                 </div>
-                <Progress value={(3200/5000)*100} className="h-3" />
+                <div className="relative">
+                  <Progress value={(3200/5000)*100} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all ${(3200/5000)*100 >= 41 ? 'bg-blue-500' : (3200/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      style={{ width: `${(3200/5000)*100}%` }}
+                    />
+                  </div>
+                </div>
                 <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
               </div>
               <div className="space-y-2">
@@ -208,7 +216,15 @@ export default function AdminDashboard() {
                   <span className="font-medium">ION</span>
                   <span className={`text-lg font-bold ${(2750/5000)*100 >= 41 ? 'text-blue-700' : (2750/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>2,750L</span>
                 </div>
-                <Progress value={(2750/5000)*100} className="h-3" />
+                <div className="relative">
+                  <Progress value={(2750/5000)*100} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all ${(2750/5000)*100 >= 41 ? 'bg-blue-500' : (2750/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      style={{ width: `${(2750/5000)*100}%` }}
+                    />
+                  </div>
+                </div>
                 <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
               </div>
               <div className="space-y-2">
@@ -216,7 +232,15 @@ export default function AdminDashboard() {
                   <span className="font-medium">JP1</span>
                   <span className={`text-lg font-bold ${(4100/5000)*100 >= 41 ? 'text-blue-700' : (4100/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,100L</span>
                 </div>
-                <Progress value={(4100/5000)*100} className="h-3" />
+                <div className="relative">
+                  <Progress value={(4100/5000)*100} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all ${(4100/5000)*100 >= 41 ? 'bg-blue-500' : (4100/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      style={{ width: `${(4100/5000)*100}%` }}
+                    />
+                  </div>
+                </div>
                 <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
               </div>
               <div className="space-y-2">
@@ -224,7 +248,15 @@ export default function AdminDashboard() {
                   <span className="font-medium">100LL</span>
                   <span className={`text-lg font-bold ${(1900/5000)*100 >= 41 ? 'text-blue-700' : (1900/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,900L</span>
                 </div>
-                <Progress value={(1900/5000)*100} className="h-3" />
+                <div className="relative">
+                  <Progress value={(1900/5000)*100} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all ${(1900/5000)*100 >= 41 ? 'bg-blue-500' : (1900/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                      style={{ width: `${(1900/5000)*100}%` }}
+                    />
+                  </div>
+                </div>
                 <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
               </div>
             </div>

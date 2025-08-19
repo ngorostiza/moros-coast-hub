@@ -63,6 +63,9 @@ const ownerItems = [
       { title: "Espacios Comunes", url: "/reservas/espacios" },
       { title: "Mis Reservas", url: "/reservas/mis-reservas" },
       { title: "Calendario", url: "/reservas/calendario" },
+      { title: "Restaurante El Club", url: "/restaurant-reservation" },
+      { title: "Clases de Surf", url: "/surf-classes" },
+      { title: "Equipamiento de Surf", url: "/surf-equipment" },
     ]
   },
   { 
