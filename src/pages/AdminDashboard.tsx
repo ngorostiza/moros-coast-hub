@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
-                <div className="text-xs text-muted-foreground font-medium">Stock PUMA: 28,292.00 L</div>
+                <div className="text-sm text-foreground font-bold">Stock PUMA: 28,292.00 L</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
-                <div className="text-xs text-muted-foreground font-medium">Stock PUMA: 15,067.54 L</div>
+                <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
