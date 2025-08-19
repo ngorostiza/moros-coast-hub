@@ -75,7 +75,7 @@ const instructors = [
     experience: "8 años",
     specialties: ["Principiantes", "Kids"],
     rating: 4.9,
-    avatar: "👨‍🏫"
+    avatar: "🏄‍♂️"
   },
   {
     name: "Sofia Rodriguez", 
@@ -83,7 +83,7 @@ const instructors = [
     experience: "12 años",
     specialties: ["Performance", "Competición"],
     rating: 5.0,
-    avatar: "👩‍🏫"
+    avatar: "🏄‍♀️"
   },
   {
     name: "Diego Torres",
@@ -91,7 +91,7 @@ const instructors = [
     experience: "5 años", 
     specialties: ["Longboard", "SUP"],
     rating: 4.8,
-    avatar: "👨‍🎓"
+    avatar: "🌊"
   }
 ];
 

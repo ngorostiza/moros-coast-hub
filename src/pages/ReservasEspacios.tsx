@@ -34,13 +34,6 @@ export default function ReservasEspacios() {
       capacidad: "40 personas",
       precio: "$20,000/día"
     },
-    {
-      nombre: "El Club (restaurante)",
-      disponibilidad: "Alta",
-      horarios: "12:00 - 24:00",
-      capacidad: "60 cubiertos",
-      precio: "Según carta"
-    }
   ];
 
   return (

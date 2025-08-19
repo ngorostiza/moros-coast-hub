@@ -362,14 +362,202 @@ export default function SurfEquipment() {
         </TabsContent>
 
         <TabsContent value="history" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Historial de Alquileres</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Funcionalidad en desarrollo...</p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            {/* Filters */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Filtros de Búsqueda</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-2">
+                    <Label>Fecha desde</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start">
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          Seleccionar
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar mode="single" />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Fecha hasta</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start">
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          Seleccionar
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar mode="single" />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Usuario</Label>
+                    <Input placeholder="Buscar por nombre..." />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Equipo</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Todos" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="tablas">Tablas</SelectItem>
+                        <SelectItem value="trajes">Trajes</SelectItem>
+                        <SelectItem value="accesorios">Accesorios</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Historical Rentals */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Historial de Alquileres</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[
+                    {
+                      id: "RENT-H001",
+                      user: "María García - Lote 23",
+                      items: ["Softboard 9'0\"", "Neopreno 3/2mm (M)"],
+                      startDate: "2024-02-15",
+                      endDate: "2024-02-15",
+                      returnCondition: "Excelente",
+                      notes: "Primer alquiler, muy cuidadoso con el equipo"
+                    },
+                    {
+                      id: "RENT-H002",
+                      user: "Pedro Martinez - Lote 67",
+                      items: ["Performance 7'2\""],
+                      startDate: "2024-02-10",
+                      endDate: "2024-02-12",
+                      returnCondition: "Buena",
+                      notes: "Pequeño golpe en el nose, reparado"
+                    },
+                    {
+                      id: "RENT-H003",
+                      user: "Ana Rojas - Lote 12",
+                      items: ["Longboard 9'6\"", "Neopreno 4/3mm (S)", "Pita 8'"],
+                      startDate: "2024-02-08",
+                      endDate: "2024-02-09",
+                      returnCondition: "Muy Buena",
+                      notes: "Devolución perfecta"
+                    }
+                  ].map((rental) => (
+                    <div key={rental.id} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold">{rental.user}</h3>
+                            <Badge className={getConditionBadge(rental.returnCondition)}>
+                              {rental.returnCondition}
+                            </Badge>
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            <p>Período: {format(new Date(rental.startDate), "dd/MM/yyyy")} - {format(new Date(rental.endDate), "dd/MM/yyyy")}</p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-sm font-medium">Equipos alquilados:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {rental.items.map((item, idx) => (
+                                <Badge key={idx} variant="outline" className="text-xs">
+                                  {item}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                          {rental.notes && (
+                            <div className="text-sm text-muted-foreground bg-muted/30 p-2 rounded">
+                              <strong>Notas:</strong> {rental.notes}
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-muted-foreground">ID: {rental.id}</div>
+                          <Button variant="ghost" size="sm" className="mt-2">
+                            Ver Detalles
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Equipment Usage Statistics */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Estadísticas de Uso</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Equipos más solicitados</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Softboard 9'0"</span>
+                        <span className="font-medium">45 alquileres</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Neopreno 3/2mm (M)</span>
+                        <span className="font-medium">38 alquileres</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Performance 7'2"</span>
+                        <span className="font-medium">32 alquileres</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Condición de devolución</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Excelente</span>
+                        <span className="font-medium text-emerald-600">78%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Muy Buena</span>
+                        <span className="font-medium text-blue-600">15%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Buena</span>
+                        <span className="font-medium text-yellow-600">7%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Mantenimiento</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Reparaciones menores</span>
+                        <span className="font-medium">12</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Reemplazo de piezas</span>
+                        <span className="font-medium">5</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Fuera de servicio</span>
+                        <span className="font-medium text-red-600">2</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

@@ -29,10 +29,10 @@ const timeSlots = [
 ];
 
 const tableTypes = [
-  { id: "terraza", name: "Terraza Vista al Mar", capacity: "2-6 personas", price: "+$2,000" },
-  { id: "interior", name: "Interior Climatizado", capacity: "2-8 personas", price: "Sin cargo" },
-  { id: "quincho", name: "Quincho Parrilla", capacity: "6-12 personas", price: "+$5,000" },
-  { id: "privado", name: "Salón Privado", capacity: "8-20 personas", price: "+$10,000" }
+  { id: "terraza", name: "EL CLUB", capacity: "2-6 personas" },
+  { id: "interior", name: "PARADOR ADENTRO", capacity: "2-8 personas" },
+  { id: "quincho", name: "TERRAZA", capacity: "6-12 personas" },
+  { id: "privado", name: "GALERIA NORTE", capacity: "8-20 personas" }
 ];
 
 const dietaryRestrictions = [
@@ -199,9 +199,6 @@ export default function RestaurantReservation() {
                           <p className="font-medium">{table.name}</p>
                           <p className="text-sm text-muted-foreground">{table.capacity}</p>
                         </div>
-                        <Badge variant={table.price === "Sin cargo" ? "secondary" : "outline"}>
-                          {table.price}
-                        </Badge>
                       </div>
                     </label>
                   </div>
@@ -325,12 +322,6 @@ export default function RestaurantReservation() {
                     {tableType ? tableTypes.find(t => t.id === tableType)?.name : "-"}
                   </span>
                 </div>
-                {tableType && tableTypes.find(t => t.id === tableType)?.price !== "Sin cargo" && (
-                  <div className="flex justify-between font-medium text-orange-600">
-                    <span>Cargo adicional:</span>
-                    <span>{tableTypes.find(t => t.id === tableType)?.price}</span>
-                  </div>
-                )}
               </div>
 
               <Button 
