@@ -127,12 +127,37 @@ export default function AviacionDashboard() {
                   {getStatusIcon(runwayStatus.status)}
                   <span className="font-bold">{runwayStatus.condition}</span>
                 </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {runwayStatus.note} • Act: {runwayStatus.lastUpdate}
+                </p>
               </div>
               <Plane className="h-8 w-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Runway Status Banner */}
+      <Card className={`${runwayStatus.status === 'green' ? 'bg-emerald-50 border-emerald-200' : runwayStatus.status === 'yellow' ? 'bg-yellow-50 border-yellow-200' : 'bg-red-50 border-red-200'}`}>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                {getStatusIcon(runwayStatus.status)}
+                <span className={`font-bold ${runwayStatus.status === 'green' ? 'text-emerald-700' : runwayStatus.status === 'yellow' ? 'text-yellow-700' : 'text-red-700'}`}>
+                  PISTA {fieldInfo.runway}
+                </span>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {fieldInfo.length} • {fieldInfo.surface}
+              </div>
+            </div>
+            <Badge className={getStatusColor(runwayStatus.status)}>
+              {runwayStatus.condition}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -209,27 +234,6 @@ export default function AviacionDashboard() {
             </CardContent>
           </Card>
 
-          {/* Runway Status Detail */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Plane className="h-5 w-5" />
-                Estado de la Pista
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Badge className={getStatusColor(runwayStatus.status)}>
-                    {getStatusIcon(runwayStatus.status)}
-                    <span className="ml-1">{runwayStatus.condition}</span>
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">Actualizado: {runwayStatus.lastUpdate}</span>
-                </div>
-                <p className="text-sm">{runwayStatus.note}</p>
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Cameras */}
           <Card>

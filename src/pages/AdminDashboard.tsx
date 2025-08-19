@@ -198,7 +198,7 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">GAS OIL</span>
-                  <span className="text-lg font-bold text-blue-700">3,200L</span>
+                  <span className={`text-lg font-bold ${(3200/5000)*100 >= 41 ? 'text-blue-700' : (3200/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,200L</span>
                 </div>
                 <Progress value={(3200/5000)*100} className="h-3" />
                 <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">ION</span>
-                  <span className="text-lg font-bold text-green-700">2,750L</span>
+                  <span className={`text-lg font-bold ${(2750/5000)*100 >= 41 ? 'text-blue-700' : (2750/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>2,750L</span>
                 </div>
                 <Progress value={(2750/5000)*100} className="h-3" />
                 <div className="text-xs text-muted-foreground">55% - Nivel Normal</div>
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">JP1</span>
-                  <span className="text-lg font-bold text-emerald-700">4,100L</span>
+                  <span className={`text-lg font-bold ${(4100/5000)*100 >= 41 ? 'text-blue-700' : (4100/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,100L</span>
                 </div>
                 <Progress value={(4100/5000)*100} className="h-3" />
                 <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">100LL</span>
-                  <span className="text-lg font-bold text-orange-700">1,900L</span>
+                  <span className={`text-lg font-bold ${(1900/5000)*100 >= 41 ? 'text-blue-700' : (1900/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,900L</span>
                 </div>
                 <Progress value={(1900/5000)*100} className="h-3" />
                 <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
