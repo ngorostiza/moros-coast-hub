@@ -32,7 +32,8 @@ const tableTypes = [
   { id: "terraza", name: "EL CLUB", capacity: "2-6 personas" },
   { id: "interior", name: "PARADOR ADENTRO", capacity: "2-8 personas" },
   { id: "quincho", name: "TERRAZA", capacity: "6-12 personas" },
-  { id: "privado", name: "GALERIA NORTE", capacity: "8-20 personas" }
+  { id: "privado", name: "GALERIA NORTE", capacity: "8-20 personas" },
+  { id: "galeria_principal", name: "GALERIA PRINCIPAL", capacity: "4-12 personas" }
 ];
 
 const dietaryRestrictions = [

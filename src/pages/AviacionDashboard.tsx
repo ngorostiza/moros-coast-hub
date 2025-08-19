@@ -168,19 +168,19 @@ export default function AviacionDashboard() {
             </div>
             
             {/* Runway numbers */}
-            <div className="absolute left-8 top-1/2 transform -translate-y-1/2 -rotate-90">
-              <div className="text-6xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
+            <div className="absolute left-8 top-1/2 transform -translate-y-1/2 rotate-180">
+              <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 08
               </div>
             </div>
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 rotate-90">
-              <div className="text-6xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 rotate-180">
+              <div className="text-4xl font-bold text-white opacity-90 tracking-wider drop-shadow-lg">
                 26
               </div>
             </div>
             
             {/* Content */}
-            <div className="relative flex items-center justify-between">
+            <div className="relative flex items-center justify-center">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   {getStatusIcon(runwayStatus.status)}
