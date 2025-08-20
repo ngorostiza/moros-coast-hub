@@ -75,71 +75,13 @@ export default function FuelAnalysis() {
           </Button>
         </div>
 
-        {/* Tank Levels Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Fuel className="h-5 w-5" />
-              Niveles Actuales de Tanques
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {tankLevels.map((tank, index) => (
-                <div key={index} className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">{tank.name}</span>
-                    <Badge variant="outline" className={
-                      tank.percentage >= 70 ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                      tank.percentage >= 40 ? "bg-yellow-50 text-yellow-700 border-yellow-200" :
-                      "bg-red-50 text-red-700 border-red-200"
-                    }>
-                      {tank.status}
-                    </Badge>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Actual</span>
-                      <span className="text-lg font-bold">{tank.current.toLocaleString()}L</span>
-                    </div>
-                    <div className="relative">
-                      <Progress value={tank.percentage} className="h-3" />
-                      <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full transition-all ${
-                            tank.percentage >= 70 ? 'bg-green-500' : 
-                            tank.percentage >= 40 ? 'bg-yellow-500' : 
-                            'bg-red-500'
-                          }`}
-                          style={{ width: `${tank.percentage}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-between text-sm text-muted-foreground">
-                      <span>{tank.percentage.toFixed(1)}%</span>
-                      <span>{tank.capacity.toLocaleString()}L máx</span>
-                    </div>
-                    {tank.puma && (
-                      <div className="mt-2 p-2 bg-muted/50 rounded">
-                        <div className="text-sm font-medium">Stock PUMA</div>
-                        <div className="text-lg font-bold text-primary">{tank.puma.toLocaleString()}L</div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Detailed Analysis Tabs */}
         {/* Fuel Operations Chart - Using Tank Levels Design */}
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="h-5 w-5 text-muted-foreground" />
-              <h3 className="text-lg font-semibold">Operaciones de Combustible - Últimos 30 Días</h3>
-              <span className="text-sm text-muted-foreground">(Vista completa de operaciones)</span>
+              <Fuel className="h-5 w-5 text-muted-foreground" />
+              <h3 className="text-lg font-semibold">Niveles Actuales de Tanques</h3>
+              <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
@@ -291,12 +233,10 @@ export default function FuelAnalysis() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID Vehículo/Máquina</TableHead>
+                      <TableHead>ID Vehículo/Máquina/Aeronave</TableHead>
                       <TableHead>Combustible</TableHead>
                       <TableHead className="text-right">Consumo Total (L)</TableHead>
-                      <TableHead className="text-right">Odómetro</TableHead>
-                      <TableHead className="text-right">Próximo Service</TableHead>
-                      <TableHead className="text-right">Km Restantes</TableHead>
+                      <TableHead className="text-right">Horas de Vuelo</TableHead>
                       <TableHead>Estado</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -312,16 +252,6 @@ export default function FuelAnalysis() {
                         </TableCell>
                         <TableCell className="text-right">
                           {vehicle.odometer ? `${vehicle.odometer.toLocaleString()} km` : 'N/A'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {vehicle.nextService ? `${vehicle.nextService.toLocaleString()} km` : 'N/A'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {vehicle.kmLeft ? (
-                            <span className={vehicle.kmLeft < 10000 ? 'text-red-600 font-medium' : 'text-muted-foreground'}>
-                              {vehicle.kmLeft.toLocaleString()} km
-                            </span>
-                          ) : 'N/A'}
                         </TableCell>
                         <TableCell>
                           {vehicle.kmLeft && vehicle.kmLeft < 10000 ? (
@@ -350,15 +280,9 @@ export default function FuelAnalysis() {
                       <TableCell className="text-right">
                         245.2 hrs
                       </TableCell>
-                      <TableCell className="text-right">
-                        500.0 hrs
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <span className="text-muted-foreground">254.8 hrs</span>
-                      </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="bg-green-50 text-green-700">
-                          Normal
+                          Operativa
                         </Badge>
                       </TableCell>
                     </TableRow>
@@ -372,12 +296,6 @@ export default function FuelAnalysis() {
                       </TableCell>
                       <TableCell className="text-right">
                         198.5 hrs
-                      </TableCell>
-                      <TableCell className="text-right">
-                        250.0 hrs
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <span className="text-yellow-600 font-medium">51.5 hrs</span>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
@@ -395,12 +313,6 @@ export default function FuelAnalysis() {
                       </TableCell>
                       <TableCell className="text-right">
                         89.3 hrs
-                      </TableCell>
-                      <TableCell className="text-right">
-                        100.0 hrs
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <span className="text-red-600 font-medium">10.7 hrs</span>
                       </TableCell>
                       <TableCell>
                         <Badge variant="destructive">Service Urgente</Badge>
