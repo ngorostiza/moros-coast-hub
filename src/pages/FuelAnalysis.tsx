@@ -77,12 +77,13 @@ export default function FuelAnalysis() {
 
         {/* Fuel Operations Chart - Using Tank Levels Design */}
         <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Fuel className="h-5 w-5" />
+              Niveles Actuales de Tanques
+            </CardTitle>
+          </CardHeader>
           <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Fuel className="h-5 w-5 text-muted-foreground" />
-              <h3 className="text-lg font-semibold">Niveles Actuales de Tanques</h3>
-              <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
-            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -236,7 +237,7 @@ export default function FuelAnalysis() {
                       <TableHead>ID Vehículo/Máquina/Aeronave</TableHead>
                       <TableHead>Combustible</TableHead>
                       <TableHead className="text-right">Consumo Total (L)</TableHead>
-                      <TableHead className="text-right">Horas de Vuelo</TableHead>
+                      <TableHead className="text-right">Kilometraje</TableHead>
                       <TableHead>Estado</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -270,7 +271,7 @@ export default function FuelAnalysis() {
                     ))}
                     {/* Aircraft Entries */}
                     <TableRow>
-                      <TableCell className="font-medium">AERONAVE CESSNA 172</TableCell>
+                      <TableCell className="font-medium">FER -LV-IVW</TableCell>
                       <TableCell>
                         <Badge variant="secondary">100LL</Badge>
                       </TableCell>
@@ -278,7 +279,7 @@ export default function FuelAnalysis() {
                         -850.50
                       </TableCell>
                       <TableCell className="text-right">
-                        245.2 hrs
+                        N/A
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="bg-green-50 text-green-700">
@@ -287,7 +288,7 @@ export default function FuelAnalysis() {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="font-medium">AERONAVE PIPER CHEROKEE</TableCell>
+                      <TableCell className="font-medium">FER -LV-HWB</TableCell>
                       <TableCell>
                         <Badge variant="secondary">100LL</Badge>
                       </TableCell>
@@ -295,7 +296,7 @@ export default function FuelAnalysis() {
                         -755.00
                       </TableCell>
                       <TableCell className="text-right">
-                        198.5 hrs
+                        N/A
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
@@ -304,7 +305,7 @@ export default function FuelAnalysis() {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="font-medium">HELICÓPTERO R44</TableCell>
+                      <TableCell className="font-medium">JIMMY -LV-HQG</TableCell>
                       <TableCell>
                         <Badge variant="secondary">JP1</Badge>
                       </TableCell>
@@ -312,10 +313,61 @@ export default function FuelAnalysis() {
                         -1199.00
                       </TableCell>
                       <TableCell className="text-right">
-                        89.3 hrs
+                        N/A
                       </TableCell>
                       <TableCell>
                         <Badge variant="destructive">Service Urgente</Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">JIMMY -HELI</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">JP1</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -645.75
+                      </TableCell>
+                      <TableCell className="text-right">
+                        N/A
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          Operativa
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">GM -LV-KMC</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">100LL</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -425.25
+                      </TableCell>
+                      <TableCell className="text-right">
+                        N/A
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          Operativa
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">SEBA P -LV-HAN</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">100LL</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -380.50
+                      </TableCell>
+                      <TableCell className="text-right">
+                        N/A
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          Operativa
+                        </Badge>
                       </TableCell>
                     </TableRow>
                   </TableBody>
