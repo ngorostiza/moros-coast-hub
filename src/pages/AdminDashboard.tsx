@@ -231,40 +231,38 @@ export default function AdminDashboard() {
                   <div className="text-xs text-muted-foreground">74% - Nivel Normal</div>
                   <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">JP1</span>
-                    <span className={`text-lg font-bold ${(151/5000)*100 >= 41 ? 'text-blue-700' : (151/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>151L</span>
-                  </div>
-                  <div className="relative">
-                    <Progress value={(151/5000)*100} className="h-3" />
-                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full transition-all ${(151/5000)*100 >= 41 ? 'bg-green-500' : (151/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(151/5000)*100}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">3% - Requiere Reabastecimiento</div>
-                  <div className="text-sm text-foreground font-bold">Stock PUMA: 8,450.25 L</div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">100LL</span>
-                    <span className={`text-lg font-bold ${(4394.50/5000)*100 >= 41 ? 'text-blue-700' : (4394.50/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,395L</span>
-                  </div>
-                  <div className="relative">
-                    <Progress value={(4394.50/5000)*100} className="h-3" />
-                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full transition-all ${(4394.50/5000)*100 >= 41 ? 'bg-green-500' : (4394.50/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(4394.50/5000)*100}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">88% - Nivel Normal</div>
-                  <div className="text-sm text-foreground font-bold">Stock PUMA: 12,671.89 L</div>
-                </div>
+                 <div className="space-y-2">
+                   <div className="flex justify-between items-center">
+                     <span className="font-medium">JP1</span>
+                     <span className={`text-lg font-bold ${(151/5000)*100 >= 41 ? 'text-blue-700' : (151/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>151L</span>
+                   </div>
+                   <div className="relative">
+                     <Progress value={(151/5000)*100} className="h-3" />
+                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                       <div 
+                         className={`h-full transition-all ${(151/5000)*100 >= 41 ? 'bg-green-500' : (151/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                         style={{ width: `${(151/5000)*100}%` }}
+                       />
+                     </div>
+                   </div>
+                   <div className="text-xs text-muted-foreground">3% - Requiere Reabastecimiento</div>
+                 </div>
+                 <div className="space-y-2">
+                   <div className="flex justify-between items-center">
+                     <span className="font-medium">100LL</span>
+                     <span className={`text-lg font-bold ${(4394.50/5000)*100 >= 41 ? 'text-blue-700' : (4394.50/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,395L</span>
+                   </div>
+                   <div className="relative">
+                     <Progress value={(4394.50/5000)*100} className="h-3" />
+                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                       <div 
+                         className={`h-full transition-all ${(4394.50/5000)*100 >= 41 ? 'bg-green-500' : (4394.50/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                         style={{ width: `${(4394.50/5000)*100}%` }}
+                       />
+                     </div>
+                   </div>
+                   <div className="text-xs text-muted-foreground">88% - Nivel Normal</div>
+                 </div>
               </div>
             </CardContent>
           </Card>

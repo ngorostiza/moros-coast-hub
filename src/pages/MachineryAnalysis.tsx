@@ -55,7 +55,7 @@ const machineryData = [
     laborCost: 35100,
     fuelCost: 7020,
     netProfit: 70200,
-    status: "Mantenimiento"
+    status: "Operativa"
   },
   { 
     name: "PALA CAT UNA", 
@@ -81,7 +81,7 @@ const machineryData = [
     laborCost: 16200,
     fuelCost: 3240,
     netProfit: 31100,
-    status: "Operativa"
+    status: "Mantenimiento"
   },
   { 
     name: "CAMION VOLVO 1 -MWI", 

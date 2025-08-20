@@ -22,8 +22,8 @@ import { Link } from "react-router-dom";
 const tankLevels = [
   { name: "GAS OIL", current: 3198.77, capacity: 5000, percentage: 63.98, status: "Normal", puma: 28292.00 },
   { name: "ION", current: 3676.66, capacity: 5000, percentage: 77.53, status: "Normal", puma: 15067.54 },
-  { name: "JP1", current: 151, capacity: 5000, percentage: 3.02, status: "Requiere Reabastecimiento", puma: 8450.25 },
-  { name: "100LL", current: 4394.50, capacity: 5000, percentage: 87.89, status: "Normal", puma: 12671.89 }
+  { name: "JP1", current: 151, capacity: 5000, percentage: 3.02, status: "Requiere Reabastecimiento", puma: null },
+  { name: "100LL", current: 4394.50, capacity: 5000, percentage: 87.89, status: "Normal", puma: null }
 ];
 
 const fuelMovements = [
@@ -142,21 +142,79 @@ export default function FuelAnalysis() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg flex items-center justify-center border-2 border-dashed border-blue-200">
-              <div className="text-center text-blue-600">
-                <TrendingUp className="h-12 w-12 mx-auto mb-2" />
-                <p className="text-lg font-medium">Gráfico de Operaciones</p>
-                <p className="text-sm text-blue-500">Consumo por vehículo, cargas PUMA, y niveles de tanques</p>
+            <div className="h-80 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg border-2 border-dashed border-blue-200 p-4">
+              <div className="h-full flex flex-col">
+                <div className="text-center mb-6">
+                  <TrendingUp className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                  <p className="text-lg font-medium text-blue-800">Gráfico de Operaciones de Combustible</p>
+                  <p className="text-sm text-blue-600">Niveles de tanques, consumo por vehículo, cargas PUMA y reabastecimientos</p>
+                </div>
+                
+                {/* Simulated Chart Elements */}
+                <div className="flex-1 relative">
+                  {/* Y-axis labels */}
+                  <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-muted-foreground">
+                    <span>5000L</span>
+                    <span>4000L</span>
+                    <span>3000L</span>
+                    <span>2000L</span>
+                    <span>1000L</span>
+                    <span>0L</span>
+                  </div>
+                  
+                  {/* Chart area */}
+                  <div className="ml-12 h-full border-l-2 border-b-2 border-gray-300 relative">
+                    {/* Sample fuel level lines */}
+                    <div className="absolute inset-0">
+                      <div className="absolute bottom-0 left-0 w-full h-16 bg-green-200 opacity-50 rounded-t"></div>
+                      <div className="absolute bottom-16 left-0 w-full h-12 bg-blue-200 opacity-50 rounded-t"></div>
+                      <div className="absolute bottom-28 left-0 w-full h-8 bg-red-200 opacity-50 rounded-t"></div>
+                      <div className="absolute bottom-36 left-0 w-full h-20 bg-yellow-200 opacity-50 rounded-t"></div>
+                    </div>
+                    
+                    {/* Sample data points */}
+                    <div className="absolute bottom-16 left-1/4 w-2 h-2 bg-green-600 rounded-full"></div>
+                    <div className="absolute bottom-28 left-2/4 w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <div className="absolute bottom-8 left-3/4 w-2 h-2 bg-red-600 rounded-full"></div>
+                  </div>
+                  
+                  {/* X-axis labels */}
+                  <div className="ml-12 mt-2 flex justify-between text-xs text-muted-foreground">
+                    <span>Sem 1</span>
+                    <span>Sem 2</span>
+                    <span>Sem 3</span>
+                    <span>Sem 4</span>
+                  </div>
+                </div>
+                
+                {/* Legend */}
+                <div className="mt-4 flex justify-center gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-green-500 rounded"></div>
+                    <span>GAS OIL</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                    <span>ION</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded"></div>
+                    <span>JP1</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-yellow-500 rounded"></div>
+                    <span>100LL</span>
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Tabs defaultValue="movements" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="movements">Movimientos</TabsTrigger>
             <TabsTrigger value="vehicles">Vehículos</TabsTrigger>
-            <TabsTrigger value="aircraft">Aéreos</TabsTrigger>
             <TabsTrigger value="analysis">Análisis</TabsTrigger>
             <TabsTrigger value="maintenance">Mantenimiento</TabsTrigger>
           </TabsList>
@@ -286,47 +344,79 @@ export default function FuelAnalysis() {
           </TabsContent>
 
           <TabsContent value="analysis" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Fuel Type Analysis with Aircraft fuels included */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingDown className="h-5 w-5" />
-                    Gastos por Tipo de Combustible
-                  </CardTitle>
+                  <CardTitle>Análisis por Tipo de Combustible</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                      <div>
-                        <p className="font-medium">ION</p>
-                        <p className="text-sm text-muted-foreground">Consumo total</p>
+                <CardContent>
+                  <Tabs defaultValue="terrestre" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="terrestre">Terrestre</TabsTrigger>
+                      <TabsTrigger value="aereo">Aéreo</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="terrestre" className="mt-4">
+                      <div className="space-y-3">
+                        <div className="p-3 bg-blue-50 rounded-lg">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">GAS OIL</span>
+                            <span className="text-lg font-bold text-blue-700">{fuelExpenditure.gasOil.total.toFixed(2)}L</span>
+                          </div>
+                          <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
+                            <div className="bg-blue-600 h-2 rounded-full" style={{ width: "64%" }}></div>
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">64% - Nivel Normal</div>
+                        </div>
+                        <div className="p-3 bg-green-50 rounded-lg">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">ION</span>
+                            <span className="text-lg font-bold text-green-700">{fuelExpenditure.ion.total.toFixed(2)}L</span>
+                          </div>
+                          <div className="w-full bg-green-200 rounded-full h-2 mt-2">
+                            <div className="bg-green-600 h-2 rounded-full" style={{ width: "74%" }}></div>
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">74% - Nivel Normal</div>
+                        </div>
+                        <div className="p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">TOTAL TERRESTRE</span>
+                            <span className="text-lg font-bold text-gray-700">{fuelExpenditure.terrestrial.toFixed(2)}L</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-red-600">{fuelExpenditure.ion.total.toFixed(2)}L</p>
+                    </TabsContent>
+
+                    <TabsContent value="aereo" className="mt-4">
+                      <div className="space-y-3">
+                        <div className="p-3 bg-red-50 rounded-lg">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">JP1 (Jet Fuel)</span>
+                            <span className="text-lg font-bold text-red-700">151L</span>
+                          </div>
+                          <div className="w-full bg-red-200 rounded-full h-2 mt-2">
+                            <div className="bg-red-600 h-2 rounded-full" style={{ width: "3%" }}></div>
+                          </div>
+                          <div className="text-sm text-red-600 mt-1">3% - Crítico</div>
+                        </div>
+                        <div className="p-3 bg-emerald-50 rounded-lg">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">100LL (Avgas)</span>
+                            <span className="text-lg font-bold text-emerald-700">4,394.50L</span>
+                          </div>
+                          <div className="w-full bg-emerald-200 rounded-full h-2 mt-2">
+                            <div className="bg-emerald-600 h-2 rounded-full" style={{ width: "88%" }}></div>
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">88% - Normal</div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                      <div>
-                        <p className="font-medium">GAS OIL</p>
-                        <p className="text-sm text-muted-foreground">Consumo total</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-red-600">{fuelExpenditure.gasOil.total.toFixed(2)}L</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                      <div>
-                        <p className="font-medium">TOTAL TERRESTRE</p>
-                        <p className="text-sm text-muted-foreground">Consumo combinado</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xl font-bold text-gray-700">{fuelExpenditure.terrestrial.toFixed(2)}L</p>
-                      </div>
-                    </div>
-                  </div>
+                    </TabsContent>
+                  </Tabs>
                 </CardContent>
               </Card>
 
+              {/* Alerts and Recommendations */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -336,8 +426,8 @@ export default function FuelAnalysis() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
-                    <p className="font-medium text-red-800">100LL - Nivel Crítico</p>
-                    <p className="text-sm text-red-700">38% - Se requiere reabastecimiento inmediato</p>
+                    <p className="font-medium text-red-800">JP1 - Nivel Crítico</p>
+                    <p className="text-sm text-red-700">3% - Se requiere reabastecimiento inmediato</p>
                   </div>
                   <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
                     <p className="font-medium text-yellow-800">Vehículos con Service Próximo</p>
@@ -345,65 +435,15 @@ export default function FuelAnalysis() {
                   </div>
                   <div className="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
                     <p className="font-medium text-green-800">Stock PUMA Disponible</p>
-                    <p className="text-sm text-green-700">Reservas suficientes para operación continua</p>
+                    <p className="text-sm text-green-700">Reservas suficientes para operación continua (GAS OIL e ION)</p>
+                  </div>
+                  <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                    <p className="font-medium text-blue-800">100LL - Nivel Óptimo</p>
+                    <p className="text-sm text-blue-700">88% - Reservas suficientes para operaciones aéreas</p>
                   </div>
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-
-          <TabsContent value="aircraft" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Fuel className="h-5 w-5" />
-                  Combustibles Aéreos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">JP1 - Combustible Jet</h4>
-                        <Badge variant="destructive">Crítico</Badge>
-                      </div>
-                      <div className="space-y-2">
-                        <Progress value={3.02} className="h-3" />
-                        <div className="flex justify-between text-sm">
-                          <span>151L actual</span>
-                          <span>3.02% capacidad</span>
-                        </div>
-                      </div>
-                      <div className="mt-2 p-2 bg-muted/50 rounded">
-                        <div className="text-sm font-medium">Stock PUMA</div>
-                        <div className="text-lg font-bold text-primary">8,450.25L</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">100LL - Aviación</h4>
-                        <Badge className="bg-green-100 text-green-800">Normal</Badge>
-                      </div>
-                      <div className="space-y-2">
-                        <Progress value={87.89} className="h-3" />
-                        <div className="flex justify-between text-sm">
-                          <span>4,394.50L actual</span>
-                          <span>87.89% capacidad</span>
-                        </div>
-                      </div>
-                      <div className="mt-2 p-2 bg-muted/50 rounded">
-                        <div className="text-sm font-medium">Stock PUMA</div>
-                        <div className="text-lg font-bold text-primary">12,671.89L</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           <TabsContent value="maintenance" className="space-y-4">

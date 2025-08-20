@@ -34,19 +34,19 @@ export default function MachineryHoursWidget() {
         {/* Summary Stats */}
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="text-center p-3 bg-blue-50 rounded-lg">
-            <Clock className="h-4 w-4 mx-auto mb-1 text-blue-600" />
-            <p className="text-xl font-bold text-blue-700">{totalHours}</p>
-            <p className="text-xs text-blue-600">Total Horas</p>
+            <Clock className="h-5 w-5 mx-auto mb-2 text-blue-600" />
+            <p className="text-2xl font-bold text-blue-700">{totalHours}</p>
+            <p className="text-sm text-blue-600">Total Horas</p>
           </div>
           <div className="text-center p-3 bg-green-50 rounded-lg">
-            <DollarSign className="h-4 w-4 mx-auto mb-1 text-green-600" />
-            <p className="text-xl font-bold text-green-700">${(totalRevenue/1000).toFixed(0)}K</p>
-            <p className="text-xs text-green-600">Facturación</p>
+            <DollarSign className="h-5 w-5 mx-auto mb-2 text-green-600" />
+            <p className="text-2xl font-bold text-green-700">${(totalRevenue/1000).toFixed(0)}K</p>
+            <p className="text-sm text-green-600">Facturación</p>
           </div>
           <div className="text-center p-3 bg-orange-50 rounded-lg">
-            <TrendingUp className="h-4 w-4 mx-auto mb-1 text-orange-600" />
-            <p className="text-xl font-bold text-orange-700">{averageUtilization.toFixed(0)}%</p>
-            <p className="text-xs text-orange-600">Uso Promedio</p>
+            <TrendingUp className="h-5 w-5 mx-auto mb-2 text-orange-600" />
+            <p className="text-2xl font-bold text-orange-700">{averageUtilization.toFixed(0)}%</p>
+            <p className="text-sm text-orange-600">Uso Promedio</p>
           </div>
         </div>
 
@@ -57,15 +57,15 @@ export default function MachineryHoursWidget() {
             .sort((a, b) => b.hours - a.hours)
             .slice(0, 4)
             .map((machine, index) => (
-              <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
+              <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{machine.name}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Progress 
                       value={machine.utilization} 
-                      className="h-1 flex-1"
+                      className="h-2 flex-1"
                     />
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-sm font-medium">
                       {machine.hours}h
                     </Badge>
                   </div>
@@ -77,15 +77,27 @@ export default function MachineryHoursWidget() {
         {/* Transport Summary */}
         {machineryData.some(m => m.arenaTrips > 0 || m.toscaTrips > 0) && (
           <div className="mt-4 pt-4 border-t">
-            <h4 className="text-sm font-medium text-muted-foreground mb-2">Transporte de Materiales</h4>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="text-center p-2 bg-amber-50 rounded">
-                <p className="font-medium">Arena 28m³</p>
-                <p>{machineryData.reduce((sum, m) => sum + m.arenaTrips, 0)} viajes</p>
+            <h4 className="text-sm font-medium text-muted-foreground mb-3">Transporte de Materiales</h4>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center p-3 bg-amber-50 rounded border">
+                <div className="w-8 h-8 mx-auto mb-2 bg-amber-200 rounded-full flex items-center justify-center">
+                  🏖️
+                </div>
+                <p className="text-lg font-bold text-amber-700">{machineryData.reduce((sum, m) => sum + m.arenaTrips, 0)}</p>
+                <p className="text-sm text-amber-600">Arena 28m³</p>
+                <p className="text-xs text-muted-foreground">
+                  {(machineryData.reduce((sum, m) => sum + m.arenaTrips, 0) * 28).toLocaleString()}m³ total
+                </p>
               </div>
-              <div className="text-center p-2 bg-stone-100 rounded">
-                <p className="font-medium">Tosca 28m³</p>
-                <p>{machineryData.reduce((sum, m) => sum + m.toscaTrips, 0)} viajes</p>
+              <div className="text-center p-3 bg-stone-100 rounded border">
+                <div className="w-8 h-8 mx-auto mb-2 bg-stone-300 rounded-full flex items-center justify-center">
+                  🪨
+                </div>
+                <p className="text-lg font-bold text-stone-700">{machineryData.reduce((sum, m) => sum + m.toscaTrips, 0)}</p>
+                <p className="text-sm text-stone-600">Tosca 28m³</p>
+                <p className="text-xs text-muted-foreground">
+                  {(machineryData.reduce((sum, m) => sum + m.toscaTrips, 0) * 28).toLocaleString()}m³ total
+                </p>
               </div>
             </div>
           </div>
