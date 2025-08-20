@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { DollarSign, Calendar, AlertTriangle, CheckCircle } from "lucide-react";
 
-export default function ExpensasEstado() {
+export default function CanonEstado() {
   return (
     <div className="space-y-6">
       <div>
@@ -35,7 +35,7 @@ export default function ExpensasEstado() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">15 Mar 2024</div>
-            <p className="text-sm text-muted-foreground">Expensa mensual</p>
+            <p className="text-sm text-muted-foreground">Canon mensual</p>
           </CardContent>
         </Card>
 
@@ -60,9 +60,9 @@ export default function ExpensasEstado() {
         <CardContent>
           <div className="space-y-4">
             {[
-              { fecha: "15 Feb 2024", concepto: "Expensa Mensual", monto: 89500, estado: "Pagado" },
-              { fecha: "15 Ene 2024", concepto: "Expensa Mensual", monto: 89500, estado: "Pagado" },
-              { fecha: "15 Dic 2023", concepto: "Expensa Mensual", monto: 85000, estado: "Pagado" },
+              { fecha: "15 Feb 2024", concepto: "Canon Mensual", monto: 89500, estado: "Pagado" },
+              { fecha: "15 Ene 2024", concepto: "Canon Mensual", monto: 89500, estado: "Pagado" },
+              { fecha: "15 Dic 2023", concepto: "Canon Mensual", monto: 85000, estado: "Pagado" },
             ].map((pago, index) => (
               <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                 <div>

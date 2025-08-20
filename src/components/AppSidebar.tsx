@@ -46,13 +46,13 @@ const ownerItems = [
     ]
   },
   { 
-    title: "Expensas", 
-    url: "/expensas", 
+    title: "Canon", 
+    url: "/canon", 
     icon: DollarSign,
     subItems: [
-      { title: "Estado de Cuenta", url: "/expensas/estado" },
-      { title: "Pagos Realizados", url: "/expensas/pagos" },
-      { title: "Facturación", url: "/expensas/facturas" },
+      { title: "Estado de Cuenta", url: "/canon/estado" },
+      { title: "Pagos Realizados", url: "/canon/pagos" },
+      { title: "Facturación", url: "/canon/facturas" },
     ]
   },
   { 
@@ -64,8 +64,6 @@ const ownerItems = [
       { title: "Mis Reservas", url: "/reservas/mis-reservas" },
       { title: "Calendario", url: "/reservas/calendario" },
       { title: "Restaurante El Club", url: "/restaurant-reservation" },
-      { title: "Clases de Surf", url: "/surf-classes" },
-      { title: "Equipamiento de Surf", url: "/surf-equipment" },
     ]
   },
   { 
@@ -77,20 +75,7 @@ const ownerItems = [
       { title: "Mis Autorizaciones", url: "/autorizaciones/lista" },
       { title: "Historial", url: "/autorizaciones/historial" },
     ]
-  },
-  { 
-    title: "Clima", 
-    url: "/clima", 
-    icon: Cloud,
-    subItems: [
-      { title: "Condiciones Actuales", url: "/clima/actual" },
-      { title: "Pronóstico", url: "/clima/pronostico" },
-    ]
-  },
-];
-
-const aviationItems = [
-  { title: "Dashboard Aviación", url: "/aviacion/dashboard", icon: Plane },
+  }
 ];
 
 const adminItems = [
@@ -105,6 +90,7 @@ const adminItems = [
       { title: "Movilidad", url: "/admin/fuel" },
       { title: "Horas Máquina", url: "/admin/machinery" },
       { title: "Espacios Comunes", url: "/admin/espacios-comunes" },
+      { title: "Eficiencia", url: "/admin/eficiencia" },
     ]
   },
     { 
@@ -156,7 +142,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     const groupsToOpen: string[] = [];
-    [...ownerItems, ...aviationItems, ...adminItems].forEach((item: any) => {
+    [...ownerItems, ...adminItems].forEach((item: any) => {
       if (item.subItems && isParentActive(item)) {
         groupsToOpen.push(item.title);
       }
@@ -255,20 +241,6 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {ownerItems.map((item) => renderMenuItem(item))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          {/* Aviation Section */}
-          <SidebarGroup>
-            {!collapsed && (
-              <SidebarGroupLabel className="text-muted-foreground px-4">
-                Aviación
-              </SidebarGroupLabel>
-            )}
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {aviationItems.map((item) => renderMenuItem(item))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

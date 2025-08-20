@@ -72,7 +72,7 @@ const invoices = [
 ];
 
 const expenseBreakdown = [
-  { category: "Expensas Ordinarias", icon: Home, amount: 95000, color: "text-blue-600" },
+  { category: "Canon Ordinario", icon: Home, amount: 95000, color: "text-blue-600" },
   { category: "Servicios", icon: Lightbulb, amount: 30000, color: "text-yellow-600" },
   { category: "Seguridad", icon: Users, amount: 25000, color: "text-red-600" },
   { category: "Mantenimiento", icon: Wrench, amount: 20000, color: "text-green-600" },
@@ -80,7 +80,7 @@ const expenseBreakdown = [
   { category: "Limpieza", icon: Home, amount: 15000, color: "text-teal-600" }
 ];
 
-export default function ExpensasFacturas() {
+export default function CanonFacturas() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
@@ -201,12 +201,12 @@ export default function ExpensasFacturas() {
                     <h4 className="font-semibold mb-2">Desglose de Conceptos</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Expensas Ordinarias:</span>
+                        <span className="text-muted-foreground">Canon Ordinario:</span>
                         <span className="font-medium">{formatCurrency(currentInvoice.breakdown.ordinarias)}</span>
                       </div>
                       {currentInvoice.breakdown.extraordinarias > 0 && (
                         <div className="flex justify-between">
-                          <span className="text-muted-foreground">Expensas Extraordinarias:</span>
+                          <span className="text-muted-foreground">Canon Extraordinario:</span>
                           <span className="font-medium">{formatCurrency(currentInvoice.breakdown.extraordinarias)}</span>
                         </div>
                       )}

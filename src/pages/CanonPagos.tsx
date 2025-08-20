@@ -16,7 +16,7 @@ const paymentHistory = [
     id: "PAG-2024-001",
     date: "2024-01-15",
     amount: 125000,
-    concept: "Expensas Enero 2024",
+    concept: "Canon Enero 2024",
     status: "Pagado",
     method: "Transferencia Bancaria",
     receipt: "REC-001-2024",
@@ -26,7 +26,7 @@ const paymentHistory = [
     id: "PAG-2024-002", 
     date: "2024-02-10",
     amount: 125000,
-    concept: "Expensas Febrero 2024",
+    concept: "Canon Febrero 2024",
     status: "Pagado",
     method: "Débito Automático",
     receipt: "REC-002-2024",
@@ -36,7 +36,7 @@ const paymentHistory = [
     id: "PAG-2024-003",
     date: "2024-03-05",
     amount: 135000,
-    concept: "Expensas Marzo 2024 + Extraordinarias",
+    concept: "Canon Marzo 2024 + Extraordinarias",
     status: "Pagado",
     method: "Transferencia Bancaria",
     receipt: "REC-003-2024",
@@ -46,7 +46,7 @@ const paymentHistory = [
     id: "PAG-2024-004",
     date: null,
     amount: 125000,
-    concept: "Expensas Abril 2024",
+    concept: "Canon Abril 2024",
     status: "Pendiente",
     method: null,
     receipt: null,
@@ -54,7 +54,7 @@ const paymentHistory = [
   }
 ];
 
-export default function ExpensasPagos() {
+export default function CanonPagos() {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',

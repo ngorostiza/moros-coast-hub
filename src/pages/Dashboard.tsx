@@ -64,7 +64,7 @@ export default function Dashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white/80 text-sm">Expensa Actual</p>
+                <p className="text-white/80 text-sm">Canon Actual</p>
                 <p className="text-2xl font-bold">${expenseData.current.amount.toLocaleString()}</p>
               </div>
               <DollarSign className="h-8 w-8 text-white/80" />
@@ -172,10 +172,10 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5" />
-                Historial de Expensas
+                Canon de su lote
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="space-y-4">
                 {/* Current */}
                 <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
@@ -215,7 +215,7 @@ export default function Dashboard() {
               </div>
               
               <Button className="w-full mt-4" variant="ocean">
-                Pagar Expensa Actual
+                Pagar Canon Actual
               </Button>
             </CardContent>
           </Card>

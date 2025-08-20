@@ -15,21 +15,18 @@ import NotFound from "./pages/NotFound";
 import LoteInfo from "./pages/LoteInfo";
 import LotePlanos from "./pages/LotePlanosDocumentos";
 import LoteHistorial from "./pages/LoteHistorialCompleto";
-import AviacionDashboard from "./pages/AviacionDashboard";
 import AdminUsuariosPilotos from "./pages/AdminUsuariosPilotos";
-import ExpensasEstado from "./pages/ExpensasEstado";
-import ExpensasPagos from "./pages/ExpensasPagos";
-import ExpensasFacturas from "./pages/ExpensasFacturas";
+import CanonEstado from "./pages/CanonEstado";
+import CanonPagos from "./pages/CanonPagos";
+import CanonFacturas from "./pages/CanonFacturas";
 import ReservasEspacios from "./pages/ReservasEspacios";
 import ReservasMisReservas from "./pages/ReservasMisReservas";
 import ReservasCalendario from "./pages/ReservasCalendario";
 import AutorizacionesNueva from "./pages/AutorizacionesNueva";
 import AutorizacionesLista from "./pages/AutorizacionesLista";
 import AutorizacionesHistorial from "./pages/AutorizacionesHistorial";
-import ClimaActual from "./pages/ClimaActual";
-import ClimaPronostico from "./pages/ClimaPronostico";
-import ClimaAviacion from "./pages/ClimaAviacion";
 import AdminReportes from "./pages/AdminReportes";
+import AdminEficiencia from "./pages/AdminEficiencia";
 import AdminMonitoreo from "./pages/AdminMonitoreo";
 import AdminUsuariosPropietarios from "./pages/AdminUsuariosPropietarios";
 import AdminUsuariosPersonal from "./pages/AdminUsuariosPersonal";
@@ -37,8 +34,6 @@ import AdminUsuariosPermisos from "./pages/AdminUsuariosPermisos";
 import AdminConfigSistema from "./pages/AdminConfigSistema";
 import AdminConfigSeguridad from "./pages/AdminConfigSeguridad";
 import AdminConfigNotificaciones from "./pages/AdminConfigNotificaciones";
-import SurfClasses from "./pages/SurfClasses";
-import SurfEquipment from "./pages/SurfEquipment";
 import RestaurantReservation from "./pages/RestaurantReservation";
 
 const queryClient = new QueryClient();
@@ -58,9 +53,9 @@ const App = () => (
             <Route path="/lote/planos" element={<LotePlanos />} />
             <Route path="/lote/historial" element={<LoteHistorial />} />
 
-            <Route path="/expensas/estado" element={<ExpensasEstado />} />
-            <Route path="/expensas/pagos" element={<ExpensasPagos />} />
-            <Route path="/expensas/facturas" element={<ExpensasFacturas />} />
+            <Route path="/canon/estado" element={<CanonEstado />} />
+            <Route path="/canon/pagos" element={<CanonPagos />} />
+            <Route path="/canon/facturas" element={<CanonFacturas />} />
 
             <Route path="/reservas/espacios" element={<ReservasEspacios />} />
             <Route path="/reservas/mis-reservas" element={<ReservasMisReservas />} />
@@ -69,18 +64,8 @@ const App = () => (
             <Route path="/autorizaciones/nueva" element={<AutorizacionesNueva />} />
             <Route path="/autorizaciones/lista" element={<AutorizacionesLista />} />
             <Route path="/autorizaciones/historial" element={<AutorizacionesHistorial />} />
-
-            <Route path="/clima/actual" element={<ClimaActual />} />
-            <Route path="/clima/pronostico" element={<ClimaPronostico />} />
-            <Route path="/clima/aviacion" element={<ClimaAviacion />} />
-        
-            {/* Surf School Routes */}
-            <Route path="/surf-classes" element={<SurfClasses />} />
-            <Route path="/surf-equipment" element={<SurfEquipment />} />
+            
             <Route path="/restaurant-reservation" element={<RestaurantReservation />} />
-
-            {/* Aviación */}
-            <Route path="/aviacion/dashboard" element={<AviacionDashboard />} />
 
             {/* Administración */}
             <Route path="/admin" element={<AdminDashboard />} />
@@ -88,6 +73,7 @@ const App = () => (
             <Route path="/admin/fuel" element={<FuelAnalysis />} />
             <Route path="/admin/machinery" element={<MachineryAnalysis />} />
             <Route path="/admin/espacios-comunes" element={<CommonSpacesAnalysis />} />
+            <Route path="/admin/eficiencia" element={<AdminEficiencia />} />
             <Route path="/admin/reportes" element={<AdminReportes />} />
             <Route path="/admin/monitoreo" element={<AdminMonitoreo />} />
             <Route path="/admin/usuarios/propietarios" element={<AdminUsuariosPropietarios />} />

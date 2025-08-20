@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 const monthlyStats = {
-  expenses: {
+  canon: {
     current: 5250000,
     previous: 4980000,
     trend: "up",
@@ -63,9 +63,32 @@ const paymentStatus = [
 const serviceUsage = [
   { service: "Restaurante", reservations: 156, revenue: 890000, avgTicket: 5705 },
   { service: "Canchas Deportivas", reservations: 89, revenue: 0, avgTicket: 0 },
-  { service: "Surf School", reservations: 67, revenue: 402000, avgTicket: 6000 },
-  { service: "Alquiler Equipos", reservations: 134, revenue: 268000, avgTicket: 2000 }
+  { service: "Espacios Comunes", reservations: 234, revenue: 0, avgTicket: 0 }
 ];
+
+// Enhanced financial data for comprehensive reporting
+const comprehensiveFinancials = {
+  cte: {
+    personal: 2850000,
+    mantenimiento: 1450000,
+    servicios: 980000,
+    seguros: 425000,
+    administracion: 675000,
+    otros: 350000
+  },
+  assetProfitability: [
+    { asset: "Vehículos", investment: 15000000, monthlyRevenue: 890000, roi: 7.1 },
+    { asset: "Maquinaria", investment: 45000000, monthlyRevenue: 2250000, roi: 6.0 },
+    { asset: "Personal", investment: 0, monthlyCost: 2850000, efficiency: 92.3 },
+    { asset: "Áreas Comunes", investment: 8500000, monthlyRevenue: 340000, roi: 4.8 }
+  ],
+  kpis: {
+    costPerOwner: 29100,
+    operatingMargin: 18.5,
+    maintenanceCostRatio: 27.6,
+    collectionEfficiency: 93.1
+  }
+};
 
 const reports = [
   {
@@ -94,8 +117,16 @@ const reports = [
   },
   {
     id: "RPT-004",
-    name: "Reporte de Servicios",
-    type: "Servicios",
+    name: "CTE y Rentabilidad",
+    type: "CTE",
+    generated: "2024-02-12",
+    status: "Completado",
+    size: "3.2 MB"
+  },
+  {
+    id: "RPT-005",
+    name: "ROI por Activos",
+    type: "ROI",
     generated: "En proceso...",
     status: "Generando",
     size: "-"
@@ -148,11 +179,11 @@ export default function AdminReportes() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Expensas Mensuales</p>
-                <p className="text-2xl font-bold">{formatCurrency(monthlyStats.expenses.current)}</p>
-                <div className={`flex items-center gap-1 text-sm ${getTrendColor(monthlyStats.expenses.trend)}`}>
-                  {getTrendIcon(monthlyStats.expenses.trend)}
-                  <span>{monthlyStats.expenses.change}%</span>
+                <p className="text-muted-foreground text-sm">Canon Mensual</p>
+                <p className="text-2xl font-bold">{formatCurrency(monthlyStats.canon.current)}</p>
+                <div className={`flex items-center gap-1 text-sm ${getTrendColor(monthlyStats.canon.trend)}`}>
+                  {getTrendIcon(monthlyStats.canon.trend)}
+                  <span>{monthlyStats.canon.change}%</span>
                 </div>
               </div>
               <DollarSign className="h-8 w-8 text-blue-500" />
