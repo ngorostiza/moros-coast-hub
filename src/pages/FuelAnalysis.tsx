@@ -133,80 +133,81 @@ export default function FuelAnalysis() {
         </Card>
 
         {/* Detailed Analysis Tabs */}
-        {/* Fuel Operations Chart */}
+        {/* Fuel Operations Chart - Using Tank Levels Design */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Operaciones de Combustible - Últimos 30 Días
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-80 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg border-2 border-dashed border-blue-200 p-4">
-              <div className="h-full flex flex-col">
-                <div className="text-center mb-6">
-                  <TrendingUp className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                  <p className="text-lg font-medium text-blue-800">Gráfico de Operaciones de Combustible</p>
-                  <p className="text-sm text-blue-600">Niveles de tanques, consumo por vehículo, cargas PUMA y reabastecimientos</p>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className="h-5 w-5 text-muted-foreground" />
+              <h3 className="text-lg font-semibold">Operaciones de Combustible - Últimos 30 Días</h3>
+              <span className="text-sm text-muted-foreground">(Vista completa de operaciones)</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">GAS OIL</span>
+                  <span className={`text-lg font-bold text-green-700`}>3,199L</span>
                 </div>
-                
-                {/* Simulated Chart Elements */}
-                <div className="flex-1 relative">
-                  {/* Y-axis labels */}
-                  <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-muted-foreground">
-                    <span>5000L</span>
-                    <span>4000L</span>
-                    <span>3000L</span>
-                    <span>2000L</span>
-                    <span>1000L</span>
-                    <span>0L</span>
-                  </div>
-                  
-                  {/* Chart area */}
-                  <div className="ml-12 h-full border-l-2 border-b-2 border-gray-300 relative">
-                    {/* Sample fuel level lines */}
-                    <div className="absolute inset-0">
-                      <div className="absolute bottom-0 left-0 w-full h-16 bg-green-200 opacity-50 rounded-t"></div>
-                      <div className="absolute bottom-16 left-0 w-full h-12 bg-blue-200 opacity-50 rounded-t"></div>
-                      <div className="absolute bottom-28 left-0 w-full h-8 bg-red-200 opacity-50 rounded-t"></div>
-                      <div className="absolute bottom-36 left-0 w-full h-20 bg-yellow-200 opacity-50 rounded-t"></div>
-                    </div>
-                    
-                    {/* Sample data points */}
-                    <div className="absolute bottom-16 left-1/4 w-2 h-2 bg-green-600 rounded-full"></div>
-                    <div className="absolute bottom-28 left-2/4 w-2 h-2 bg-blue-600 rounded-full"></div>
-                    <div className="absolute bottom-8 left-3/4 w-2 h-2 bg-red-600 rounded-full"></div>
-                  </div>
-                  
-                  {/* X-axis labels */}
-                  <div className="ml-12 mt-2 flex justify-between text-xs text-muted-foreground">
-                    <span>Sem 1</span>
-                    <span>Sem 2</span>
-                    <span>Sem 3</span>
-                    <span>Sem 4</span>
+                <div className="relative">
+                  <Progress value={64} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full transition-all bg-green-500"
+                      style={{ width: `64%` }}
+                    />
                   </div>
                 </div>
-                
-                {/* Legend */}
-                <div className="mt-4 flex justify-center gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded"></div>
-                    <span>GAS OIL</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                    <span>ION</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded"></div>
-                    <span>JP1</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                    <span>100LL</span>
-                  </div>
-                </div>
+                <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
+                <div className="text-sm text-foreground font-bold">Stock PUMA: 28,292.00 L</div>
               </div>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">ION</span>
+                  <span className={`text-lg font-bold text-green-700`}>3,677L</span>
+                </div>
+                <div className="relative">
+                  <Progress value={74} className="h-3" />
+                  <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full transition-all bg-green-500"
+                      style={{ width: `74%` }}
+                    />
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">74% - Nivel Normal</div>
+                <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
+              </div>
+               <div className="space-y-2">
+                 <div className="flex justify-between items-center">
+                   <span className="font-medium">JP1</span>
+                   <span className={`text-lg font-bold text-red-700`}>151L</span>
+                 </div>
+                 <div className="relative">
+                   <Progress value={3} className="h-3" />
+                   <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                     <div 
+                       className="h-full transition-all bg-red-500"
+                       style={{ width: `3%` }}
+                     />
+                   </div>
+                 </div>
+                 <div className="text-xs text-muted-foreground">3% - Requiere Reabastecimiento</div>
+               </div>
+               <div className="space-y-2">
+                 <div className="flex justify-between items-center">
+                   <span className="font-medium">100LL</span>
+                   <span className={`text-lg font-bold text-green-700`}>4,395L</span>
+                 </div>
+                 <div className="relative">
+                   <Progress value={88} className="h-3" />
+                   <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                     <div 
+                       className="h-full transition-all bg-green-500"
+                       style={{ width: `88%` }}
+                     />
+                   </div>
+                 </div>
+                 <div className="text-xs text-muted-foreground">88% - Nivel Normal</div>
+               </div>
             </div>
           </CardContent>
         </Card>
@@ -214,7 +215,7 @@ export default function FuelAnalysis() {
         <Tabs defaultValue="movements" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="movements">Movimientos</TabsTrigger>
-            <TabsTrigger value="vehicles">Vehículos</TabsTrigger>
+            <TabsTrigger value="destinos">Destinos</TabsTrigger>
             <TabsTrigger value="analysis">Análisis</TabsTrigger>
             <TabsTrigger value="maintenance">Mantenimiento</TabsTrigger>
           </TabsList>
@@ -278,12 +279,12 @@ export default function FuelAnalysis() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="vehicles" className="space-y-4">
+          <TabsContent value="destinos" className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="h-5 w-5" />
-                  Vehículos y Maquinaria
+                  Destinos: Vehículos, Maquinaria y Aeronaves
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -337,6 +338,74 @@ export default function FuelAnalysis() {
                         </TableCell>
                       </TableRow>
                     ))}
+                    {/* Aircraft Entries */}
+                    <TableRow>
+                      <TableCell className="font-medium">AERONAVE CESSNA 172</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">100LL</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -850.50
+                      </TableCell>
+                      <TableCell className="text-right">
+                        245.2 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        500.0 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <span className="text-muted-foreground">254.8 hrs</span>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-green-50 text-green-700">
+                          Normal
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">AERONAVE PIPER CHEROKEE</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">100LL</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -755.00
+                      </TableCell>
+                      <TableCell className="text-right">
+                        198.5 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        250.0 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <span className="text-yellow-600 font-medium">51.5 hrs</span>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
+                          Mantenimiento Próximo
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">HELICÓPTERO R44</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">JP1</Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-mono text-red-600">
+                        -1199.00
+                      </TableCell>
+                      <TableCell className="text-right">
+                        89.3 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        100.0 hrs
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <span className="text-red-600 font-medium">10.7 hrs</span>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="destructive">Service Urgente</Badge>
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </CardContent>
@@ -388,27 +457,30 @@ export default function FuelAnalysis() {
                       </div>
                     </TabsContent>
 
-                    <TabsContent value="aereo" className="mt-4">
-                      <div className="space-y-3">
-                        <div className="p-3 bg-red-50 rounded-lg">
-                          <div className="flex justify-between items-center">
-                            <span className="font-medium">JP1 (Jet Fuel)</span>
-                            <span className="text-lg font-bold text-red-700">151L</span>
+                    <TabsContent value="aereo">
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 gap-4">
+                          <div className="p-4 bg-red-50 rounded-lg border">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-medium">TOTAL EXP JP1</span>
+                              <span className="text-lg font-bold text-red-700">-1,199.00 L</span>
+                            </div>
+                            <div className="text-sm text-muted-foreground">Consumo total aeronaves JP1</div>
                           </div>
-                          <div className="w-full bg-red-200 rounded-full h-2 mt-2">
-                            <div className="bg-red-600 h-2 rounded-full" style={{ width: "3%" }}></div>
+                          <div className="p-4 bg-orange-50 rounded-lg border">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-medium">TOTAL EXP 100LL</span>
+                              <span className="text-lg font-bold text-orange-700">-1,605.50 L</span>
+                            </div>
+                            <div className="text-sm text-muted-foreground">Consumo total aeronaves 100LL</div>
                           </div>
-                          <div className="text-sm text-red-600 mt-1">3% - Crítico</div>
-                        </div>
-                        <div className="p-3 bg-emerald-50 rounded-lg">
-                          <div className="flex justify-between items-center">
-                            <span className="font-medium">100LL (Avgas)</span>
-                            <span className="text-lg font-bold text-emerald-700">4,394.50L</span>
+                          <div className="p-4 bg-blue-50 rounded-lg border">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-medium">TOTAL EXP AERONAVES</span>
+                              <span className="text-lg font-bold text-blue-700">-2,804.50 L</span>
+                            </div>
+                            <div className="text-sm text-muted-foreground">Consumo total de todas las aeronaves</div>
                           </div>
-                          <div className="w-full bg-emerald-200 rounded-full h-2 mt-2">
-                            <div className="bg-emerald-600 h-2 rounded-full" style={{ width: "88%" }}></div>
-                          </div>
-                          <div className="text-sm text-muted-foreground mt-1">88% - Normal</div>
                         </div>
                       </div>
                     </TabsContent>

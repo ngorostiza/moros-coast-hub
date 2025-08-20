@@ -252,18 +252,18 @@ export default function CommonSpacesAnalysis() {
                         <TableCell className="font-medium">{facility.name}</TableCell>
                         <TableCell className="text-right">{facility.bookings}</TableCell>
                         <TableCell className="text-right">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-end gap-3">
                             <Progress value={facility.utilizationRate} className="h-2 w-16" />
-                            <span className="text-sm">{facility.utilizationRate}%</span>
+                            <span className="text-sm w-8 text-right">{facility.utilizationRate}%</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-right font-mono text-green-600">
                           ${facility.revenue.toLocaleString()}
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-end gap-1">
                             <Star className="h-4 w-4 text-yellow-500" />
-                            <span>{facility.userRating}</span>
+                            <span className="w-6 text-right">{facility.userRating}</span>
                           </div>
                         </TableCell>
                         <TableCell>

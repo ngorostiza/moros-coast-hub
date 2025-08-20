@@ -244,9 +244,9 @@ export default function MachineryAnalysis() {
                         <TableCell className="font-medium">{machine.name}</TableCell>
                         <TableCell className="text-right">{machine.hours}h</TableCell>
                         <TableCell className="text-right">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-end gap-3">
                             <Progress value={machine.utilization} className="h-2 w-16" />
-                            <span className="text-sm">{machine.utilization}%</span>
+                            <span className="text-sm w-8 text-right">{machine.utilization}%</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-right font-mono text-green-600">
