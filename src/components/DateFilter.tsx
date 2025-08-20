@@ -38,7 +38,8 @@ export function DateFilter({ onFilterChange, className }: DateFilterProps) {
     setSelectedFilter(value);
     
     if (value === "personalizado") {
-      setShowCustomPicker(true);
+      // Use setTimeout to avoid event bubbling issues
+      setTimeout(() => setShowCustomPicker(true), 100);
       return;
     }
     

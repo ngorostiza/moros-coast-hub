@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -17,6 +18,7 @@ import {
   Star
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DateFilter } from "@/components/DateFilter";
 
 const facilityData = [
   { 
@@ -108,6 +110,14 @@ const totalStats = {
 };
 
 export default function CommonSpacesAnalysis() {
+  const [dateFilter, setDateFilter] = useState("todos");
+
+  const handleDateFilterChange = (filter: string, startDate?: Date, endDate?: Date) => {
+    setDateFilter(filter);
+    // Here you would filter the data based on the selected dates
+    console.log('Date filter changed:', filter, startDate, endDate);
+  };
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 space-y-6">
@@ -125,10 +135,13 @@ export default function CommonSpacesAnalysis() {
               <p className="text-muted-foreground">Rendimiento y utilización de instalaciones recreativas</p>
             </div>
           </div>
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualizar
-          </Button>
+          <div className="flex items-center gap-2">
+            <DateFilter onFilterChange={handleDateFilterChange} />
+            <Button variant="outline" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Actualizar
+            </Button>
+          </div>
         </div>
 
         {/* Summary Overview */}
