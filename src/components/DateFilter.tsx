@@ -8,7 +8,14 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter
+} from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
@@ -38,8 +45,7 @@ export function DateFilter({ onFilterChange, className }: DateFilterProps) {
     setSelectedFilter(value);
     
     if (value === "personalizado") {
-      // Use setTimeout to avoid event bubbling issues
-      setTimeout(() => setShowCustomPicker(true), 100);
+      setShowCustomPicker(true);
       return;
     }
     
@@ -82,6 +88,13 @@ export function DateFilter({ onFilterChange, className }: DateFilterProps) {
     }
   };
 
+  const cancelCustomFilter = () => {
+    setCustomStartDate(undefined);
+    setCustomEndDate(undefined);
+    setShowCustomPicker(false);
+    setSelectedFilter("todos");
+  };
+
   const getFilterLabel = () => {
     const filter = presetFilters.find(f => f.value === selectedFilter);
     if (selectedFilter === "personalizado" && customStartDate) {
@@ -116,56 +129,59 @@ export function DateFilter({ onFilterChange, className }: DateFilterProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {showCustomPicker && (
-        <Popover open={showCustomPicker} onOpenChange={setShowCustomPicker}>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm">
-              Seleccionar fechas
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <div className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Fecha de inicio</label>
-                <CalendarComponent
-                  mode="single"
-                  selected={customStartDate}
-                  onSelect={setCustomStartDate}
-                  className="pointer-events-auto"
-                  locale={es}
-                />
-              </div>
-              
-              {customStartDate && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Fecha de fin (opcional)</label>
-                  <CalendarComponent
-                    mode="single"
-                    selected={customEndDate}
-                    onSelect={setCustomEndDate}
-                    disabled={(date) => date < customStartDate}
-                    className="pointer-events-auto"
-                    locale={es}
-                  />
-                </div>
-              )}
-              
-              <div className="flex gap-2 pt-2">
-                <Button onClick={applyCustomFilter} disabled={!customStartDate} size="sm">
-                  Aplicar
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setShowCustomPicker(false)}
-                  size="sm"
-                >
-                  Cancelar
-                </Button>
-              </div>
+      <Dialog open={showCustomPicker} onOpenChange={setShowCustomPicker}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Seleccionar rango de fechas</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Fecha de inicio</label>
+              <CalendarComponent
+                mode="single"
+                selected={customStartDate}
+                onSelect={setCustomStartDate}
+                className="pointer-events-auto border rounded-md"
+                locale={es}
+              />
             </div>
-          </PopoverContent>
-        </Popover>
-      )}
+            
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Fecha de fin (opcional)</label>
+              <CalendarComponent
+                mode="single"
+                selected={customEndDate}
+                onSelect={setCustomEndDate}
+                disabled={(date) => date < (customStartDate || new Date())}
+                className="pointer-events-auto border rounded-md"
+                locale={es}
+              />
+            </div>
+          </div>
+          
+          {customStartDate && (
+            <div className="text-sm text-muted-foreground p-3 bg-muted/30 rounded-lg">
+              <strong>Rango seleccionado:</strong> {format(customStartDate, "dd/MM/yyyy", { locale: es })}
+              {customEndDate && ` - ${format(customEndDate, "dd/MM/yyyy", { locale: es })}`}
+            </div>
+          )}
+          
+          <DialogFooter className="gap-2">
+            <Button 
+              variant="outline" 
+              onClick={cancelCustomFilter}
+            >
+              Cancelar
+            </Button>
+            <Button 
+              onClick={applyCustomFilter} 
+              disabled={!customStartDate}
+            >
+              Aplicar filtro
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
