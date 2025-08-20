@@ -10,28 +10,48 @@ export default function CollapsibleGISMap() {
 
   if (isExpanded) {
     return (
-      <Card className="w-full">
-        <CardContent className="p-0">
-          <div className="h-[600px] relative">
-            <div className="absolute top-4 right-4 z-10 flex gap-2">
-              <Link to="/admin/gis">
-                <Button variant="outline" size="sm" className="bg-white/90 backdrop-blur">
-                  Vista Completa
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsExpanded(false)}
-                className="bg-white/90 backdrop-blur"
-              >
-                <Minimize2 className="h-4 w-4" />
-              </Button>
-            </div>
-            <GISMap />
-          </div>
-        </CardContent>
-      </Card>
+      <>
+        {/* Backdrop */}
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+          onClick={() => setIsExpanded(false)}
+        />
+        
+        {/* Expanded Map Overlay */}
+        <div className="fixed inset-4 z-50 flex flex-col">
+          <Card className="w-full h-full flex flex-col">
+            <CardHeader className="flex-shrink-0 pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <MapPin className="h-5 w-5 text-blue-600" />
+                  </div>
+                  Sistema GIS - Vista Expandida
+                </CardTitle>
+                <div className="flex gap-2">
+                  <Link to="/admin/gis">
+                    <Button variant="outline" size="sm">
+                      Vista Completa
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsExpanded(false)}
+                  >
+                    <Minimize2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 p-0">
+              <div className="h-full relative">
+                <GISMap />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </>
     );
   }
 
