@@ -188,7 +188,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tank Levels - Full Width - Expandable */}
-        <ExpandableWidget expandUrl="/admin/fuel" expandText="Análisis Completo">
+        <ExpandableWidget expandUrl="/admin/fuel" expandText="ver más">
           <Card className="w-full">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-4">
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
                     <Progress value={(3198.77/5000)*100} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(3198.77/5000)*100 >= 41 ? 'bg-blue-500' : (3198.77/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        className={`h-full transition-all ${(3198.77/5000)*100 >= 41 ? 'bg-green-500' : (3198.77/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
                         style={{ width: `${(3198.77/5000)*100}%` }}
                       />
                     </div>
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
                     <Progress value={(3676.66/5000)*100} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(3676.66/5000)*100 >= 41 ? 'bg-blue-500' : (3676.66/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        className={`h-full transition-all ${(3676.66/5000)*100 >= 41 ? 'bg-green-500' : (3676.66/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
                         style={{ width: `${(3676.66/5000)*100}%` }}
                       />
                     </div>
@@ -234,34 +234,36 @@ export default function AdminDashboard() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">JP1</span>
-                    <span className={`text-lg font-bold ${(4100/5000)*100 >= 41 ? 'text-blue-700' : (4100/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,100L</span>
+                    <span className={`text-lg font-bold ${(151/5000)*100 >= 41 ? 'text-blue-700' : (151/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>151L</span>
                   </div>
                   <div className="relative">
-                    <Progress value={(4100/5000)*100} className="h-3" />
+                    <Progress value={(151/5000)*100} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(4100/5000)*100 >= 41 ? 'bg-blue-500' : (4100/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(4100/5000)*100}%` }}
+                        className={`h-full transition-all ${(151/5000)*100 >= 41 ? 'bg-green-500' : (151/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(151/5000)*100}%` }}
                       />
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">82% - Nivel Alto</div>
+                  <div className="text-xs text-muted-foreground">3% - Requiere Reabastecimiento</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 8,450.25 L</div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">100LL</span>
-                    <span className={`text-lg font-bold ${(1900/5000)*100 >= 41 ? 'text-blue-700' : (1900/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,900L</span>
+                    <span className={`text-lg font-bold ${(4394.50/5000)*100 >= 41 ? 'text-blue-700' : (4394.50/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,395L</span>
                   </div>
                   <div className="relative">
-                    <Progress value={(1900/5000)*100} className="h-3" />
+                    <Progress value={(4394.50/5000)*100} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(1900/5000)*100 >= 41 ? 'bg-blue-500' : (1900/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(1900/5000)*100}%` }}
+                        className={`h-full transition-all ${(4394.50/5000)*100 >= 41 ? 'bg-green-500' : (4394.50/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: `${(4394.50/5000)*100}%` }}
                       />
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">38% - Requiere Reabastecimiento</div>
+                  <div className="text-xs text-muted-foreground">88% - Nivel Normal</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 12,671.89 L</div>
                 </div>
               </div>
             </CardContent>
@@ -307,17 +309,18 @@ export default function AdminDashboard() {
           <CollapsibleGISMap />
         </div>
 
-        {/* Machinery Hours Widget - Above Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        {/* Machinery Hours Widget - Full Width */}
+        <ExpandableWidget expandUrl="/admin/machinery" expandText="ver más">
           <MachineryHoursWidget />
-        </div>
+        </ExpandableWidget>
 
         {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Financial Overview - Left Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Monthly Collection Summary */}
-            <Card>
+            <ExpandableWidget expandUrl="/admin/reportes" expandText="ver más">
+              <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5" />
@@ -353,9 +356,11 @@ export default function AdminDashboard() {
                 </div>
               </CardContent>
             </Card>
+            </ExpandableWidget>
 
             {/* Reservations Performance */}
-            <Card>
+            <ExpandableWidget expandUrl="/admin/espacios-comunes" expandText="ver más">
+              <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -385,6 +390,7 @@ export default function AdminDashboard() {
                 </div>
               </CardContent>
             </Card>
+            </ExpandableWidget>
           </div>
 
           {/* Right Column - Live Monitoring */}
@@ -438,7 +444,7 @@ export default function AdminDashboard() {
             </Card>
 
             {/* Recent Activity */}
-            <ExpandableWidget expandUrl="/activity-log">
+            <ExpandableWidget expandUrl="/admin/monitoreo" expandText="ver más">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">

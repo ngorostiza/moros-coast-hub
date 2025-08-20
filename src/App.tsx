@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import FuelAnalysis from "./pages/FuelAnalysis";
+import MachineryAnalysis from "./pages/MachineryAnalysis";
+import CommonSpacesAnalysis from "./pages/CommonSpacesAnalysis";
 import ActivityLog from "./pages/ActivityLog";
 import NotFound from "./pages/NotFound";
 import LoteInfo from "./pages/LoteInfo";
@@ -84,6 +86,8 @@ const App = () => (
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/fuel" element={<FuelAnalysis />} />
+            <Route path="/admin/machinery" element={<MachineryAnalysis />} />
+            <Route path="/admin/espacios-comunes" element={<CommonSpacesAnalysis />} />
             <Route path="/admin/reportes" element={<AdminReportes />} />
             <Route path="/admin/monitoreo" element={<AdminMonitoreo />} />
             <Route path="/admin/usuarios/propietarios" element={<AdminUsuariosPropietarios />} />

@@ -11,15 +11,11 @@ export default function CollapsibleGISMap() {
   if (isExpanded) {
     return (
       <Card className="w-full">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              Sistema de Información Geográfica (GIS)
-            </CardTitle>
-            <div className="flex gap-2">
+        <CardContent className="p-0">
+          <div className="h-[600px] relative">
+            <div className="absolute top-4 right-4 z-10 flex gap-2">
               <Link to="/admin/gis">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="bg-white/90 backdrop-blur">
                   Vista Completa
                 </Button>
               </Link>
@@ -27,14 +23,11 @@ export default function CollapsibleGISMap() {
                 variant="outline"
                 size="sm"
                 onClick={() => setIsExpanded(false)}
+                className="bg-white/90 backdrop-blur"
               >
                 <Minimize2 className="h-4 w-4" />
               </Button>
             </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="h-[600px]">
             <GISMap />
           </div>
         </CardContent>

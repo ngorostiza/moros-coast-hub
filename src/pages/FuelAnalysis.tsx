@@ -22,8 +22,8 @@ import { Link } from "react-router-dom";
 const tankLevels = [
   { name: "GAS OIL", current: 3198.77, capacity: 5000, percentage: 63.98, status: "Normal", puma: 28292.00 },
   { name: "ION", current: 3676.66, capacity: 5000, percentage: 77.53, status: "Normal", puma: 15067.54 },
-  { name: "JP1", current: 4100, capacity: 5000, percentage: 82, status: "Alto", puma: null },
-  { name: "100LL", current: 1900, capacity: 5000, percentage: 38, status: "Requiere Reabastecimiento", puma: null }
+  { name: "JP1", current: 151, capacity: 5000, percentage: 3.02, status: "Requiere Reabastecimiento", puma: 8450.25 },
+  { name: "100LL", current: 4394.50, capacity: 5000, percentage: 87.89, status: "Normal", puma: 12671.89 }
 ];
 
 const fuelMovements = [
@@ -102,7 +102,19 @@ export default function FuelAnalysis() {
                       <span className="text-sm text-muted-foreground">Actual</span>
                       <span className="text-lg font-bold">{tank.current.toLocaleString()}L</span>
                     </div>
-                    <Progress value={tank.percentage} className="h-3" />
+                    <div className="relative">
+                      <Progress value={tank.percentage} className="h-3" />
+                      <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all ${
+                            tank.percentage >= 70 ? 'bg-green-500' : 
+                            tank.percentage >= 40 ? 'bg-yellow-500' : 
+                            'bg-red-500'
+                          }`}
+                          style={{ width: `${tank.percentage}%` }}
+                        />
+                      </div>
+                    </div>
                     <div className="flex justify-between text-sm text-muted-foreground">
                       <span>{tank.percentage.toFixed(1)}%</span>
                       <span>{tank.capacity.toLocaleString()}L máx</span>
@@ -121,10 +133,30 @@ export default function FuelAnalysis() {
         </Card>
 
         {/* Detailed Analysis Tabs */}
+        {/* Fuel Operations Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Operaciones de Combustible - Últimos 30 Días
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg flex items-center justify-center border-2 border-dashed border-blue-200">
+              <div className="text-center text-blue-600">
+                <TrendingUp className="h-12 w-12 mx-auto mb-2" />
+                <p className="text-lg font-medium">Gráfico de Operaciones</p>
+                <p className="text-sm text-blue-500">Consumo por vehículo, cargas PUMA, y niveles de tanques</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Tabs defaultValue="movements" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="movements">Movimientos</TabsTrigger>
             <TabsTrigger value="vehicles">Vehículos</TabsTrigger>
+            <TabsTrigger value="aircraft">Aéreos</TabsTrigger>
             <TabsTrigger value="analysis">Análisis</TabsTrigger>
             <TabsTrigger value="maintenance">Mantenimiento</TabsTrigger>
           </TabsList>
@@ -318,6 +350,60 @@ export default function FuelAnalysis() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="aircraft" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Fuel className="h-5 w-5" />
+                  Combustibles Aéreos
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-medium">JP1 - Combustible Jet</h4>
+                        <Badge variant="destructive">Crítico</Badge>
+                      </div>
+                      <div className="space-y-2">
+                        <Progress value={3.02} className="h-3" />
+                        <div className="flex justify-between text-sm">
+                          <span>151L actual</span>
+                          <span>3.02% capacidad</span>
+                        </div>
+                      </div>
+                      <div className="mt-2 p-2 bg-muted/50 rounded">
+                        <div className="text-sm font-medium">Stock PUMA</div>
+                        <div className="text-lg font-bold text-primary">8,450.25L</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-medium">100LL - Aviación</h4>
+                        <Badge className="bg-green-100 text-green-800">Normal</Badge>
+                      </div>
+                      <div className="space-y-2">
+                        <Progress value={87.89} className="h-3" />
+                        <div className="flex justify-between text-sm">
+                          <span>4,394.50L actual</span>
+                          <span>87.89% capacidad</span>
+                        </div>
+                      </div>
+                      <div className="mt-2 p-2 bg-muted/50 rounded">
+                        <div className="text-sm font-medium">Stock PUMA</div>
+                        <div className="text-lg font-bold text-primary">12,671.89L</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="maintenance" className="space-y-4">
