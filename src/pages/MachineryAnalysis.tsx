@@ -16,6 +16,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DateFilter } from "@/components/DateFilter";
 
 const machineryData = [
   { 
@@ -117,6 +118,11 @@ const utilizationStats = [
 ];
 
 export default function MachineryAnalysis() {
+  const handleDateFilter = (filter: string, startDate?: Date, endDate?: Date) => {
+    console.log("Filtro aplicado:", filter, startDate, endDate);
+    // Aquí implementar la lógica de filtrado
+  };
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 space-y-6">
@@ -134,10 +140,13 @@ export default function MachineryAnalysis() {
               <p className="text-muted-foreground">Sistema completo de seguimiento y análisis de horas máquina</p>
             </div>
           </div>
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualizar
-          </Button>
+          <div className="flex items-center gap-2">
+            <DateFilter onFilterChange={handleDateFilter} />
+            <Button variant="outline" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Actualizar
+            </Button>
+          </div>
         </div>
 
         {/* Summary Overview */}

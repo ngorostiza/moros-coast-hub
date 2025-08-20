@@ -15,9 +15,11 @@ import {
   RefreshCw,
   Truck,
   Gauge,
-  Settings
+  Settings,
+  Plane
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DateFilter } from "@/components/DateFilter";
 
 const tankLevels = [
   { name: "GAS OIL", current: 3198.77, capacity: 5000, percentage: 63.98, status: "Normal", puma: 28292.00 },
@@ -36,13 +38,23 @@ const fuelMovements = [
   { date: "13-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Baio", destination: "RETRO CAT", fuel: "ION", quantity: -100.24, status: "INVERSION" }
 ];
 
-const vehicleData = [
+const terrestrialVehicleData = [
   { id: "HILUX-AE 697", type: "ION", consumption: -1392.16, odometer: 14405.00, nextService: 80162.00, kmLeft: 65757 },
   { id: "HILUX JUANCHO AF 509", type: "ION", consumption: -1176.33, odometer: 14663.00, nextService: 80162.00, kmLeft: 65499 },
   { id: "JEEP VERDE -BXK 487", type: "GAS OIL", consumption: -336.56, odometer: 14250.00, nextService: 85000.00, kmLeft: 70750 },
   { id: "JEEP BLANCO FER -BMF 092", type: "GAS OIL", consumption: 0.00, odometer: null, nextService: null, kmLeft: null },
   { id: "EXCAVADORA VOLVO", type: "ION", consumption: -2889.84, odometer: null, nextService: null, kmLeft: null },
   { id: "PALA CAT", type: "GAS OIL", consumption: -324.12, odometer: null, nextService: null, kmLeft: null }
+];
+
+const aircraftData = [
+  { id: "FER -LV-IVW", type: "100LL", consumption: -850.50, status: "Operativa" },
+  { id: "FER -LV-HWB", type: "100LL", consumption: -755.00, status: "Mantenimiento Próximo" },
+  { id: "JIMMY -LV-HQG", type: "JP1", consumption: -1199.00, status: "Service Urgente" },
+  { id: "JIMMY -HELI", type: "JP1", consumption: -645.75, status: "Operativa" },
+  { id: "GM -LV-KMC", type: "100LL", consumption: -425.25, status: "Operativa" },
+  { id: "SEBA P -LV-HAN", type: "100LL", consumption: -380.50, status: "Operativa" },
+  { id: "SEBA B -LV-IYC", type: "100LL", consumption: -520.75, status: "Operativa" }
 ];
 
 const fuelExpenditure = {
@@ -52,6 +64,11 @@ const fuelExpenditure = {
 };
 
 export default function FuelAnalysis() {
+  const handleDateFilter = (filter: string, startDate?: Date, endDate?: Date) => {
+    console.log("Filtro aplicado:", filter, startDate, endDate);
+    // Aquí implementar la lógica de filtrado
+  };
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 space-y-6">
@@ -69,10 +86,13 @@ export default function FuelAnalysis() {
               <p className="text-muted-foreground">Sistema completo de monitoreo y gestión de combustible</p>
             </div>
           </div>
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualizar
-          </Button>
+          <div className="flex items-center gap-2">
+            <DateFilter onFilterChange={handleDateFilter} />
+            <Button variant="outline" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Actualizar
+            </Button>
+          </div>
         </div>
 
         {/* Fuel Operations Chart - Using Tank Levels Design */}
@@ -156,9 +176,10 @@ export default function FuelAnalysis() {
         </Card>
 
         <Tabs defaultValue="movements" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="movements">Movimientos</TabsTrigger>
             <TabsTrigger value="destinos">Destinos</TabsTrigger>
+            <TabsTrigger value="aeronaves">Aeronaves</TabsTrigger>
             <TabsTrigger value="analysis">Análisis</TabsTrigger>
             <TabsTrigger value="maintenance">Mantenimiento</TabsTrigger>
           </TabsList>
@@ -227,14 +248,14 @@ export default function FuelAnalysis() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="h-5 w-5" />
-                  Destinos: Vehículos, Maquinaria y Aeronaves
+                  Destinos: Vehículos y Maquinaria Terrestre
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID Vehículo/Máquina/Aeronave</TableHead>
+                      <TableHead>ID Vehículo/Máquina</TableHead>
                       <TableHead>Combustible</TableHead>
                       <TableHead className="text-right">Consumo Total (L)</TableHead>
                       <TableHead className="text-right">Kilometraje</TableHead>
@@ -242,7 +263,7 @@ export default function FuelAnalysis() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {vehicleData.map((vehicle, index) => (
+                    {terrestrialVehicleData.map((vehicle, index) => (
                       <TableRow key={index}>
                         <TableCell className="font-medium">{vehicle.id}</TableCell>
                         <TableCell>
@@ -269,107 +290,57 @@ export default function FuelAnalysis() {
                         </TableCell>
                       </TableRow>
                     ))}
-                    {/* Aircraft Entries */}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="aeronaves" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Plane className="h-5 w-5" />
+                  Aeronaves
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell className="font-medium">FER -LV-IVW</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">100LL</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -850.50
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="bg-green-50 text-green-700">
-                          Operativa
-                        </Badge>
-                      </TableCell>
+                      <TableHead>ID Aeronave</TableHead>
+                      <TableHead>Combustible</TableHead>
+                      <TableHead className="text-right">Consumo Total (L)</TableHead>
+                      <TableHead className="text-right">Horas de Vuelo</TableHead>
+                      <TableHead>Estado</TableHead>
                     </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">FER -LV-HWB</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">100LL</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -755.00
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
-                          Mantenimiento Próximo
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">JIMMY -LV-HQG</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">JP1</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -1199.00
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="destructive">Service Urgente</Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">JIMMY -HELI</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">JP1</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -645.75
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="bg-green-50 text-green-700">
-                          Operativa
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">GM -LV-KMC</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">100LL</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -425.25
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="bg-green-50 text-green-700">
-                          Operativa
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">SEBA P -LV-HAN</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">100LL</Badge>
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-red-600">
-                        -380.50
-                      </TableCell>
-                      <TableCell className="text-right">
-                        N/A
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="bg-green-50 text-green-700">
-                          Operativa
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {aircraftData.map((aircraft, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{aircraft.id}</TableCell>
+                        <TableCell>
+                          <Badge variant="secondary">{aircraft.type}</Badge>
+                        </TableCell>
+                        <TableCell className="text-right font-mono text-red-600">
+                          {aircraft.consumption.toFixed(2)}
+                        </TableCell>
+                        <TableCell className="text-right">N/A</TableCell>
+                        <TableCell>
+                          {aircraft.status === "Service Urgente" ? (
+                            <Badge variant="destructive">{aircraft.status}</Badge>
+                          ) : aircraft.status === "Mantenimiento Próximo" ? (
+                            <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
+                              {aircraft.status}
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="bg-green-50 text-green-700">
+                              {aircraft.status}
+                            </Badge>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </CardContent>
