@@ -8,54 +8,54 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Coastal Theme - Bahía de los Moros */
-    --background: 210 25% 98%;
-    --foreground: 220 15% 15%;
+    /* Bahía de los Moros Official Brand Colors - Light Mode */
+    --background: 213 24% 96%;
+    --foreground: 213 25% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card: 213 20% 98%;
+    --card-foreground: 213 25% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover: 213 20% 98%;
+    --popover-foreground: 213 25% 15%;
 
-    /* Ocean Blue Primary */
-    --primary: 210 85% 45%;
+    /* Primary - Official Deep Blue */
+    --primary: 205 100% 25%;
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 200 90% 60%;
+    --primary-glow: 205 85% 35%;
 
-    /* Sandy Secondary */
-    --secondary: 45 25% 88%;
-    --secondary-foreground: 220 15% 15%;
+    /* Secondary - Light Blue Gray */
+    --secondary: 213 20% 90%;
+    --secondary-foreground: 213 25% 25%;
 
     /* Soft Coastal Muted */
-    --muted: 210 20% 95%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 213 15% 94%;
+    --muted-foreground: 213 15% 45%;
 
-    /* Turquoise Accent */
-    --accent: 185 75% 55%;
+    /* Accent - Light Blue */
+    --accent: 190 85% 45%;
     --accent-foreground: 0 0% 98%;
 
-    /* Wave Destructive */
-    --destructive: 350 85% 60%;
+    /* Destructive */
+    --destructive: 0 65% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Coastal Borders */
-    --border: 210 20% 90%;
-    --input: 210 20% 94%;
-    --ring: 210 85% 45%;
+    /* Borders and inputs */
+    --border: 213 15% 85%;
+    --input: 213 15% 85%;
+    --ring: 205 100% 25%;
 
-    /* Custom Coastal Colors */
-    --ocean-deep: 215 90% 35%;
-    --ocean-light: 200 80% 85%;
-    --sand: 45 35% 80%;
-    --sand-dark: 35 25% 65%;
-    --coral: 15 85% 65%;
-    --seafoam: 165 60% 75%;
+    /* Bahía de los Moros Official Brand Colors */
+    --bahia-blue-dark: 205 100% 25%;
+    --bahia-blue-medium: 205 85% 35%;
+    --bahia-blue-light: 190 85% 45%;
+    --bahia-blue-sky: 190 65% 75%;
+    --bahia-gold: 45 85% 65%;
+    --bahia-sand: 45 35% 85%;
     
-    /* Gradients */
-    --gradient-ocean: linear-gradient(135deg, hsl(210, 85%, 45%), hsl(200, 90%, 60%));
-    --gradient-sunset: linear-gradient(135deg, hsl(15, 85%, 65%), hsl(45, 35%, 80%));
-    --gradient-beach: linear-gradient(180deg, hsl(200, 80%, 85%), hsl(45, 35%, 80%));
+    /* Bahía de los Moros Gradients */
+    --gradient-ocean: linear-gradient(135deg, hsl(205, 100%, 25%), hsl(205, 85%, 35%));
+    --gradient-sunset: linear-gradient(135deg, hsl(45, 85%, 65%), hsl(190, 85%, 45%));
+    --gradient-beach: linear-gradient(180deg, hsl(190, 65%, 75%), hsl(45, 35%, 85%));
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -82,33 +82,42 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Bahía de los Moros Official Brand Colors - Dark Mode */
+    --background: 213 25% 8%;
+    --foreground: 213 15% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 213 25% 10%;
+    --card-foreground: 213 15% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 213 25% 10%;
+    --popover-foreground: 213 15% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 205 85% 45%;
+    --primary-foreground: 213 25% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 213 25% 15%;
+    --secondary-foreground: 213 15% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 213 25% 15%;
+    --muted-foreground: 213 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 85% 55%;
+    --accent-foreground: 213 25% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 213 25% 18%;
+    --input: 213 25% 18%;
+    --ring: 205 85% 45%;
+
+    /* Dark Mode Bahía de los Moros Colors */
+    --bahia-blue-dark: 205 85% 35%;
+    --bahia-blue-medium: 205 85% 45%;
+    --bahia-blue-light: 190 85% 55%;
+    --bahia-blue-sky: 190 65% 85%;
+    --bahia-gold: 45 85% 75%;
+    --bahia-sand: 45 35% 65%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

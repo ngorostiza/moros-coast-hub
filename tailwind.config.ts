@@ -53,17 +53,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Custom coastal colors
-				ocean: {
-					deep: 'hsl(var(--ocean-deep))',
-					light: 'hsl(var(--ocean-light))'
-				},
-				sand: {
-					DEFAULT: 'hsl(var(--sand))',
-					dark: 'hsl(var(--sand-dark))'
-				},
-				coral: 'hsl(var(--coral))',
-				seafoam: 'hsl(var(--seafoam))',
+				// Bahía de los Moros official brand colors
+				'bahia-blue-dark': 'hsl(var(--bahia-blue-dark))',
+				'bahia-blue-medium': 'hsl(var(--bahia-blue-medium))',
+				'bahia-blue-light': 'hsl(var(--bahia-blue-light))',
+				'bahia-blue-sky': 'hsl(var(--bahia-blue-sky))',
+				'bahia-gold': 'hsl(var(--bahia-gold))',
+				'bahia-sand': 'hsl(var(--bahia-sand))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

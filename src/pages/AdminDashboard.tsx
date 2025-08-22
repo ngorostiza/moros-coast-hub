@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import CollapsibleGISMap from "@/components/CollapsibleGISMap";
 import MachineryHoursWidget from "@/components/MachineryHoursWidget";
 import ExpandableWidget from "@/components/ExpandableWidget";
+import { AIChatWidget } from "@/components/AIChatWidget";
+import { ActivityFeed } from "@/components/ActivityFeed";
 import { 
   Users, 
   DollarSign, 
@@ -120,7 +122,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+        <Card className="bg-gradient-to-br from-bahia-blue-medium to-bahia-blue-light text-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -161,7 +163,7 @@ export default function AdminDashboard() {
                 <p className="text-muted-foreground text-sm">Autorizados Hoy</p>
                 <p className="text-3xl font-bold text-foreground">{liveStats.authorizedToday}</p>
               </div>
-              <Eye className="h-8 w-8 text-accent" />
+              <Eye className="h-8 w-8 text-bahia-blue-light" />
             </div>
             <div className="mt-2 flex items-center gap-1">
               <Clock className="h-3 w-3 text-muted-foreground" />
@@ -177,7 +179,7 @@ export default function AdminDashboard() {
                 <p className="text-muted-foreground text-sm">Reservas Hoy</p>
                 <p className="text-3xl font-bold text-foreground">{liveStats.reservationsToday}</p>
               </div>
-              <Calendar className="h-8 w-8 text-coral" />
+              <Calendar className="h-8 w-8 text-bahia-gold" />
             </div>
             <div className="mt-2 flex items-center gap-1">
               <CheckCircle className="h-3 w-3 text-emerald-600" />
@@ -268,39 +270,15 @@ export default function AdminDashboard() {
           </Card>
         </ExpandableWidget>
 
-        {/* Barra de Alertas del Sistema - Scrolling */}
-        <Card className="bg-gradient-to-r from-slate-50 to-blue-50 border-l-4 border-l-blue-500">
-          <CardContent className="p-3">
-            <div className="relative overflow-hidden">
-              <div className="animate-scroll-left whitespace-nowrap">
-                <span className="inline-flex items-center gap-2 text-orange-700 mx-4">
-                  <AlertTriangle className="h-4 w-4" />
-                  <span className="text-sm font-medium">Mantenimiento programado: Sistema de acceso - Mañana 10:00</span>
-                </span>
-                <span className="inline-flex items-center gap-2 text-blue-700 mx-4">
-                  <Waves className="h-4 w-4" />
-                  <span className="text-sm font-medium">Marea alta 15:30 - Nivel máximo esperado</span>
-                </span>
-                <span className="inline-flex items-center gap-2 text-green-700 mx-4">
-                  <CheckCircle className="h-4 w-4" />
-                  <span className="text-sm font-medium">Último backup exitoso: 14:25 - Todos los sistemas operativos</span>
-                </span>
-                <span className="inline-flex items-center gap-2 text-purple-700 mx-4">
-                  <Calendar className="h-4 w-4" />
-                  <span className="text-sm font-medium">Evento especial: Inauguración Quincho Norte - Sábado 18:00</span>
-                </span>
-                <span className="inline-flex items-center gap-2 text-red-700 mx-4">
-                  <AlertTriangle className="h-4 w-4" />
-                  <span className="text-sm font-medium">Cámara de seguridad #4 requiere mantenimiento</span>
-                </span>
-                <span className="inline-flex items-center gap-2 text-amber-700 mx-4">
-                  <TrendingUp className="h-4 w-4" />
-                  <span className="text-sm font-medium">Ocupación alta esperada para el fin de semana</span>
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* AI Chat Widget */}
+        <div className="w-full">
+          <AIChatWidget />
+        </div>
+
+        {/* Activity Feed - Real Time */}
+        <div className="w-full">
+          <ActivityFeed />
+        </div>
 
         {/* GIS Map - Collapsible */}
         <div className="w-full">
