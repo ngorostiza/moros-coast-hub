@@ -24,7 +24,7 @@ import { DateFilter } from "@/components/DateFilter";
 const tankLevels = [
   { name: "GAS OIL", current: 3198.77, capacity: 5000, percentage: 63.98, status: "Normal", puma: 28292.00 },
   { name: "ION", current: 3676.66, capacity: 5000, percentage: 77.53, status: "Normal", puma: 15067.54 },
-  { name: "JP1", current: 151, capacity: 5000, percentage: 3.02, status: "Requiere Reabastecimiento", puma: null },
+  { name: "JP1", current: 2151, capacity: 5000, percentage: 43.02, status: "Nivel Normal", puma: null },
   { name: "100LL", current: 4394.50, capacity: 5000, percentage: 87.89, status: "Normal", puma: null }
 ];
 
@@ -142,18 +142,18 @@ export default function FuelAnalysis() {
                <div className="space-y-2">
                  <div className="flex justify-between items-center">
                    <span className="font-medium">JP1</span>
-                   <span className={`text-lg font-bold text-red-700`}>151L</span>
+                   <span className={`text-lg font-bold text-green-700`}>2,151L</span>
                  </div>
                  <div className="relative">
-                   <Progress value={3} className="h-3" />
+                   <Progress value={43} className="h-3" />
                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                      <div 
-                       className="h-full transition-all bg-red-500"
-                       style={{ width: `3%` }}
+                       className="h-full transition-all bg-green-500"
+                       style={{ width: `43%` }}
                      />
                    </div>
                  </div>
-                 <div className="text-xs text-muted-foreground">3% - Requiere Reabastecimiento</div>
+                 <div className="text-xs text-muted-foreground">43% - Nivel Normal</div>
                </div>
                <div className="space-y-2">
                  <div className="flex justify-between items-center">

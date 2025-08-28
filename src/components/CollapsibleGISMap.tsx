@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import GISMap from "@/components/GISMap";
 import { MapPin, Maximize2, Minimize2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 export default function CollapsibleGISMap() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,20 +27,13 @@ export default function CollapsibleGISMap() {
                   </div>
                   Sistema GIS - Vista Expandida
                 </CardTitle>
-                <div className="flex gap-2">
-                  <Link to="/admin/gis">
-                    <Button variant="outline" size="sm">
-                      Vista Completa
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsExpanded(false)}
-                  >
-                    <Minimize2 className="h-4 w-4" />
-                  </Button>
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <Minimize2 className="h-4 w-4" />
+                </Button>
               </div>
             </CardHeader>
             <CardContent className="flex-1 p-0">
@@ -69,11 +61,6 @@ export default function CollapsibleGISMap() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Link to="/admin/gis">
-              <Button variant="outline" size="sm">
-                Vista Completa
-              </Button>
-            </Link>
             <Button
               variant="outline"
               size="sm"
