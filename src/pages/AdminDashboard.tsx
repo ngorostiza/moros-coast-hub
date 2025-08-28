@@ -6,7 +6,6 @@ import CollapsibleGISMap from "@/components/CollapsibleGISMap";
 import MachineryHoursWidget from "@/components/MachineryHoursWidget";
 import ExpandableWidget from "@/components/ExpandableWidget";
 import { AIChatWidget } from "@/components/AIChatWidget";
-import { ActivityFeed } from "@/components/ActivityFeed";
 import { 
   Users, 
   DollarSign, 
@@ -273,11 +272,6 @@ export default function AdminDashboard() {
         {/* AI Chat Widget */}
         <div className="w-full">
           <AIChatWidget />
-        </div>
-
-        {/* Activity Feed - Real Time */}
-        <div className="w-full">
-          <ActivityFeed />
         </div>
 
         {/* GIS Map - Collapsible */}
