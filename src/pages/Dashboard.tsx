@@ -153,12 +153,22 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              <div className="pt-4 border-t">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm text-muted-foreground">Progreso de Construcción</p>
-                  <p className="text-sm font-medium">85%</p>
+              <div className="pt-4 border-t space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground">Progreso de Construcción</p>
+                    <p className="text-sm font-medium">100%</p>
+                  </div>
+                  <Progress value={100} className="h-2" />
                 </div>
-                <Progress value={85} className="h-2" />
+                
+                <div className="flex items-center gap-2 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <CheckCircle className="h-5 w-5 text-emerald-600" />
+                  <div>
+                    <p className="text-sm font-medium text-emerald-700">Requisitos Legales Completos</p>
+                    <p className="text-xs text-emerald-600">El lote cumple con todas las normativas vigentes</p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
