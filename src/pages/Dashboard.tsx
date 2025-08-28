@@ -110,7 +110,7 @@ export default function Dashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Button variant="outline" className="flex items-center justify-center gap-2 h-12">
           <Calendar className="h-4 w-4" />
           Nueva Reserva
@@ -118,10 +118,6 @@ export default function Dashboard() {
         <Button variant="outline" className="flex items-center justify-center gap-2 h-12">
           <Users className="h-4 w-4" />
           Autorizar Visita
-        </Button>
-        <Button variant="destructive" className="flex items-center justify-center gap-2 h-12">
-          <AlertTriangle className="h-4 w-4" />
-          Pánico / Emergencia
         </Button>
       </div>
 
