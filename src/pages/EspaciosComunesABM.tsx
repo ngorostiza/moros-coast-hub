@@ -10,27 +10,35 @@ export default function EspaciosComunesABM() {
   const [espacios] = useState([
     {
       id: 1,
-      nombre: "Quincho Norte",
-      tipo: "Quincho",
-      capacidad: 20,
+      nombre: "Tennis Vivero (x1)",
+      tipo: "Cancha",
+      capacidad: 4,
       estado: "Disponible",
-      ubicacion: "Sector Norte"
+      ubicacion: "Sector Vivero"
     },
     {
       id: 2,
-      nombre: "Muelle Principal",
-      tipo: "Muelle",
-      capacidad: 8,
-      estado: "Mantenimiento",
-      ubicacion: "Puerto"
+      nombre: "Tennis Bosque (x4)",
+      tipo: "Cancha",
+      capacidad: 16,
+      estado: "Disponible",
+      ubicacion: "Sector Bosque"
     },
     {
       id: 3,
-      nombre: "Área de Juegos",
-      tipo: "Recreativo",
-      capacidad: 50,
+      nombre: "Paddle Campo (x2)",
+      tipo: "Cancha",
+      capacidad: 8,
       estado: "Disponible",
-      ubicacion: "Central"
+      ubicacion: "Sector Central"
+    },
+    {
+      id: 4,
+      nombre: "Peludo (tipo SUM)",
+      tipo: "SUM",
+      capacidad: 40,
+      estado: "Disponible",
+      ubicacion: "Sector Recreativo"
     }
   ]);
 

@@ -69,18 +69,6 @@ const facilityData = [
     maintenance: "Regular",
     userRating: 4.0
   },
-  { 
-    name: "El Club (restaurante)",
-    bookings: 18,
-    usage: "Alta",
-    capacity: 50,
-    utilizationRate: 68,
-    revenue: 108000,
-    avgSessionTime: 120,
-    peakHours: "20:00-23:00",
-    maintenance: "Excelente",
-    userRating: 4.7
-  }
 ];
 
 const monthlyTrends = [
@@ -145,7 +133,7 @@ export default function CommonSpacesAnalysis() {
         </div>
 
         {/* Summary Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -154,60 +142,6 @@ export default function CommonSpacesAnalysis() {
                   <p className="text-3xl font-bold text-foreground">{totalStats.bookings}</p>
                 </div>
                 <Calendar className="h-8 w-8 text-blue-600" />
-              </div>
-              <div className="mt-2 flex items-center gap-1">
-                <TrendingUp className="h-3 w-3 text-green-600" />
-                <span className="text-xs text-muted-foreground">+12% vs mes anterior</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm">Ingresos</p>
-                  <p className="text-3xl font-bold text-foreground">${(totalStats.revenue/1000).toFixed(0)}K</p>
-                </div>
-                <DollarSign className="h-8 w-8 text-green-600" />
-              </div>
-              <div className="mt-2 flex items-center gap-1">
-                <TrendingUp className="h-3 w-3 text-green-600" />
-                <span className="text-xs text-muted-foreground">+8% vs mes anterior</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm">Capacidad Total</p>
-                  <p className="text-3xl font-bold text-foreground">{totalStats.capacity}</p>
-                </div>
-                <Users className="h-8 w-8 text-orange-600" />
-              </div>
-              <div className="mt-2 flex items-center gap-1">
-                <span className="text-xs text-muted-foreground">
-                  {totalStats.avgUtilization.toFixed(0)}% utilización promedio
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm">Calificación</p>
-                  <p className="text-3xl font-bold text-foreground">{totalStats.avgRating.toFixed(1)}</p>
-                </div>
-                <Star className="h-8 w-8 text-yellow-500" />
-              </div>
-              <div className="mt-2 flex items-center gap-1">
-                <span className="text-xs text-muted-foreground">
-                  Promedio de satisfacción
-                </span>
               </div>
             </CardContent>
           </Card>
@@ -232,10 +166,9 @@ export default function CommonSpacesAnalysis() {
 
         {/* Detailed Analysis Tabs */}
         <Tabs defaultValue="facilities" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="facilities">Instalaciones</TabsTrigger>
             <TabsTrigger value="utilization">Utilización</TabsTrigger>
-            <TabsTrigger value="revenue">Ingresos</TabsTrigger>
             <TabsTrigger value="trends">Tendencias</TabsTrigger>
           </TabsList>
 
@@ -254,9 +187,6 @@ export default function CommonSpacesAnalysis() {
                       <TableHead>Instalación</TableHead>
                       <TableHead className="text-right">Reservas</TableHead>
                       <TableHead className="text-right">Utilización</TableHead>
-                      <TableHead className="text-right">Ingresos</TableHead>
-                      <TableHead className="text-right">Calificación</TableHead>
-                      <TableHead>Estado</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -269,25 +199,6 @@ export default function CommonSpacesAnalysis() {
                             <Progress value={facility.utilizationRate} className="h-2 w-16" />
                             <span className="text-sm w-8 text-right">{facility.utilizationRate}%</span>
                           </div>
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-green-600">
-                          ${facility.revenue.toLocaleString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            <Star className="h-4 w-4 text-yellow-500" />
-                            <span className="w-6 text-right">{facility.userRating}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={
-                            facility.maintenance === "Excelente" ? "bg-green-100 text-green-800" : 
-                            facility.maintenance === "Bueno" ? "bg-blue-100 text-blue-800" : 
-                            facility.maintenance === "Regular" ? "bg-yellow-100 text-yellow-800" :
-                            "bg-red-100 text-red-800"
-                          }>
-                            {facility.maintenance}
-                          </Badge>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -331,7 +242,7 @@ export default function CommonSpacesAnalysis() {
                 <CardContent>
                   <div className="space-y-3">
                     {facilityData
-                      .sort((a, b) => b.utilizationRate - a.utilizationRate)
+                      .sort((a, b) => b.bookings - a.bookings)
                       .slice(0, 4)
                       .map((facility, index) => (
                         <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
@@ -340,8 +251,8 @@ export default function CommonSpacesAnalysis() {
                             <p className="text-sm text-muted-foreground">Horario pico: {facility.peakHours}</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-lg font-bold text-blue-600">{facility.utilizationRate}%</p>
-                            <p className="text-xs text-muted-foreground">{facility.avgSessionTime} min/sesión</p>
+                            <p className="text-lg font-bold text-blue-600">{facility.bookings}</p>
+                            <p className="text-xs text-muted-foreground">reservas</p>
                           </div>
                         </div>
                       ))}
@@ -351,121 +262,23 @@ export default function CommonSpacesAnalysis() {
             </div>
           </TabsContent>
 
-          <TabsContent value="revenue" className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Ingresos por Instalación</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {facilityData
-                      .sort((a, b) => b.revenue - a.revenue)
-                      .map((facility, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                          <div>
-                            <p className="font-medium">{facility.name}</p>
-                            <p className="text-sm text-muted-foreground">{facility.bookings} reservas</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-lg font-bold text-green-600">${(facility.revenue/1000).toFixed(0)}K</p>
-                            <p className="text-xs text-muted-foreground">
-                              ${(facility.revenue/facility.bookings).toFixed(0)}/reserva
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="lg:col-span-2">
-                <CardHeader>
-                  <CardTitle>Análisis de Rentabilidad</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Instalación</TableHead>
-                        <TableHead className="text-right">Ingresos</TableHead>
-                        <TableHead className="text-right">Precio/Hora</TableHead>
-                        <TableHead className="text-right">Ingresos/Capacidad</TableHead>
-                        <TableHead className="text-right">ROI</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {facilityData.map((facility, index) => {
-                        const pricePerHour = facility.revenue / (facility.bookings * (facility.avgSessionTime / 60));
-                        const revenuePerCapacity = facility.revenue / facility.capacity;
-                        const roi = (facility.revenue / (facility.capacity * 1000)) * 100;
-                        
-                        return (
-                          <TableRow key={index}>
-                            <TableCell className="font-medium">{facility.name}</TableCell>
-                            <TableCell className="text-right font-mono text-green-600">
-                              ${facility.revenue.toLocaleString()}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              ${pricePerHour.toFixed(0)}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              ${revenuePerCapacity.toFixed(0)}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <span className={roi > 100 ? 'text-green-600 font-medium' : roi > 50 ? 'text-yellow-600' : 'text-red-600'}>
-                                {roi.toFixed(0)}%
-                              </span>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
 
           <TabsContent value="trends" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Tendencias Mensuales
-                </CardTitle>
+                <CardTitle>Evolución de Reservas</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium mb-3">Evolución de Reservas</h4>
-                    <div className="space-y-2">
-                      {monthlyTrends.map((trend, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded">
-                          <span className="text-sm font-medium">{trend.month}</span>
-                          <div className="flex items-center gap-2">
-                            <Progress value={(trend.bookings/100)*100} className="h-2 w-16" />
-                            <span className="text-sm">{trend.bookings}</span>
-                          </div>
-                        </div>
-                      ))}
+                <div className="space-y-2">
+                  {monthlyTrends.map((trend, index) => (
+                    <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded">
+                      <span className="text-sm font-medium">{trend.month}</span>
+                      <div className="flex items-center gap-2">
+                        <Progress value={(trend.bookings/100)*100} className="h-2 w-16" />
+                        <span className="text-sm">{trend.bookings}</span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium mb-3">Evolución de Ingresos</h4>
-                    <div className="space-y-2">
-                      {monthlyTrends.map((trend, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-muted/30 rounded">
-                          <span className="text-sm font-medium">{trend.month}</span>
-                          <div className="flex items-center gap-2">
-                            <Progress value={(trend.revenue/300000)*100} className="h-2 w-16" />
-                            <span className="text-sm text-green-600">${(trend.revenue/1000).toFixed(0)}K</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
