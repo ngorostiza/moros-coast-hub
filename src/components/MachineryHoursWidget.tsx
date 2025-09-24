@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
-  Truck, 
+  Wrench,
   Clock,
   TrendingUp,
-  DollarSign
+  TrendingDown
 } from "lucide-react";
 
 const machineryData = [
@@ -17,61 +17,81 @@ const machineryData = [
   { name: "CAMION VOLVO 1 -MWI", hours: 1, arenaTrips: 583, toscaTrips: 175.5, utilization: 80, revenue: 295000 }
 ];
 
-const totalHours = machineryData.reduce((sum, machine) => sum + machine.hours, 0);
-const totalRevenue = machineryData.reduce((sum, machine) => sum + machine.revenue, 0);
-const averageUtilization = machineryData.reduce((sum, machine) => sum + machine.utilization, 0) / machineryData.length;
-
 export default function MachineryHoursWidget() {
+  const totalHours = machineryData.reduce((sum, item) => sum + item.hours, 0);
+  
+  // Top 2 most utilized
+  const topMachines = machineryData.sort((a, b) => b.utilization - a.utilization).slice(0, 2);
+  
+  // Top 2 least utilized
+  const leastMachines = machineryData.sort((a, b) => a.utilization - b.utilization).slice(0, 2);
+
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Truck className="h-5 w-5" />
-          Horas Máquinas
+          <Wrench className="h-5 w-5" />
+          Horas de Maquinaria
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Summary Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="text-center p-3 bg-blue-50 rounded-lg">
-            <Clock className="h-5 w-5 mx-auto mb-2 text-blue-600" />
-            <p className="text-2xl font-bold text-blue-700">{totalHours}</p>
-            <p className="text-sm text-blue-600">Total Horas</p>
-          </div>
-          <div className="text-center p-3 bg-green-50 rounded-lg">
-            <DollarSign className="h-5 w-5 mx-auto mb-2 text-green-600" />
-            <p className="text-2xl font-bold text-green-700">${(totalRevenue/1000).toFixed(0)}K</p>
-            <p className="text-sm text-green-600">Facturación</p>
-          </div>
-          <div className="text-center p-3 bg-orange-50 rounded-lg">
-            <TrendingUp className="h-5 w-5 mx-auto mb-2 text-orange-600" />
-            <p className="text-2xl font-bold text-orange-700">{averageUtilization.toFixed(0)}%</p>
-            <p className="text-sm text-orange-600">Uso Promedio</p>
-          </div>
+      <CardContent className="space-y-6">
+        {/* Summary Stats - Only Total Hours */}
+        <div className="grid grid-cols-1 gap-4">
+          <Card className="bg-blue-50">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-2xl font-bold text-blue-700">{totalHours}</p>
+                  <p className="text-sm text-blue-600">Total Horas</p>
+                </div>
+                <Clock className="h-8 w-8 text-blue-600" />
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Top Machines */}
-        <div className="space-y-3">
-          <h4 className="text-sm font-medium text-muted-foreground">Máquinas Más Utilizadas</h4>
-          {machineryData
-            .sort((a, b) => b.hours - a.hours)
-            .slice(0, 4)
-            .map((machine, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{machine.name}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Progress 
-                      value={machine.utilization} 
-                      className="h-2 flex-1"
-                    />
-                    <Badge variant="outline" className="text-sm font-medium">
-                      {machine.hours}h
-                    </Badge>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Top 2 Most Utilized */}
+          <div>
+            <h4 className="font-semibold mb-3 flex items-center gap-2 text-emerald-700">
+              <TrendingUp className="h-4 w-4" />
+              Top 2 Más Utilizadas
+            </h4>
+            <div className="space-y-3">
+              {topMachines.map((machine, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-emerald-50 rounded-lg">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium">{machine.name}</span>
+                      <span className="text-sm font-mono">{machine.hours}h</span>
+                    </div>
+                    <Progress value={machine.utilization} className="h-2" />
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Top 2 Least Utilized */}
+          <div>
+            <h4 className="font-semibold mb-3 flex items-center gap-2 text-red-700">
+              <TrendingDown className="h-4 w-4" />
+              Top 2 Menos Utilizadas
+            </h4>
+            <div className="space-y-3">
+              {leastMachines.map((machine, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium">{machine.name}</span>
+                      <span className="text-sm font-mono">{machine.hours}h</span>
+                    </div>
+                    <Progress value={machine.utilization} className="h-2" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Transport Summary */}

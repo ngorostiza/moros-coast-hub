@@ -55,7 +55,8 @@ export default function AdminDashboard() {
     authorizedToday: 23,
     reservationsToday: 8,
     collectionRate: 92.5,
-    pendingPayments: 6
+    pendingPayments: 6,
+    staffBdlM: 28
   };
 
   const monthlyData = {
@@ -69,11 +70,10 @@ export default function AdminDashboard() {
   const handleRefresh = () => setLastUpdated(new Date());
 
   const reservationStats = [
-    { facility: "Tennis Vivero (x1)", bookings: 12, usage: "Media" },
-    { facility: "Tennis Bosque (x4)", bookings: 28, usage: "Muy Alta" },
-    { facility: "Paddle Campo (x2)", bookings: 16, usage: "Alta" },
-    { facility: "Peludo (tipo SUM)", bookings: 6, usage: "Media" },
-    { facility: "El Club (restaurante)", bookings: 18, usage: "Alta" }
+    { facility: "Tennis Vivero (x1)", bookings: 12, status: "Disponible" },
+    { facility: "Tennis Bosque (x4)", bookings: 28, status: "En Uso" },
+    { facility: "Paddle Campo (x2)", bookings: 16, status: "En Mantenimiento" },
+    { facility: "Peludo (tipo SUM)", bookings: 6, status: "Disponible" }
   ];
 
   return (
@@ -103,6 +103,40 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Recent Activity - Full Width */}
+        <ExpandableWidget expandUrl="/admin/activity" expandText="ver más">
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                Actividad Reciente
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {recentActivity.slice(0, 2).map((activity, index) => (
+                  <div key={index} className="flex items-center gap-4 p-3 bg-muted/30 rounded-lg animate-fade-in">
+                    <div className={`p-2 rounded-full ${
+                      activity.type === 'security' ? 'bg-emerald-50 text-emerald-600' :
+                      activity.type === 'payment' ? 'bg-blue-50 text-blue-600' :
+                      'bg-orange-50 text-orange-600'
+                    }`}>
+                      <activity.icon className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{activity.title}</p>
+                      <p className="text-sm text-muted-foreground truncate">{activity.description}</p>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {activity.time}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </ExpandableWidget>
+
         {/* Live Stats - Real Time - 5 Widgets */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
         <Card className="bg-gradient-ocean text-white">
@@ -125,16 +159,14 @@ export default function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-3xl font-bold">3</p>
-                <p className="text-white/80 text-sm">Médicos</p>
+                <p className="text-3xl font-bold">{liveStats.staffBdlM}</p>
+                <p className="text-white/80 text-sm">STAFF BdlM</p>
               </div>
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm">+</span>
-              </div>
+              <Users className="h-8 w-8 text-white/80" />
             </div>
             <div className="mt-2 flex items-center gap-1">
               <CheckCircle className="h-3 w-3" />
-              <span className="text-xs text-white/80">Guardia 24hs</span>
+              <span className="text-xs text-white/80">Personal activo</span>
             </div>
           </CardContent>
         </Card>
@@ -200,70 +232,70 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">GAS OIL</span>
-                    <span className={`text-lg font-bold ${(3198.77/5000)*100 >= 41 ? 'text-blue-700' : (3198.77/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,199L</span>
+                    <span className="font-medium">VIAL GAS OIL 1</span>
+                    <span className={`text-lg font-bold ${26.63 >= 41 ? 'text-green-700' : 26.63 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,331L</span>
                   </div>
                   <div className="relative">
-                    <Progress value={(3198.77/5000)*100} className="h-3" />
+                    <Progress value={26.63} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(3198.77/5000)*100 >= 41 ? 'bg-green-500' : (3198.77/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(3198.77/5000)*100}%` }}
+                        className={`h-full transition-all ${26.63 >= 41 ? 'bg-green-500' : 26.63 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: '26.63%' }}
                       />
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">64% - Nivel Normal</div>
-                  <div className="text-sm text-foreground font-bold">Stock PUMA: 28,292.00 L</div>
+                  <div className="text-xs text-muted-foreground">26.63% - Nivel Bajo</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 60,892.00 L GAS OIL</div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">ION</span>
-                    <span className={`text-lg font-bold ${(3676.66/5000)*100 >= 41 ? 'text-blue-700' : (3676.66/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>3,677L</span>
+                    <span className="font-medium">VIAL ION 1</span>
+                    <span className={`text-lg font-bold ${54.72 >= 41 ? 'text-green-700' : 54.72 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>2,736L</span>
                   </div>
                   <div className="relative">
-                    <Progress value={(3676.66/5000)*100} className="h-3" />
+                    <Progress value={54.72} className="h-3" />
                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full transition-all ${(3676.66/5000)*100 >= 41 ? 'bg-green-500' : (3676.66/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                        style={{ width: `${(3676.66/5000)*100}%` }}
+                        className={`h-full transition-all ${54.72 >= 41 ? 'bg-green-500' : 54.72 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: '54.72%' }}
                       />
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">74% - Nivel Normal</div>
-                  <div className="text-sm text-foreground font-bold">Stock PUMA: 15,067.54 L</div>
+                  <div className="text-xs text-muted-foreground">54.72% - Nivel Normal</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 33,067.54 L PrOvSTOCK</div>
                 </div>
-                 <div className="space-y-2">
-                   <div className="flex justify-between items-center">
-                     <span className="font-medium">JP1</span>
-                     <span className={`text-lg font-bold ${(2151/5000)*100 >= 41 ? 'text-blue-700' : (2151/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>2,151L</span>
-                   </div>
-                   <div className="relative">
-                     <Progress value={(2151/5000)*100} className="h-3" />
-                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                       <div 
-                         className={`h-full transition-all ${(2151/5000)*100 >= 41 ? 'bg-green-500' : (2151/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                         style={{ width: `${(2151/5000)*100}%` }}
-                       />
-                     </div>
-                   </div>
-                   <div className="text-xs text-muted-foreground">43% - Nivel Normal</div>
-                 </div>
-                 <div className="space-y-2">
-                   <div className="flex justify-between items-center">
-                     <span className="font-medium">100LL</span>
-                     <span className={`text-lg font-bold ${(4394.50/5000)*100 >= 41 ? 'text-blue-700' : (4394.50/5000)*100 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,395L</span>
-                   </div>
-                   <div className="relative">
-                     <Progress value={(4394.50/5000)*100} className="h-3" />
-                     <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
-                       <div 
-                         className={`h-full transition-all ${(4394.50/5000)*100 >= 41 ? 'bg-green-500' : (4394.50/5000)*100 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                         style={{ width: `${(4394.50/5000)*100}%` }}
-                       />
-                     </div>
-                   </div>
-                   <div className="text-xs text-muted-foreground">88% - Nivel Normal</div>
-                 </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">HANGAR JP1 1</span>
+                    <span className={`text-lg font-bold ${35.02 >= 41 ? 'text-green-700' : 35.02 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>1,751L</span>
+                  </div>
+                  <div className="relative">
+                    <Progress value={35.02} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${35.02 >= 41 ? 'bg-green-500' : 35.02 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: '35.02%' }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">35.02% - Nivel Bajo</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">HANGAR 100LL 1</span>
+                    <span className={`text-lg font-bold ${84.89 >= 41 ? 'text-green-700' : 84.89 >= 20 ? 'text-yellow-700' : 'text-red-700'}`}>4,245L</span>
+                  </div>
+                  <div className="relative">
+                    <Progress value={84.89} className="h-3" />
+                    <div className="absolute inset-0 h-3 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full transition-all ${84.89 >= 41 ? 'bg-green-500' : 84.89 >= 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        style={{ width: '84.89%' }}
+                      />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">84.89% - Nivel Alto</div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -284,172 +316,81 @@ export default function AdminDashboard() {
           <MachineryHoursWidget />
         </ExpandableWidget>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Financial Overview - Left Column */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Monthly Collection Summary */}
-            <ExpandableWidget expandUrl="/admin/reportes" expandText="ver más">
-              <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  Resumen Financiero - Febrero 2024
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Total Facturado</p>
-                    <p className="text-2xl font-bold text-blue-700">${monthlyData.totalExpenses.toLocaleString()}</p>
-                  </div>
-                  <div className="text-center p-4 bg-emerald-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Cobrado</p>
-                    <p className="text-2xl font-bold text-emerald-700">${monthlyData.collected.toLocaleString()}</p>
-                  </div>
-                  <div className="text-center p-4 bg-orange-50 rounded-lg">
-                    <p className="text-sm text-muted-foreground">Pendiente</p>
-                    <p className="text-2xl font-bold text-orange-700">${monthlyData.pending.toLocaleString()}</p>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium">Tasa de Cobranza</span>
-                    <span className="text-sm text-muted-foreground">{monthlyData.collectionRate}%</span>
-                  </div>
-                  <Progress value={monthlyData.collectionRate} className="h-3" />
-                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                    <span>Meta: 95%</span>
-                    <span>{liveStats.pendingPayments} propietarios pendientes</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            </ExpandableWidget>
-
-            {/* Reservations Performance */}
-            <ExpandableWidget expandUrl="/admin/espacios-comunes" expandText="ver más">
-              <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
-                  Rendimiento de Espacios Comunes
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {reservationStats.map((facility, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-                      <div>
-                        <p className="font-medium">{facility.facility}</p>
-                        <p className="text-sm text-muted-foreground">{facility.bookings} reservas este mes</p>
-                      </div>
-                      <div className="text-right">
-                        <Badge variant="outline" className={
-                          facility.usage === "Muy Alta" ? "bg-red-50 text-red-700 border-red-200" :
-                          facility.usage === "Alta" ? "bg-orange-50 text-orange-700 border-orange-200" :
-                          facility.usage === "Media" ? "bg-yellow-50 text-yellow-700 border-yellow-200" :
-                          "bg-gray-50 text-gray-700 border-gray-200"
-                        }>
-                          {facility.usage}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            </ExpandableWidget>
-          </div>
-
-          {/* Right Column - Live Monitoring */}
-          <div className="space-y-6">
-            {/* Community Status */}
+        {/* Main Dashboard Grid - Financial Overview */}
+        <div className="space-y-6">
+          {/* Monthly Collection Summary */}
+          <ExpandableWidget expandUrl="/admin/reportes" expandText="ver más">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Building className="h-5 w-5" />
-                  Estado de la Comunidad
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Ocupación</span>
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700">Alta</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Seguridad</span>
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700">Normal</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Servicios</span>
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700">Operativo</Badge>
-                  </div>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <DollarSign className="h-5 w-5" />
+                Resumen Financiero - Septiembre 2025
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Total Facturado</p>
+                  <p className="text-2xl font-bold text-blue-700">${monthlyData.totalExpenses.toLocaleString()}</p>
                 </div>
-                
-                <div className="pt-4 border-t">
-                  <p className="text-sm text-muted-foreground mb-2">Distribución por Sector</p>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Del Campo</span>
-                      <span>41 personas</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>El Club</span>
-                      <span>28 personas</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Playa Mía</span>
-                      <span>34 personas</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Espacio Verde</span>
-                      <span>24 personas</span>
-                    </div>
-                  </div>
+                <div className="text-center p-4 bg-emerald-50 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Cobrado</p>
+                  <p className="text-2xl font-bold text-emerald-700">${monthlyData.collected.toLocaleString()}</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Activity */}
-            <ExpandableWidget expandUrl="/admin/monitoreo" expandText="ver más">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    Actividad Reciente
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {recentActivity.map((activity, index) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-                        <div className={`p-1 rounded-full ${
-                          activity.type === 'security' ? 'bg-red-100' :
-                          activity.type === 'payment' ? 'bg-green-100' :
-                          'bg-blue-100'
-                        }`}>
-                          <activity.icon className={`h-4 w-4 ${
-                            activity.type === 'security' ? 'text-red-600' :
-                            activity.type === 'payment' ? 'text-green-600' :
-                            'text-blue-600'
-                          }`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium">{activity.title}</p>
-                          <p className="text-xs text-muted-foreground">{activity.description}</p>
-                        </div>
-                        <span className="text-xs text-muted-foreground">{activity.time}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </ExpandableWidget>
-          </div>
+                <div className="text-center p-4 bg-orange-50 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Pendiente</p>
+                  <p className="text-2xl font-bold text-orange-700">${monthlyData.pending.toLocaleString()}</p>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium">Tasa de Cobranza</span>
+                  <span className="text-sm text-muted-foreground">{monthlyData.collectionRate}%</span>
+                </div>
+                <Progress value={monthlyData.collectionRate} className="h-3" />
+                <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+                  <span>Meta: 95%</span>
+                  <span>{liveStats.pendingPayments} propietarios pendientes</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          </ExpandableWidget>
         </div>
+
+        {/* Reservations Performance - Full Width */}
+        <ExpandableWidget expandUrl="/admin/espacios-comunes" expandText="ver más">
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Rendimiento de Espacios Comunes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {reservationStats.map((facility, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                    <div>
+                      <p className="font-medium">{facility.facility}</p>
+                      <p className="text-sm text-muted-foreground">{facility.bookings} reservas este mes</p>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="outline" className={
+                        facility.status === "En Uso" ? "bg-orange-50 text-orange-700 border-orange-200" :
+                        facility.status === "En Mantenimiento" ? "bg-red-50 text-red-700 border-red-200" :
+                        "bg-green-50 text-green-700 border-green-200"
+                      }>
+                        {facility.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </ExpandableWidget>
       </div>
     </div>
   );
