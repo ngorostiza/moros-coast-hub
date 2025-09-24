@@ -54,12 +54,8 @@ const adminItems = [
   },
   { 
     title: "Lotes", 
-    url: "/admin/lotes", 
-    icon: MapPin,
-    subItems: [
-      { title: "Vista General", url: "/admin/lotes" },
-      { title: "ABM", url: "/admin/lotes/abm" },
-    ]
+    url: "/admin/lotes/abm", 
+    icon: MapPin
   },
   { 
     title: "Usuarios", 

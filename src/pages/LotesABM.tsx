@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Edit, Trash2, MapPin, Home } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2, MapPin, Home, CheckCircle, Building, Hammer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -15,57 +15,44 @@ import {
 
 export default function LotesABM() {
   const navigate = useNavigate();
-  const [lotes] = useState([
-    {
-      id: 1,
-      numero: "L-001",
-      propietario: "Juan Pérez",
-      superficie: "850 m²",
-      estado: "Ocupado",
-      sector: "Norte",
-      tipo: "Residencial",
-      construcciones: 1
-    },
-    {
-      id: 2,
-      numero: "L-002",
-      propietario: "María González",
-      superficie: "720 m²",
-      estado: "Disponible",
-      sector: "Sur",
-      tipo: "Residencial",
-      construcciones: 0
-    },
-    {
-      id: 3,
-      numero: "L-045",
-      propietario: "Roberto Silva",
-      superficie: "1200 m²",
-      estado: "En Construcción",
-      sector: "Este",
-      tipo: "Residencial",
-      construcciones: 1
-    },
-    {
-      id: 4,
-      numero: "L-078",
-      propietario: "Ana Martínez",
-      superficie: "950 m²",
-      estado: "Ocupado",
-      sector: "Oeste",
-      tipo: "Residencial",
-      construcciones: 2
+  // Generar 150 lotes con datos realistas
+  const [lotes] = useState(() => {
+    const propietarios = ["FENDA", "Rafael De Las Carreras", "Marcelo Giunti"];
+    const calles = ["de abajo", "el zorro", "el encuentro"];
+    const estados = ["Construido", "En Construcción", "Vendido", "Disponible"];
+    const superficies = ["650 m²", "720 m²", "850 m²", "920 m²", "1050 m²", "1200 m²"];
+    
+    const lotes = [];
+    
+    // Distribuir estados: 60 construidos + 6 en construcción + 19 vendidos + 65 disponibles = 150
+    for (let i = 1; i <= 150; i++) {
+      let estado;
+      if (i <= 60) estado = "Construido";
+      else if (i <= 66) estado = "En Construcción"; 
+      else if (i <= 85) estado = "Vendido";
+      else estado = "Disponible";
+      
+      lotes.push({
+        id: i,
+        numero: `L-${i.toString().padStart(3, '0')}`,
+        propietario: estado === "Disponible" ? "-" : propietarios[i % propietarios.length],
+        superficie: superficies[i % superficies.length],
+        estado: estado,
+        calle: calles[i % calles.length]
+      });
     }
-  ]);
+    
+    return lotes;
+  });
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/admin/lotes")}>
+          <Button variant="ghost" size="sm" onClick={() => navigate("/admin/dashboard")}>
             <ArrowLeft className="h-4 w-4" />
-            Volver
+            Dashboard
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-foreground">ABM Lotes</h1>
@@ -79,7 +66,7 @@ export default function LotesABM() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -87,7 +74,7 @@ export default function LotesABM() {
                 <Home className="h-4 w-4 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold">245</p>
+                <p className="text-2xl font-bold">150</p>
                 <p className="text-sm text-muted-foreground">Total Lotes</p>
               </div>
             </div>
@@ -97,11 +84,24 @@ export default function LotesABM() {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 rounded-lg">
-                <MapPin className="h-4 w-4 text-green-600" />
+                <CheckCircle className="h-4 w-4 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold">189</p>
-                <p className="text-sm text-muted-foreground">Ocupados</p>
+                <p className="text-2xl font-bold">85</p>
+                <p className="text-sm text-muted-foreground">Vendidos</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Building className="h-4 w-4 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">60</p>
+                <p className="text-sm text-muted-foreground">Construidos</p>
               </div>
             </div>
           </CardContent>
@@ -110,10 +110,10 @@ export default function LotesABM() {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-orange-100 rounded-lg">
-                <Edit className="h-4 w-4 text-orange-600" />
+                <Hammer className="h-4 w-4 text-orange-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold">22</p>
+                <p className="text-2xl font-bold">6</p>
                 <p className="text-sm text-muted-foreground">En Construcción</p>
               </div>
             </div>
@@ -126,7 +126,7 @@ export default function LotesABM() {
                 <Plus className="h-4 w-4 text-gray-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold">34</p>
+                <p className="text-2xl font-bold">65</p>
                 <p className="text-sm text-muted-foreground">Disponibles</p>
               </div>
             </div>
@@ -146,9 +146,8 @@ export default function LotesABM() {
                 <TableHead>Lote</TableHead>
                 <TableHead>Propietario</TableHead>
                 <TableHead>Superficie</TableHead>
-                <TableHead>Sector</TableHead>
+                <TableHead>Calle de acceso</TableHead>
                 <TableHead>Estado</TableHead>
-                <TableHead>Construcciones</TableHead>
                 <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -161,15 +160,18 @@ export default function LotesABM() {
                   <TableCell>
                     <div className="flex items-center gap-1">
                       <MapPin className="h-3 w-3" />
-                      {lote.sector}
+                      {lote.calle}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={lote.estado === "Ocupado" ? "default" : lote.estado === "Disponible" ? "secondary" : "destructive"}>
+                    <Badge variant={
+                      lote.estado === "Construido" || lote.estado === "Vendido" ? "default" : 
+                      lote.estado === "Disponible" ? "secondary" : 
+                      "destructive"
+                    }>
                       {lote.estado}
                     </Badge>
                   </TableCell>
-                  <TableCell>{lote.construcciones}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button variant="ghost" size="sm">

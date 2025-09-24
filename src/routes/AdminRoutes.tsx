@@ -14,7 +14,6 @@ import AdminConfigSistema from "@/pages/AdminConfigSistema";
 
 // New pages
 import EspaciosComunesABM from "@/pages/EspaciosComunesABM";
-import LotesVista from "@/pages/LotesVista";
 import LotesABM from "@/pages/LotesABM";
 import UsuariosAutorizados from "@/pages/UsuariosAutorizados";
 import UsuariosFamiliares from "@/pages/UsuariosFamiliares";
@@ -42,7 +41,7 @@ export default function AdminRoutes() {
       <Route path="/admin/monitoreo" element={<AdminMonitoreo />} />
       
       {/* Lotes */}
-      <Route path="/admin/lotes" element={<LotesVista />} />
+      <Route path="/admin/lotes" element={<LotesABM />} />
       <Route path="/admin/lotes/abm" element={<LotesABM />} />
       
       {/* User Management */}
