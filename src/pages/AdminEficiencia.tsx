@@ -19,71 +19,71 @@ const machineryEfficiency = [
     name: "RETRO CAT",
     hoursWorked: 284,
     fuelConsumed: 3420,
-    destinations: ["Cantera Norte", "Acceso Principal"],
-    operators: ["Juan Pérez", "Carlos Martinez"]
+    destinations: ["111", "107"],
+    operators: ["Fer", "Oli"]
   },
   {
     name: "PALA XCMG",
     hoursWorked: 196,
     fuelConsumed: 2380,
-    destinations: ["Zona Residencial", "Sector Del Mar"],
-    operators: ["Miguel Rodriguez"]
+    destinations: ["75", "Vivero"],
+    operators: ["Juancho"]
   },
   {
     name: "EXCAVADORA VOLVO",
     hoursWorked: 312,
     fuelConsumed: 4680,
-    destinations: ["Cantera Sur", "Drenaje Principal"],
-    operators: ["Ana García", "Pedro Gonzalez"]
+    destinations: ["Raleo", "89"],
+    operators: ["Baio", "Gaby"]
   },
   {
     name: "PALA CAT",
     hoursWorked: 168,
     fuelConsumed: 2240,
-    destinations: ["Movimiento Tierra Lote 45"],
-    operators: ["Luis Fernandez"]
+    destinations: ["Playa"],
+    operators: ["Alfredo"]
   },
   {
     name: "EXCAVADORA JOHN DEERE",
     hoursWorked: 245,
     fuelConsumed: 2940,
-    destinations: ["Nivelación Acceso Norte", "Cantera Este"],
-    operators: ["Roberto Silva", "Carmen López"]
+    destinations: ["Oasis", "Galpón forestal"],
+    operators: ["Cordobes", "David"]
   },
   {
     name: "MOTONIVELADORA",
     hoursWorked: 156,
     fuelConsumed: 1872,
-    destinations: ["Acceso Principal", "Vías Internas"],
-    operators: ["Daniel Morales"]
+    destinations: ["111", "107"],
+    operators: ["Fer"]
   },
   {
     name: "TRACTOR MASSEY",
     hoursWorked: 89,
     fuelConsumed: 1068,
-    destinations: ["Zona Verde", "Mantenimiento General"],
-    operators: ["José Martinez"]
+    destinations: ["Vivero", "75"],
+    operators: ["Oli"]
   },
   {
     name: "BELARUS",
     hoursWorked: 124,
     fuelConsumed: 1488,
-    destinations: ["Limpieza Terrenos", "Transporte Menor"],
-    operators: ["Fernando Castro"]
+    destinations: ["89", "Raleo"],
+    operators: ["Juancho"]
   },
   {
     name: "CAMION VOLVO 1 -MWI",
     hoursWorked: 298,
     fuelConsumed: 4470,
-    destinations: ["Transporte Arena", "Transporte Tosca", "Cantera Norte"],
-    operators: ["Ricardo Vega", "Andrés Ruiz"]
+    destinations: ["Playa", "Oasis", "111"],
+    operators: ["Baio", "Gaby"]
   },
   {
     name: "CAMION VOLVO 2 -AF",
     hoursWorked: 276,
     fuelConsumed: 4140,
-    destinations: ["Transporte Materiales", "Cantera Sur"],
-    operators: ["Mario Diaz", "Pablo Herrera"]
+    destinations: ["Galpón forestal", "107"],
+    operators: ["Alfredo", "Cordobes"]
   }
 ];
 
@@ -118,10 +118,6 @@ export default function AdminEficiencia() {
               <div>
                 <p className="text-muted-foreground text-sm">Horas Trabajadas</p>
                 <p className="text-2xl font-bold">2,148</p>
-                <div className="flex items-center gap-1 text-sm text-gray-600 mt-1">
-                  <Clock className="h-3 w-3" />
-                  <span>Este trimestre</span>
-                </div>
               </div>
               <Clock className="h-8 w-8 text-blue-500" />
             </div>
@@ -133,7 +129,7 @@ export default function AdminEficiencia() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-muted-foreground text-sm">Total Expendios Combustible (Terrestre)</p>
-                <p className="text-2xl font-bold">28,698 L</p>
+                <p className="text-2xl font-bold">32,028.07 L</p>
                 <div className="flex items-center gap-1 text-sm text-orange-600 mt-1">
                   <Fuel className="h-3 w-3" />
                   <span>13.4 L/hora promedio</span>
@@ -178,12 +174,7 @@ export default function AdminEficiencia() {
       </div>
 
       {/* Main Analysis */}
-      <Tabs defaultValue="machinery">
-        <TabsList>
-          <TabsTrigger value="machinery">Por Maquinaria</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="machinery" className="space-y-6">
+      <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -243,8 +234,7 @@ export default function AdminEficiencia() {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
-      </Tabs>
+      </div>
     </div>
   );
 }
