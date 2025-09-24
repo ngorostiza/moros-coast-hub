@@ -8,12 +8,10 @@ import {
   Truck, 
   Clock,
   TrendingUp,
-  DollarSign,
   ArrowLeft,
   RefreshCw,
-  Fuel,
-  Wrench,
-  BarChart3
+  Mountain,
+  MapPin
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DateFilter } from "@/components/DateFilter";
@@ -171,14 +169,15 @@ export default function MachineryAnalysis() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm">Facturación Total</p>
-                  <p className="text-3xl font-bold text-foreground">${(totalStats.revenue/1000).toFixed(0)}K</p>
+                  <p className="text-muted-foreground text-sm">Total Viajes Arena</p>
+                  <p className="text-3xl font-bold text-foreground">{totalStats.arenaTrips}</p>
                 </div>
-                <DollarSign className="h-8 w-8 text-green-600" />
+                <Mountain className="h-8 w-8 text-amber-600" />
               </div>
               <div className="mt-2 flex items-center gap-1">
-                <TrendingUp className="h-3 w-3 text-green-600" />
-                <span className="text-xs text-muted-foreground">+8% vs mes anterior</span>
+                <span className="text-xs text-muted-foreground">
+                  {(totalStats.arenaTrips * 28).toLocaleString()}m³ total
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -187,14 +186,14 @@ export default function MachineryAnalysis() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm">Ganancia Neta</p>
-                  <p className="text-3xl font-bold text-foreground">${(totalStats.netProfit/1000).toFixed(0)}K</p>
+                  <p className="text-muted-foreground text-sm">Total Viajes Tosca</p>
+                  <p className="text-3xl font-bold text-foreground">{totalStats.toscaTrips}</p>
                 </div>
-                <BarChart3 className="h-8 w-8 text-emerald-600" />
+                <MapPin className="h-8 w-8 text-stone-600" />
               </div>
               <div className="mt-2 flex items-center gap-1">
                 <span className="text-xs text-muted-foreground">
-                  {((totalStats.netProfit/totalStats.revenue)*100).toFixed(1)}% margen
+                  {(totalStats.toscaTrips * 28).toLocaleString()}m³ total
                 </span>
               </div>
             </CardContent>
@@ -220,10 +219,9 @@ export default function MachineryAnalysis() {
 
         {/* Detailed Analysis Tabs */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="overview">Vista General</TabsTrigger>
             <TabsTrigger value="performance">Rendimiento</TabsTrigger>
-            <TabsTrigger value="costs">Costos</TabsTrigger>
             <TabsTrigger value="transport">Transporte</TabsTrigger>
           </TabsList>
 
@@ -236,47 +234,43 @@ export default function MachineryAnalysis() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Máquina</TableHead>
-                      <TableHead className="text-right">Horas</TableHead>
-                      <TableHead className="text-right">Utilización</TableHead>
-                      <TableHead className="text-right">Facturación</TableHead>
-                      <TableHead className="text-right">Ganancia</TableHead>
-                      <TableHead>Estado</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {machineryData.map((machine, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{machine.name}</TableCell>
-                        <TableCell className="text-right">{machine.hours}h</TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-3">
-                            <Progress value={machine.utilization} className="h-2 w-16" />
-                            <span className="text-sm w-8 text-right">{machine.utilization}%</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-green-600">
-                          ${machine.revenue.toLocaleString()}
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-emerald-600">
-                          ${machine.netProfit.toLocaleString()}
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={
-                            machine.status === "Operativa" ? "bg-green-100 text-green-800" : 
-                            machine.status === "Mantenimiento" ? "bg-yellow-100 text-yellow-800" : 
-                            "bg-red-100 text-red-800"
-                          }>
-                            {machine.status}
-                          </Badge>
-                        </TableCell>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Máquina</TableHead>
+                        <TableHead className="text-right">Horas</TableHead>
+                        <TableHead className="text-right">Viajes de Material</TableHead>
+                        <TableHead>Estado</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {machineryData.map((machine, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium">{machine.name}</TableCell>
+                          <TableCell className="text-right">{machine.hours}h</TableCell>
+                          <TableCell className="text-right">
+                            {machine.arenaTrips + machine.toscaTrips > 0 ? (
+                              <div className="text-sm">
+                                <div>Arena: {machine.arenaTrips}</div>
+                                <div>Tosca: {machine.toscaTrips}</div>
+                              </div>
+                            ) : (
+                              <span className="text-muted-foreground">-</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <Badge className={
+                              machine.status === "Operativa" ? "bg-green-100 text-green-800" : 
+                              machine.status === "Mantenimiento" ? "bg-yellow-100 text-yellow-800" : 
+                              "bg-red-100 text-red-800"
+                            }>
+                              {machine.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
               </CardContent>
             </Card>
           </TabsContent>
@@ -285,41 +279,47 @@ export default function MachineryAnalysis() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Distribución de Utilización</CardTitle>
+                  <CardTitle>Top 3 Máquinas Más Utilizadas</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {utilizationStats.map((stat, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-4 h-4 rounded ${stat.color}`}></div>
-                          <span className="text-sm font-medium">{stat.range}</span>
+                  <div className="space-y-3">
+                    {machineryData
+                      .sort((a, b) => b.hours - a.hours)
+                      .slice(0, 3)
+                      .map((machine, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                          <div>
+                            <p className="font-medium">{machine.name}</p>
+                            <p className="text-sm text-muted-foreground">{machine.status}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold text-green-700">{machine.hours}h</p>
+                            <p className="text-xs text-muted-foreground">#{index + 1} puesto</p>
+                          </div>
                         </div>
-                        <span className="text-sm text-muted-foreground">{stat.count} máquinas</span>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Top Performers</CardTitle>
+                  <CardTitle>Top 3 Máquinas Menos Utilizadas</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {machineryData
-                      .sort((a, b) => b.netProfit - a.netProfit)
-                      .slice(0, 4)
+                      .sort((a, b) => a.hours - b.hours)
+                      .slice(0, 3)
                       .map((machine, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                        <div key={index} className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
                           <div>
                             <p className="font-medium">{machine.name}</p>
-                            <p className="text-sm text-muted-foreground">{machine.hours}h trabajadas</p>
+                            <p className="text-sm text-muted-foreground">{machine.status}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-bold text-green-600">${(machine.netProfit/1000).toFixed(0)}K</p>
-                            <p className="text-xs text-muted-foreground">{machine.utilization}% uso</p>
+                            <p className="text-lg font-bold text-orange-700">{machine.hours}h</p>
+                            <p className="text-xs text-muted-foreground">Oportunidad de mejora</p>
                           </div>
                         </div>
                       ))}
@@ -329,123 +329,83 @@ export default function MachineryAnalysis() {
             </div>
           </TabsContent>
 
-          <TabsContent value="costs" className="space-y-4">
+
+          <TabsContent value="transport" className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  Análisis Detallado de Costos
+                  <Truck className="h-5 w-5" />
+                  Eficiencia de Transporte
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Máquina</TableHead>
-                      <TableHead className="text-right">Costo Operativo</TableHead>
-                      <TableHead className="text-right">Costo Laboral</TableHead>
-                      <TableHead className="text-right">Costo Combustible</TableHead>
-                      <TableHead className="text-right">Total Costos</TableHead>
-                      <TableHead className="text-right">Margen</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {machineryData.map((machine, index) => {
-                      const totalCosts = machine.operatingCost + machine.laborCost + machine.fuelCost;
-                      const margin = ((machine.netProfit / machine.revenue) * 100);
-                      return (
-                        <TableRow key={index}>
-                          <TableCell className="font-medium">{machine.name}</TableCell>
-                          <TableCell className="text-right text-red-600">
-                            ${machine.operatingCost.toLocaleString()}
-                          </TableCell>
-                          <TableCell className="text-right text-red-600">
-                            ${machine.laborCost.toLocaleString()}
-                          </TableCell>
-                          <TableCell className="text-right text-red-600">
-                            ${machine.fuelCost.toLocaleString()}
-                          </TableCell>
-                          <TableCell className="text-right font-mono text-red-700">
-                            ${totalCosts.toLocaleString()}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <span className={margin > 50 ? 'text-green-600 font-medium' : margin > 30 ? 'text-yellow-600' : 'text-red-600'}>
-                              {margin.toFixed(1)}%
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="transport" className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Transporte de Materiales</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-amber-50 rounded-lg border">
-                        <Truck className="h-8 w-8 mx-auto mb-2 text-amber-600" />
-                        <p className="text-2xl font-bold text-amber-700">{totalStats.arenaTrips}</p>
-                        <p className="text-sm text-amber-600">Viajes Arena 28m³</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {(totalStats.arenaTrips * 28).toLocaleString()}m³ total
-                        </p>
+                <div className="space-y-6">
+                  <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border">
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="text-lg font-semibold">Volumen Total Transportado</span>
+                      <span className="text-2xl font-bold text-green-700">
+                        {((totalStats.arenaTrips + totalStats.toscaTrips) * 28).toLocaleString()}m³
+                      </span>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                      <div className="p-3 bg-amber-50 rounded-lg border">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Mountain className="h-6 w-6 text-amber-600" />
+                          <span className="font-medium text-amber-800">Arena</span>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xl font-bold text-amber-700">{totalStats.arenaTrips} viajes</p>
+                          <p className="text-sm text-amber-600">
+                            {(totalStats.arenaTrips * 28).toLocaleString()}m³ transportados
+                          </p>
+                          <p className="text-xs text-muted-foreground">28m³ por viaje</p>
+                        </div>
                       </div>
-                      <div className="text-center p-4 bg-stone-100 rounded-lg border">
-                        <Truck className="h-8 w-8 mx-auto mb-2 text-stone-600" />
-                        <p className="text-2xl font-bold text-stone-700">{totalStats.toscaTrips}</p>
-                        <p className="text-sm text-stone-600">Viajes Tosca 28m³</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {(totalStats.toscaTrips * 28).toLocaleString()}m³ total
-                        </p>
+                      
+                      <div className="p-3 bg-stone-100 rounded-lg border">
+                        <div className="flex items-center gap-3 mb-2">
+                          <MapPin className="h-6 w-6 text-stone-600" />
+                          <span className="font-medium text-stone-800">Tosca</span>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xl font-bold text-stone-700">{totalStats.toscaTrips} viajes</p>
+                          <p className="text-sm text-stone-600">
+                            {(totalStats.toscaTrips * 28).toLocaleString()}m³ transportados
+                          </p>
+                          <p className="text-xs text-muted-foreground">28m³ por viaje</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Eficiencia de Transporte</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-green-50 rounded-lg">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">Volumen Total Transportado</span>
-                        <span className="text-lg font-bold text-green-700">
-                          {((totalStats.arenaTrips + totalStats.toscaTrips) * 28).toLocaleString()}m³
-                        </span>
-                      </div>
-                    </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="p-3 bg-blue-50 rounded-lg">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">Ingresos por Transporte</span>
-                        <span className="text-lg font-bold text-blue-700">
-                          ${machineryData.find(m => m.name.includes("CAMION"))?.revenue.toLocaleString() || "0"}
-                        </span>
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Total Viajes</p>
+                        <p className="text-2xl font-bold text-blue-700">
+                          {totalStats.arenaTrips + totalStats.toscaTrips}
+                        </p>
                       </div>
                     </div>
                     <div className="p-3 bg-purple-50 rounded-lg">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">Costo por m³</span>
-                        <span className="text-lg font-bold text-purple-700">
-                          ${(machineryData.find(m => m.name.includes("CAMION"))?.revenue || 0 / ((totalStats.arenaTrips + totalStats.toscaTrips) * 28)).toFixed(0)}
-                        </span>
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Promedio Diario</p>
+                        <p className="text-2xl font-bold text-purple-700">
+                          {((totalStats.arenaTrips + totalStats.toscaTrips) / 30).toFixed(1)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-indigo-50 rounded-lg">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground">Eficiencia</p>
+                        <p className="text-2xl font-bold text-indigo-700">98.5%</p>
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
