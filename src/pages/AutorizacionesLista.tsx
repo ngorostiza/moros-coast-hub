@@ -8,9 +8,9 @@ export default function AutorizacionesLista() {
   const { toast } = useToast();
   
   const autorizaciones = [
-    { id: 1, nombre: "Ana López", dni: "28.456.789", fecha: "2025-08-12", estado: "Activa" },
-    { id: 2, nombre: "Carlos Ruiz", dni: "31.789.123", fecha: "2025-08-10", estado: "Vencida" },
-    { id: 3, nombre: "María Pérez", dni: "25.321.654", fecha: "2025-08-13", estado: "Pendiente" },
+    { id: 1, nombre: "Ana López", dni: "28.456.789", fecha: "2025-08-12", estado: "Activa", tipo: "Familiar" },
+    { id: 2, nombre: "Carlos Ruiz", dni: "31.789.123", fecha: "2025-08-10", estado: "Vencida", tipo: "Invitadx" },
+    { id: 3, nombre: "María Pérez", dni: "25.321.654", fecha: "2025-08-13", estado: "Pendiente", tipo: "Inquilinx" },
   ];
 
   const color = (estado: string) => estado === "Activa" ? "bg-emerald-50 text-emerald-700" : estado === "Pendiente" ? "bg-yellow-50 text-yellow-700" : "bg-red-50 text-red-700";
@@ -44,7 +44,7 @@ export default function AutorizacionesLista() {
                 <div className="text-sm text-muted-foreground">DNI {a.dni}</div>
                 <div className="text-sm">{a.fecha}</div>
                 <div className="text-sm"><Badge variant="outline" className={color(a.estado)}>{a.estado}</Badge></div>
-                <div className="text-sm">#{a.id}</div>
+                <div className="text-sm">{a.tipo}</div>
                 <div className="flex gap-1 justify-end">
                   <Button 
                     size="sm" 

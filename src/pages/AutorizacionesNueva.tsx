@@ -81,10 +81,10 @@ export default function AutorizacionesNueva() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="familiar">Familiar</SelectItem>
-                <SelectItem value="invitado">Invitado</SelectItem>
-                <SelectItem value="inquilino">Inquilino</SelectItem>
-                <SelectItem value="casero">Casero</SelectItem>
-                <SelectItem value="empleado">Empleado</SelectItem>
+                <SelectItem value="invitadx">Invitadx</SelectItem>
+                <SelectItem value="inquilinx">Inquilinx</SelectItem>
+                <SelectItem value="caserx">Caserx</SelectItem>
+                <SelectItem value="empleadx">Empleadx</SelectItem>
               </SelectContent>
             </Select>
             <div className="relative">
