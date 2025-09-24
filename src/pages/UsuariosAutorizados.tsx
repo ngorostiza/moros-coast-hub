@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Users, UserCheck, UserPlus, Heart, Building, Briefcase, Edit, Trash2 } from "lucide-react";
+import { ArrowLeft, Users, UserCheck, UserPlus, Heart, Building, Briefcase, Edit, Trash2, Home, KeyRound, Hammer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function UsuariosAutorizados() {
@@ -14,31 +14,100 @@ export default function UsuariosAutorizados() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
-  // Datos de ejemplo de usuarios
+  // Sample data with new structure - REF and expiration dates
   const [usuarios] = useState(() => {
-    const tipos = ["Propietarios", "Familiares", "Invitados", "Inquilinos", "Caseros", "Empleados"];
-    const nombres = [
-      "Carlos Rodríguez", "María González", "Juan Pérez", "Ana Martínez", "Luis Silva",
-      "Carmen López", "Pablo Castro", "Elena Morales", "Diego Fernández", "Sofía Ruiz",
-      "Miguel Torres", "Laura García", "Fernando Díaz", "Valentina Herrera", "Andrés Vega",
-      "Patricia Sánchez", "Roberto Méndez", "Gabriela Jiménez", "Ricardo Vargas", "Isabel Cruz",
-      "Alejandro Ramos", "Natalia Ortega", "Sebastián Gutiérrez", "Paola Romero", "Mateo Aguilar",
-      "Camila Guerrero", "Felipe Navarro", "Andrea Molina", "Nicolás Delgado", "Daniela Peña"
-    ];
+    const users = [];
     
-    return Array.from({ length: 60 }, (_, i) => ({
-      id: i + 1,
-      nombre: nombres[i % nombres.length],
-      email: `${nombres[i % nombres.length].toLowerCase().replace(/ /g, '.')}@email.com`,
-      tipo: tipos[Math.floor(i / 10)],
-      activo: Math.random() > 0.1
-    }));
+    // Propietarios (85) - Asignados a lotes L-001 a L-085, sin vencimiento
+    for (let i = 1; i <= 85; i++) {
+      users.push({
+        id: i,
+        nombre: `Propietario ${i}`,
+        tipo: "Propietarios",
+        ref: `L-${String(i).padStart(3, '0')}`,
+        estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
+        fechaVencimiento: null
+      });
+    }
+    
+    // Inquilinos (45) - Asignados a lotes L-086 a L-130, con vencimiento
+    for (let i = 86; i <= 130; i++) {
+      const fechaVencimiento = new Date();
+      fechaVencimiento.setMonth(fechaVencimiento.getMonth() + Math.floor(Math.random() * 24) + 6);
+      users.push({
+        id: i,
+        nombre: `Inquilino ${i - 85}`,
+        tipo: "Inquilinos", 
+        ref: `L-${String(i).padStart(3, '0')}`,
+        estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
+        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+      });
+    }
+    
+    // Familiares (120) - Dependen de propietarios/inquilinos, sin vencimiento
+    for (let i = 131; i <= 250; i++) {
+      const refOwner = users[Math.floor(Math.random() * 130)];
+      users.push({
+        id: i,
+        nombre: `Familiar ${i - 130}`,
+        tipo: "Familiares",
+        ref: refOwner.nombre,
+        estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
+        fechaVencimiento: null
+      });
+    }
+    
+    // Invitados (60) - Dependen de propietarios/inquilinos, con vencimiento corto
+    for (let i = 251; i <= 310; i++) {
+      const refOwner = users[Math.floor(Math.random() * 130)];
+      const fechaVencimiento = new Date();
+      fechaVencimiento.setDate(fechaVencimiento.getDate() + Math.floor(Math.random() * 30) + 1);
+      users.push({
+        id: i,
+        nombre: `Invitado ${i - 250}`,
+        tipo: "Invitados",
+        ref: refOwner.nombre,
+        estado: Math.random() > 0.15 ? "Activo" : "Inactivo",
+        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+      });
+    }
+    
+    // Caseros (25) - Dependen de propietarios/inquilinos, vencimiento anual
+    for (let i = 311; i <= 335; i++) {
+      const refOwner = users[Math.floor(Math.random() * 130)];
+      const fechaVencimiento = new Date();
+      fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() + 1);
+      users.push({
+        id: i,
+        nombre: `Casero ${i - 310}`,
+        tipo: "Caseros",
+        ref: refOwner.nombre,
+        estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
+        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+      });
+    }
+    
+    // Empleados (35) - Dependen de propietarios/inquilinos, con vencimiento
+    for (let i = 336; i <= 370; i++) {
+      const refOwner = users[Math.floor(Math.random() * 130)];
+      const fechaVencimiento = new Date();
+      fechaVencimiento.setMonth(fechaVencimiento.getMonth() + Math.floor(Math.random() * 12) + 3);
+      users.push({
+        id: i,
+        nombre: `Empleado ${i - 335}`,
+        tipo: "Empleados",
+        ref: refOwner.nombre,
+        estado: Math.random() > 0.08 ? "Activo" : "Inactivo",
+        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+      });
+    }
+    
+    return users;
   });
 
   const filteredUsers = useMemo(() => {
     return usuarios.filter(user => {
-      const matchesSearch = user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           user.email.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = user.nombre.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesType = filterType === "" || user.tipo === filterType;
       return matchesSearch && matchesType;
     });
@@ -47,51 +116,45 @@ export default function UsuariosAutorizados() {
   const categorias = [
     {
       titulo: "Propietarios",
-      icono: Building,
-      cantidad: 189,
+      icono: Home,
+      cantidad: 85,
       color: "blue",
-      url: "/admin/usuarios/propietarios",
-      descripcion: "Propietarios de lotes"
+      descripcion: "Dueños de lotes"
+    },
+    {
+      titulo: "Inquilinos",
+      icono: KeyRound,
+      cantidad: 45,
+      color: "purple",
+      descripcion: "Arrendatarios de lotes"
     },
     {
       titulo: "Familiares",
       icono: Heart,
-      cantidad: 324,
+      cantidad: 120,
       color: "pink",
-      url: "/admin/usuarios/familiares",
       descripcion: "Familiares directos"
     },
     {
       titulo: "Invitados",
       icono: UserPlus,
-      cantidad: 89,
+      cantidad: 60,
       color: "green",
-      url: "/admin/usuarios/invitados",
       descripcion: "Invitados temporales"
     },
     {
-      titulo: "Inquilinos",
-      icono: Users,
-      cantidad: 45,
-      color: "purple",
-      url: "/admin/usuarios/inquilinos",
-      descripcion: "Inquilinos de propiedades"
-    },
-    {
       titulo: "Caseros",
-      icono: UserCheck,
-      cantidad: 12,
+      icono: Hammer,
+      cantidad: 25,
       color: "orange",
-      url: "/admin/usuarios/caseros",
-      descripcion: "Caseros y cuidadores"
+      descripcion: "Personal de mantenimiento"
     },
     {
       titulo: "Empleados",
       icono: Briefcase,
-      cantidad: 28,
+      cantidad: 35,
       color: "indigo",
-      url: "/admin/usuarios/empleados",
-      descripción: "Empleados autorizados"
+      descripcion: "Personal de servicios"
     }
   ];
 
@@ -140,8 +203,7 @@ export default function UsuariosAutorizados() {
           return (
             <Card 
               key={categoria.titulo} 
-              className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
-              onClick={() => navigate(categoria.url)}
+              className="hover:shadow-lg transition-all"
             >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
@@ -156,9 +218,6 @@ export default function UsuariosAutorizados() {
               <CardContent>
                 <h3 className="text-lg font-semibold mb-2">{categoria.titulo}</h3>
                 <p className="text-sm text-muted-foreground">{categoria.descripcion}</p>
-                <Button variant="ghost" className="w-full mt-4 justify-center">
-                  Ver Detalles
-                </Button>
               </CardContent>
             </Card>
           );
@@ -172,7 +231,7 @@ export default function UsuariosAutorizados() {
             <CardTitle>Todos los Usuarios Autorizados</CardTitle>
             <div className="flex gap-2">
               <Input 
-                placeholder="Buscar por nombre o email..."
+                placeholder="Buscar por nombre..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-64"
@@ -198,9 +257,10 @@ export default function UsuariosAutorizados() {
             <TableHeader>
               <TableRow>
                 <TableHead>Nombre</TableHead>
-                <TableHead>Email</TableHead>
                 <TableHead>Tipo</TableHead>
+                <TableHead>REF</TableHead>
                 <TableHead>Estado</TableHead>
+                <TableHead>Vencimiento</TableHead>
                 <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -208,14 +268,17 @@ export default function UsuariosAutorizados() {
               {filteredUsers.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map((user) => (
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.nombre}</TableCell>
-                  <TableCell>{user.email}</TableCell>
                   <TableCell>
                     <Badge variant="outline">{user.tipo}</Badge>
                   </TableCell>
+                  <TableCell>{user.ref}</TableCell>
                   <TableCell>
-                    <Badge variant={user.activo ? "default" : "secondary"}>
-                      {user.activo ? "Activo" : "Inactivo"}
+                    <Badge variant={user.estado === "Activo" ? "default" : "secondary"}>
+                      {user.estado}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {user.fechaVencimiento ? user.fechaVencimiento : "Sin vencimiento"}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">

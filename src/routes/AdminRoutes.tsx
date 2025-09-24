@@ -4,7 +4,6 @@ import FuelAnalysis from "@/pages/FuelAnalysis";
 import MachineryAnalysis from "@/pages/MachineryAnalysis";
 import CommonSpacesAnalysis from "@/pages/CommonSpacesAnalysis";
 import ActivityLog from "@/pages/ActivityLog";
-import AdminUsuariosPropietarios from "@/pages/AdminUsuariosPropietarios";
 import AdminUsuariosPersonal from "@/pages/AdminUsuariosPersonal";
 import AdminUsuariosPermisos from "@/pages/AdminUsuariosPermisos";
 import AdminReportes from "@/pages/AdminReportes";
@@ -16,11 +15,6 @@ import AdminConfigSistema from "@/pages/AdminConfigSistema";
 import EspaciosComunesABM from "@/pages/EspaciosComunesABM";
 import LotesABM from "@/pages/LotesABM";
 import UsuariosAutorizados from "@/pages/UsuariosAutorizados";
-import UsuariosFamiliares from "@/pages/UsuariosFamiliares";
-import UsuariosInvitados from "@/pages/UsuariosInvitados";
-import UsuariosInquilinos from "@/pages/UsuariosInquilinos";
-import UsuariosCaseros from "@/pages/UsuariosCaseros";
-import UsuariosEmpleados from "@/pages/UsuariosEmpleados";
 import UsuariosStaff from "@/pages/UsuariosStaff";
 import AdminConfigAPIs from "@/pages/AdminConfigAPIs";
 
@@ -46,12 +40,6 @@ export default function AdminRoutes() {
       
       {/* User Management */}
       <Route path="/admin/usuarios/autorizados" element={<UsuariosAutorizados />} />
-      <Route path="/admin/usuarios/propietarios" element={<AdminUsuariosPropietarios />} />
-      <Route path="/admin/usuarios/familiares" element={<UsuariosFamiliares />} />
-      <Route path="/admin/usuarios/invitados" element={<UsuariosInvitados />} />
-      <Route path="/admin/usuarios/inquilinos" element={<UsuariosInquilinos />} />
-      <Route path="/admin/usuarios/caseros" element={<UsuariosCaseros />} />
-      <Route path="/admin/usuarios/empleados" element={<UsuariosEmpleados />} />
       <Route path="/admin/usuarios/staff" element={<UsuariosStaff />} />
       <Route path="/admin/usuarios/personal" element={<AdminUsuariosPersonal />} />
       <Route path="/admin/usuarios/permisos" element={<AdminUsuariosPermisos />} />
