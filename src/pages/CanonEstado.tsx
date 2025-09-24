@@ -21,8 +21,8 @@ export default function CanonEstado() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-600">$0</div>
-            <p className="text-sm text-muted-foreground">Al día con los pagos</p>
+            <div className="text-3xl font-bold text-red-600">$89,500</div>
+            <p className="text-sm text-muted-foreground">Canon septiembre pendiente</p>
           </CardContent>
         </Card>
 
@@ -34,7 +34,7 @@ export default function CanonEstado() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">15 Mar 2024</div>
+            <div className="text-2xl font-bold">15 Oct 2025</div>
             <p className="text-sm text-muted-foreground">Canon mensual</p>
           </CardContent>
         </Card>
@@ -47,8 +47,8 @@ export default function CanonEstado() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Badge variant="default" className="bg-green-500">Al día</Badge>
-            <p className="text-sm text-muted-foreground mt-2">Sin deudas pendientes</p>
+            <Badge variant="default" className="bg-red-500">Pendiente</Badge>
+            <p className="text-sm text-muted-foreground mt-2">Canon septiembre por pagar</p>
           </CardContent>
         </Card>
       </div>
@@ -60,7 +60,7 @@ export default function CanonEstado() {
         <CardContent>
           <div className="space-y-4">
             {[
-              { fecha: "15 Sep 2025", concepto: "Canon Lote 87 Mes Septiembre 2025", monto: 89500, estado: "Pagado" },
+              { fecha: "15 Sep 2025", concepto: "Canon Lote 87 Mes Septiembre 2025", monto: 89500, estado: "Pendiente" },
               { fecha: "15 Ago 2025", concepto: "Plan de pagos ARBA 6/6", monto: 42300, estado: "Pagado" },
               { fecha: "15 Jul 2025", concepto: "Canon Lote 87 Mes Agosto 2025", monto: 85200, estado: "Pagado" },
             ].map((pago, index) => (
@@ -71,7 +71,7 @@ export default function CanonEstado() {
                 </div>
                 <div className="text-right">
                   <p className="font-semibold">${pago.monto.toLocaleString()}</p>
-                  <Badge variant="default" className="bg-green-500">{pago.estado}</Badge>
+                  <Badge variant="default" className={pago.estado === "Pagado" ? "bg-green-500" : "bg-red-500"}>{pago.estado}</Badge>
                 </div>
               </div>
             ))}

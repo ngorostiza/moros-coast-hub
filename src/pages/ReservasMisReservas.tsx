@@ -43,7 +43,7 @@ const reservations = [
     time: "18:00", 
     duration: "1 hora",
     guests: 4,
-    status: "pending",
+    status: "cancelled",
     notes: "Partido dobles",
     icon: Dumbbell,
     location: "Complejo Deportivo",
@@ -125,10 +125,10 @@ export default function ReservasMisReservas() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Pendientes</p>
-                <p className="text-2xl font-bold text-orange-600">{reservations.filter(r => r.status === 'pending').length}</p>
+                <p className="text-muted-foreground text-sm">Canceladas</p>
+                <p className="text-2xl font-bold text-red-600">{reservations.filter(r => r.status === 'cancelled').length}</p>
               </div>
-              <AlertCircle className="h-8 w-8 text-orange-500" />
+              <XCircle className="h-8 w-8 text-red-500" />
             </div>
           </CardContent>
         </Card>

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { Link, Share } from "lucide-react";
+import { Link, Share, Calendar } from "lucide-react";
 
 export default function AutorizacionesNueva() {
   const { toast } = useToast();
@@ -87,14 +87,15 @@ export default function AutorizacionesNueva() {
                 <SelectItem value="empleado">Empleado</SelectItem>
               </SelectContent>
             </Select>
-            <div>
-              <label className="block text-sm font-medium mb-1">Fecha de caducidad</label>
+            <div className="relative">
               <Input 
                 name="fechaCaducidad" 
                 type="date" 
+                placeholder="Fecha de caducidad"
                 value={form.fechaCaducidad} 
                 onChange={handleChange} 
               />
+              <Calendar className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
             </div>
           </div>
           
