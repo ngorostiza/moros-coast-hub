@@ -379,7 +379,7 @@ export default function MachineryAnalysis() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-3 bg-blue-50 rounded-lg">
                       <div className="text-center">
                         <p className="text-sm text-muted-foreground">Total Viajes</p>
@@ -394,12 +394,6 @@ export default function MachineryAnalysis() {
                         <p className="text-2xl font-bold text-purple-700">
                           {((totalStats.arenaTrips + totalStats.toscaTrips) / 30).toFixed(1)}
                         </p>
-                      </div>
-                    </div>
-                    <div className="p-3 bg-indigo-50 rounded-lg">
-                      <div className="text-center">
-                        <p className="text-sm text-muted-foreground">Eficiencia</p>
-                        <p className="text-2xl font-bold text-indigo-700">98.5%</p>
                       </div>
                     </div>
                   </div>

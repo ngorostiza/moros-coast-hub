@@ -4,7 +4,12 @@ import {
   Settings,
   Waves,
   Users,
-  ChevronRight
+  ChevronRight,
+  Building2,
+  MapPin,
+  UserCheck,
+  Shield,
+  Activity
 } from "lucide-react";
 
 import {
@@ -35,19 +40,51 @@ const adminItems = [
       { title: "Monitoreo", url: "/admin/monitoreo" },
       { title: "Movilidad", url: "/admin/fuel" },
       { title: "Horas Máquina", url: "/admin/machinery" },
-      { title: "Espacios Comunes", url: "/admin/espacios-comunes" },
       { title: "Eficiencia", url: "/admin/eficiencia" },
     ]
   },
-    { 
-    title: "Gestión Usuarios", 
+  { 
+    title: "Espacios Comunes", 
+    url: "/admin/espacios-comunes", 
+    icon: Building2,
+    subItems: [
+      { title: "Vista General", url: "/admin/espacios-comunes" },
+      { title: "ABM", url: "/admin/espacios-comunes/abm" },
+    ]
+  },
+  { 
+    title: "Lotes", 
+    url: "/admin/lotes", 
+    icon: MapPin,
+    subItems: [
+      { title: "Vista General", url: "/admin/lotes" },
+      { title: "ABM", url: "/admin/lotes/abm" },
+    ]
+  },
+  { 
+    title: "Usuarios", 
     url: "/admin/usuarios", 
     icon: Users,
     subItems: [
-      { title: "Propietarios", url: "/admin/usuarios/propietarios" },
-      { title: "Personal", url: "/admin/usuarios/personal" },
-      { title: "Pilotos", url: "/admin/usuarios/pilotos" },
-      { title: "Permisos", url: "/admin/usuarios/permisos" },
+      { 
+        title: "Autorizados", 
+        url: "/admin/usuarios/autorizados",
+        subItems: [
+          { title: "Propietarios", url: "/admin/usuarios/propietarios" },
+          { title: "Familiares", url: "/admin/usuarios/familiares" },
+          { title: "Invitados", url: "/admin/usuarios/invitados" },
+          { title: "Inquilinos", url: "/admin/usuarios/inquilinos" },
+          { title: "Caseros", url: "/admin/usuarios/caseros" },
+          { title: "Empleados", url: "/admin/usuarios/empleados" },
+        ]
+      },
+      { 
+        title: "Staff BdlM", 
+        url: "/admin/usuarios/staff",
+        subItems: [
+          { title: "Personal", url: "/admin/usuarios/personal" },
+        ]
+      },
     ]
   },
   { 
@@ -56,8 +93,7 @@ const adminItems = [
     icon: Settings,
     subItems: [
       { title: "Sistema", url: "/admin/config/sistema" },
-      { title: "Seguridad", url: "/admin/config/seguridad" },
-      { title: "Notificaciones", url: "/admin/config/notificaciones" },
+      { title: "APIs", url: "/admin/config/apis" },
     ]
   },
 ];
