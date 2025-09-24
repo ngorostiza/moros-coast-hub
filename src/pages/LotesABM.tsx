@@ -18,7 +18,7 @@ export default function LotesABM() {
   // Generar 150 lotes con datos realistas
   const [lotes] = useState(() => {
     const propietarios = ["FENDA", "Rafael De Las Carreras", "Marcelo Giunti"];
-    const calles = ["de abajo", "el zorro", "el encuentro"];
+    const calles = ["De Abajo", "El Zorro", "El Encuentro"];
     const estados = ["Construido", "En Construcción", "Vendido", "Disponible"];
     const superficies = ["650 m²", "720 m²", "850 m²", "920 m²", "1050 m²", "1200 m²"];
     
