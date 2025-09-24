@@ -30,31 +30,31 @@ const tankLevels = [
 ];
 
 const fuelMovements = [
-  { date: "6-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "VIAL GAS OIL 1", fuel: "GAS OIL", quantity: 984.00, status: "CONFIRMADO" },
-  { date: "6-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "VIAL ION 1", fuel: "ION", quantity: 2199.00, status: "CONFIRMADO" },
-  { date: "7-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "HANGAR 100LL 1", fuel: "100LL", quantity: 1500.00, status: "CONFIRMADO" },
-  { date: "8-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "HANGAR JP1 1", fuel: "JP1", quantity: 800.00, status: "CONFIRMADO" },
-  { date: "9-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "VIAL GAS OIL 1", fuel: "GAS OIL", quantity: 1200.00, status: "CONFIRMADO" },
-  { date: "10-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oil", destination: "VIAL ION 1", fuel: "ION", quantity: 950.00, status: "CONFIRMADO" }
+  { date: "6-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "VIAL GAS OIL 1", fuel: "GAS OIL", quantity: 984.00 },
+  { date: "6-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "VIAL ION 1", fuel: "ION", quantity: 2199.00 },
+  { date: "7-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "HANGAR 100LL 1", fuel: "100LL", quantity: 1500.00 },
+  { date: "8-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "HANGAR JP1 1", fuel: "JP1", quantity: 800.00 },
+  { date: "9-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "VIAL GAS OIL 1", fuel: "GAS OIL", quantity: 1200.00 },
+  { date: "10-Mar-2025", type: "CARGA", origin: "PUMA", person: "Oli", destination: "VIAL ION 1", fuel: "ION", quantity: 950.00 }
 ];
 
 const expenditureMovements = [
-  { date: "7-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL GAS OIL", person: "Alfredo", destination: "MOVIL GAS OIL", fuel: "GAS OIL", quantity: -500.00, status: "CONFIRMADO" },
-  { date: "10-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Alfredo", destination: "HILUX -AE 697", fuel: "ION", quantity: -50.00, status: "CONFIRMADO" },
-  { date: "11-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Juancho", destination: "HILUX JUANCHO AF 509", fuel: "ION", quantity: -67.81, status: "CONFIRMADO" },
-  { date: "12-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "MOVIL GAS OIL", person: "Alfredo", destination: "QUEMA", fuel: "GAS OIL", quantity: -20.00, status: "CONFIRMADO" },
-  { date: "13-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Baio", destination: "RETRO CAT", fuel: "ION", quantity: -100.24, status: "INVERSION" },
-  { date: "14-Mar-2025", type: "EXPENDIO_AEREO", origin: "HANGAR 100LL 1", person: "Piloto Martinez", destination: "LV-IVW", fuel: "100LL", quantity: -120.50, status: "CONFIRMADO" },
-  { date: "15-Mar-2025", type: "EXPENDIO_AEREO", origin: "HANGAR JP1 1", person: "Piloto Rodriguez", destination: "LV-HQG", fuel: "JP1", quantity: -200.00, status: "CONFIRMADO" }
+  { date: "7-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL GAS OIL", person: "Alfredo", destination: "MOVIL GAS OIL", fuel: "GAS OIL", quantity: -500.00 },
+  { date: "10-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Alfredo", destination: "HILUX -AE 697", fuel: "ION", quantity: -50.00 },
+  { date: "11-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Juancho", destination: "HILUX JUANCHO AF 509", fuel: "ION", quantity: -67.81 },
+  { date: "12-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "MOVIL GAS OIL", person: "Alfredo", destination: "QUEMA", fuel: "GAS OIL", quantity: -20.00 },
+  { date: "13-Mar-2025", type: "EXPENDIO_TERRESTRE", origin: "VIAL ION 1", person: "Baio", destination: "RETRO CAT", fuel: "ION", quantity: -100.24 },
+  { date: "14-Mar-2025", type: "EXPENDIO_AEREO", origin: "HANGAR 100LL 1", person: "Piloto Martinez", destination: "LV-IVW", fuel: "100LL", quantity: -120.50 },
+  { date: "15-Mar-2025", type: "EXPENDIO_AEREO", origin: "HANGAR JP1 1", person: "Piloto Rodriguez", destination: "LV-HQG", fuel: "JP1", quantity: -200.00 }
 ];
 
 const terrestrialVehicleData = [
-  { id: "HILUX-AE 697", type: "ION", consumption: -1392.16, odometer: 14405.00, nextService: 80162.00, kmLeft: 65757 },
-  { id: "HILUX JUANCHO AF 509", type: "ION", consumption: -1176.33, odometer: 14663.00, nextService: 80162.00, kmLeft: 65499 },
-  { id: "JEEP VERDE -BXK 487", type: "GAS OIL", consumption: -336.56, odometer: 14250.00, nextService: 85000.00, kmLeft: 70750 },
-  { id: "JEEP BLANCO FER -BMF 092", type: "GAS OIL", consumption: 0.00, odometer: 15200.00, nextService: 75000.00, kmLeft: 59800 },
-  { id: "EXCAVADORA VOLVO", type: "ION", consumption: -2889.84, odometer: 3250.00, nextService: 15000.00, kmLeft: 11750 },
-  { id: "PALA CAT", type: "GAS OIL", consumption: -324.12, odometer: 8950.00, nextService: 20000.00, kmLeft: 11050 }
+  { id: "HILUX -AE 697", type: "ION", consumption: -1392.16, odometer: 106756.00, nextService: 112925.00, kmLeft: 6169 },
+  { id: "HILUX JUANCHO AF 509", type: "ION", consumption: -1176.33, odometer: 77119.00, nextService: 80162.00, kmLeft: 3043 },
+  { id: "BAIO -RFS 159", type: "GAS OIL", consumption: -336.56, odometer: null, nextService: null, kmLeft: null },
+  { id: "JEEP VERDE -BKK 487", type: "GAS OIL", consumption: 0.00, odometer: 4256.00, nextService: 5000.00, kmLeft: 744 },
+  { id: "JEEP BLANCO FER -BHF 052", type: "ION", consumption: -2889.84, odometer: null, nextService: null, kmLeft: null },
+  { id: "HILUX FER -AE 553 IQ", type: "GAS OIL", consumption: -324.12, odometer: 31777.00, nextService: 38784.00, kmLeft: 7007 }
 ];
 
 const aircraftData = [
@@ -68,12 +68,16 @@ const aircraftData = [
 ];
 
 const authorizedPersonnel = [
-  { name: "Alfredo Rodriguez", role: "Jefe de Operaciones", license: "COM-2024-001", fuel_types: ["GAS OIL", "ION"], expiry: "2025-12-31" },
-  { name: "Juan Carlos Mendez", role: "Operador Senior", license: "COM-2024-002", fuel_types: ["ION", "GAS OIL"], expiry: "2025-11-15" },
-  { name: "Mario Baio", role: "Operador", license: "COM-2024-003", fuel_types: ["ION"], expiry: "2025-10-20" },
-  { name: "Carlos Martinez", role: "Piloto Comercial", license: "PIL-2024-001", fuel_types: ["100LL", "JP1"], expiry: "2025-08-30" },
-  { name: "Roberto Rodriguez", role: "Piloto", license: "PIL-2024-002", fuel_types: ["JP1"], expiry: "2025-09-15" },
-  { name: "Oil Supply", role: "Proveedor PUMA", license: "PROV-2024-001", fuel_types: ["GAS OIL", "ION", "100LL", "JP1"], expiry: "2026-03-31" }
+  { name: "Fer", ion: 0.00, gasOil: 0.00, avgas: -815.50, jp1: 0.00 },
+  { name: "Oli", ion: -64.11, gasOil: -269.65, avgas: -30.00, jp1: -294.00 },
+  { name: "Juancho", ion: -1037.11, gasOil: -134.10, avgas: 0.00, jp1: 0.00 },
+  { name: "Baio", ion: -492.00, gasOil: -1408.78, avgas: 0.00, jp1: 0.00 },
+  { name: "Gaby", ion: -678.29, gasOil: -4.59, avgas: -690.00, jp1: -740.00 },
+  { name: "Alfredo", ion: -2140.50, gasOil: -1846.44, avgas: 0.00, jp1: 0.00 },
+  { name: "Cordobes", ion: -1619.03, gasOil: -10987.00, avgas: 0.00, jp1: 0.00 },
+  { name: "David", ion: -4136.32, gasOil: -5408.48, avgas: 0.00, jp1: 0.00 },
+  { name: "Otros", ion: -778.75, gasOil: -1022.92, avgas: -220.00, jp1: -565.00 },
+  { name: "TOTAL EXPENDIOS", ion: -10946.11, gasOil: -21081.96, avgas: -1755.50, jp1: -1599.00 }
 ];
 
 const fuelExpenditure = {
@@ -256,43 +260,37 @@ export default function FuelAnalysis() {
               </CardHeader>
               <CardContent>
                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Fecha</TableHead>
-                      <TableHead>Tipo</TableHead>
-                      <TableHead>Origen</TableHead>
-                      <TableHead>Persona</TableHead>
-                      <TableHead>Destino</TableHead>
-                      <TableHead>Combustible</TableHead>
-                      <TableHead className="text-right">Cantidad</TableHead>
-                      <TableHead>Estado</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {fuelMovements.map((movement, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{movement.date}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="bg-green-50 text-green-700">
-                            {movement.type.replace('_', ' ')}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{movement.origin}</TableCell>
-                        <TableCell>{movement.person}</TableCell>
-                        <TableCell>{movement.destination}</TableCell>
-                        <TableCell>
-                          <Badge variant="secondary">{movement.fuel}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-green-600">
-                          +{movement.quantity.toFixed(2)}L
-                        </TableCell>
-                        <TableCell>
-                          <Badge className="bg-green-100 text-green-800">
-                            {movement.status}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                   <TableHeader>
+                     <TableRow>
+                       <TableHead>Fecha</TableHead>
+                       <TableHead>Tipo</TableHead>
+                       <TableHead>Origen</TableHead>
+                       <TableHead>Persona</TableHead>
+                       <TableHead>Destino</TableHead>
+                       <TableHead>Combustible</TableHead>
+                       <TableHead className="text-right">Cantidad</TableHead>
+                     </TableRow>
+                   </TableHeader>
+                   <TableBody>
+                     {fuelMovements.map((movement, index) => (
+                       <TableRow key={index}>
+                         <TableCell>{movement.date}</TableCell>
+                         <TableCell>
+                           <Badge variant="outline" className="bg-green-50 text-green-700">
+                             {movement.type.replace('_', ' ')}
+                           </Badge>
+                         </TableCell>
+                         <TableCell>{movement.origin}</TableCell>
+                         <TableCell>{movement.person}</TableCell>
+                         <TableCell>{movement.destination}</TableCell>
+                         <TableCell>
+                           <Badge variant="secondary">{movement.fuel}</Badge>
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-green-600">
+                           +{movement.quantity.toFixed(2)}L
+                         </TableCell>
+                       </TableRow>
+                     ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -309,47 +307,37 @@ export default function FuelAnalysis() {
               </CardHeader>
               <CardContent>
                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Fecha</TableHead>
-                      <TableHead>Tipo</TableHead>
-                      <TableHead>Origen</TableHead>
-                      <TableHead>Persona</TableHead>
-                      <TableHead>Destino</TableHead>
-                      <TableHead>Combustible</TableHead>
-                      <TableHead className="text-right">Cantidad</TableHead>
-                      <TableHead>Estado</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {expenditureMovements.map((movement, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{movement.date}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="bg-red-50 text-red-700">
-                            {movement.type.replace('_', ' ')}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{movement.origin}</TableCell>
-                        <TableCell>{movement.person}</TableCell>
-                        <TableCell>{movement.destination}</TableCell>
-                        <TableCell>
-                          <Badge variant="secondary">{movement.fuel}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right font-mono text-red-600">
-                          {movement.quantity.toFixed(2)}L
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={
-                            movement.status === "CONFIRMADO" ? "bg-green-100 text-green-800" : 
-                            movement.status === "INVERSION" ? "bg-yellow-100 text-yellow-800" : 
-                            "bg-gray-100 text-gray-800"
-                          }>
-                            {movement.status}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                   <TableHeader>
+                     <TableRow>
+                       <TableHead>Fecha</TableHead>
+                       <TableHead>Tipo</TableHead>
+                       <TableHead>Origen</TableHead>
+                       <TableHead>Persona</TableHead>
+                       <TableHead>Destino</TableHead>
+                       <TableHead>Combustible</TableHead>
+                       <TableHead className="text-right">Cantidad</TableHead>
+                     </TableRow>
+                   </TableHeader>
+                   <TableBody>
+                     {expenditureMovements.map((movement, index) => (
+                       <TableRow key={index}>
+                         <TableCell>{movement.date}</TableCell>
+                         <TableCell>
+                           <Badge variant="outline" className="bg-red-50 text-red-700">
+                             {movement.type.replace('_', ' ')}
+                           </Badge>
+                         </TableCell>
+                         <TableCell>{movement.origin}</TableCell>
+                         <TableCell>{movement.person}</TableCell>
+                         <TableCell>{movement.destination}</TableCell>
+                         <TableCell>
+                           <Badge variant="secondary">{movement.fuel}</Badge>
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-red-600">
+                           {movement.quantity.toFixed(2)}L
+                         </TableCell>
+                       </TableRow>
+                     ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -457,42 +445,38 @@ export default function FuelAnalysis() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nombre</TableHead>
-                      <TableHead>Rol</TableHead>
-                      <TableHead>Licencia</TableHead>
-                      <TableHead>Combustibles Autorizados</TableHead>
-                      <TableHead>Vencimiento</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {authorizedPersonnel.map((person, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium">{person.name}</TableCell>
-                        <TableCell>{person.role}</TableCell>
-                        <TableCell className="font-mono text-sm">{person.license}</TableCell>
-                        <TableCell>
-                          <div className="flex gap-1 flex-wrap">
-                            {person.fuel_types.map((fuel, idx) => (
-                              <Badge key={idx} variant="outline" className="text-xs">
-                                {fuel}
-                              </Badge>
-                            ))}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <span className={`text-sm ${
-                            new Date(person.expiry) < new Date() ? 'text-red-600 font-medium' :
-                            new Date(person.expiry) < new Date(Date.now() + 30*24*60*60*1000) ? 'text-yellow-600' :
-                            'text-green-600'
-                          }`}>
-                            {person.expiry}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                 <Table>
+                   <TableHeader>
+                     <TableRow>
+                       <TableHead>Persona</TableHead>
+                       <TableHead className="text-right">ION (L)</TableHead>
+                       <TableHead className="text-right">GAS OIL (L)</TableHead>
+                       <TableHead className="text-right">100LL (L)</TableHead>
+                       <TableHead className="text-right">JP1 (L)</TableHead>
+                       <TableHead className="text-right">Total (L)</TableHead>
+                     </TableRow>
+                   </TableHeader>
+                   <TableBody>
+                     {authorizedPersonnel.map((person, index) => (
+                       <TableRow key={index} className={person.name === "TOTAL EXPENDIOS" ? "border-t-2 border-gray-300 bg-gray-50 font-bold" : ""}>
+                         <TableCell className="font-medium">{person.name}</TableCell>
+                         <TableCell className="text-right font-mono text-red-600">
+                           {person.ion.toFixed(2)}
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-red-600">
+                           {person.gasOil.toFixed(2)}
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-red-600">
+                           {person.avgas.toFixed(2)}
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-red-600">
+                           {person.jp1.toFixed(2)}
+                         </TableCell>
+                         <TableCell className="text-right font-mono text-red-600 font-bold">
+                           {(person.ion + person.gasOil + person.avgas + person.jp1).toFixed(2)}
+                         </TableCell>
+                       </TableRow>
+                     ))}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -516,28 +500,20 @@ export default function FuelAnalysis() {
                 <div className="space-y-3">
                   <div className="p-3 bg-blue-50 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">GAS OIL</span>
-                      <span className="text-lg font-bold text-blue-700">{fuelExpenditure.gasOil.total.toFixed(2)}L</span>
+                      <span className="font-medium">TOTAL EXPENDIOS GAS OIL</span>
+                      <span className="text-lg font-bold text-blue-700">-21,081.96 L</span>
                     </div>
-                    <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
-                      <div className="bg-blue-600 h-2 rounded-full" style={{ width: "64%" }}></div>
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">64% - Nivel Normal</div>
                   </div>
                   <div className="p-3 bg-green-50 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">ION</span>
-                      <span className="text-lg font-bold text-green-700">{fuelExpenditure.ion.total.toFixed(2)}L</span>
+                      <span className="font-medium">TOTAL EXPENDIOS ION</span>
+                      <span className="text-lg font-bold text-green-700">-10,946.11 L</span>
                     </div>
-                    <div className="w-full bg-green-200 rounded-full h-2 mt-2">
-                      <div className="bg-green-600 h-2 rounded-full" style={{ width: "74%" }}></div>
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">74% - Nivel Normal</div>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">TOTAL TERRESTRE</span>
-                      <span className="text-lg font-bold text-gray-700">{fuelExpenditure.terrestrial.toFixed(2)}L</span>
+                      <span className="font-medium">TOTAL EXPENDIOS TERRESTRES</span>
+                      <span className="text-lg font-bold text-gray-700">-32,028.07 L</span>
                     </div>
                   </div>
                 </div>
@@ -549,21 +525,21 @@ export default function FuelAnalysis() {
                     <div className="p-4 bg-red-50 rounded-lg border">
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-medium">TOTAL EXP JP1</span>
-                        <span className="text-lg font-bold text-red-700">-1,199.00 L</span>
+                        <span className="text-lg font-bold text-red-700">-1,599.00 L</span>
                       </div>
                       <div className="text-sm text-muted-foreground">Consumo total aeronaves JP1</div>
                     </div>
                     <div className="p-4 bg-orange-50 rounded-lg border">
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-medium">TOTAL EXP 100LL</span>
-                        <span className="text-lg font-bold text-orange-700">-1,605.50 L</span>
+                        <span className="text-lg font-bold text-orange-700">-1,755.50 L</span>
                       </div>
                       <div className="text-sm text-muted-foreground">Consumo total aeronaves 100LL</div>
                     </div>
                     <div className="p-4 bg-blue-50 rounded-lg border">
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-medium">TOTAL EXP AERONAVES</span>
-                        <span className="text-lg font-bold text-blue-700">-2,804.50 L</span>
+                        <span className="text-lg font-bold text-blue-700">-3,354.50 L</span>
                       </div>
                       <div className="text-sm text-muted-foreground">Consumo total de todas las aeronaves</div>
                     </div>
