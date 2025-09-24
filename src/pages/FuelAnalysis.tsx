@@ -204,40 +204,66 @@ export default function FuelAnalysis() {
           </CardContent>
         </Card>
 
-        {/* TOTALES Section */}
+        {/* Analysis Section */}
         <Card>
           <CardHeader>
-            <CardTitle>TOTALES</CardTitle>
+            <CardTitle>Análisis por Tipo de Combustible</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="p-3 bg-green-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">ION</span>
-                  <span className="text-lg font-bold text-green-700">{fuelTotals.ion.toLocaleString()} L</span>
+            <Tabs defaultValue="terrestre" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="terrestre">Terrestre</TabsTrigger>
+                <TabsTrigger value="aereo">Aéreo</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="terrestre" className="mt-4">
+                <div className="space-y-3">
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">TOTAL EXPENDIOS GAS OIL</span>
+                      <span className="text-lg font-bold text-blue-700">-21,081.96 L</span>
+                    </div>
+                  </div>
+                  <div className="p-3 bg-green-50 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">TOTAL EXPENDIOS ION</span>
+                      <span className="text-lg font-bold text-green-700">-10,946.11 L</span>
+                    </div>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">TOTAL EXPENDIOS TERRESTRES</span>
+                      <span className="text-lg font-bold text-gray-700">-32,028.07 L</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-full bg-green-200 rounded-full h-2 mt-2">
-                  <div className="bg-green-600 h-2 rounded-full" style={{ width: "54.72%" }}></div>
+              </TabsContent>
+
+              <TabsContent value="aereo">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="p-4 bg-red-50 rounded-lg border">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">TOTAL EXP JP1</span>
+                        <span className="text-lg font-bold text-red-700">-1,599.00 L</span>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-orange-50 rounded-lg border">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">TOTAL EXP 100LL</span>
+                        <span className="text-lg font-bold text-orange-700">-1,755.50 L</span>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-blue-50 rounded-lg border">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">TOTAL EXP AERONAVES</span>
+                        <span className="text-lg font-bold text-blue-700">-3,354.50 L</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-muted-foreground mt-1">54.72% - Nivel Normal</div>
-              </div>
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">GAS OIL</span>
-                  <span className="text-lg font-bold text-blue-700">{fuelTotals.gasOil.toLocaleString()} L</span>
-                </div>
-                <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{ width: "26.63%" }}></div>
-                </div>
-                <div className="text-sm text-muted-foreground mt-1">26.63% - Nivel Normal</div>
-              </div>
-              <div className="p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">TOTAL</span>
-                  <span className="text-lg font-bold text-gray-700">{fuelTotals.total.toLocaleString()} L</span>
-                </div>
-              </div>
-            </div>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
 
@@ -484,71 +510,6 @@ export default function FuelAnalysis() {
           </TabsContent>
         </Tabs>
 
-        {/* Full Width Analysis Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Análisis por Tipo de Combustible</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="terrestre" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="terrestre">Terrestre</TabsTrigger>
-                <TabsTrigger value="aereo">Aéreo</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="terrestre" className="mt-4">
-                <div className="space-y-3">
-                  <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">TOTAL EXPENDIOS GAS OIL</span>
-                      <span className="text-lg font-bold text-blue-700">-21,081.96 L</span>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">TOTAL EXPENDIOS ION</span>
-                      <span className="text-lg font-bold text-green-700">-10,946.11 L</span>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-gray-50 rounded-lg border-2 border-gray-200">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">TOTAL EXPENDIOS TERRESTRES</span>
-                      <span className="text-lg font-bold text-gray-700">-32,028.07 L</span>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="aereo">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="p-4 bg-red-50 rounded-lg border">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium">TOTAL EXP JP1</span>
-                        <span className="text-lg font-bold text-red-700">-1,599.00 L</span>
-                      </div>
-                      <div className="text-sm text-muted-foreground">Consumo total aeronaves JP1</div>
-                    </div>
-                    <div className="p-4 bg-orange-50 rounded-lg border">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium">TOTAL EXP 100LL</span>
-                        <span className="text-lg font-bold text-orange-700">-1,755.50 L</span>
-                      </div>
-                      <div className="text-sm text-muted-foreground">Consumo total aeronaves 100LL</div>
-                    </div>
-                    <div className="p-4 bg-blue-50 rounded-lg border">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium">TOTAL EXP AERONAVES</span>
-                        <span className="text-lg font-bold text-blue-700">-3,354.50 L</span>
-                      </div>
-                      <div className="text-sm text-muted-foreground">Consumo total de todas las aeronaves</div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

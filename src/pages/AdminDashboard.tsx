@@ -245,7 +245,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="text-xs text-muted-foreground">26.63% - Nivel Bajo</div>
-                  <div className="text-sm text-foreground font-bold">Stock PUMA: 60,892.00 L GAS OIL</div>
+                  <div className="text-sm text-foreground font-bold">Stock PUMA: 60,892.00 L</div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
