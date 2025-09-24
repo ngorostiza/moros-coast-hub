@@ -1,56 +1,133 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
-  BarChart3, 
-  Users, 
+  CreditCard, 
   DollarSign, 
-  Calendar, 
   Download,
   Eye,
   TrendingUp,
   TrendingDown,
-  AlertTriangle,
   CheckCircle,
   FileText,
-  PieChart
+  Search,
+  Filter,
+  XCircle,
+  Clock,
+  AlertTriangle
 } from "lucide-react";
 
+// Datos actualizados del AdminDashboard
 const monthlyStats = {
   canon: {
-    current: 5250000,
-    previous: 4980000,
+    current: 5475000,
+    previous: 5250000,
     trend: "up",
-    change: 5.4
+    change: 4.3
   },
   payments: {
-    current: 4890000,
-    previous: 5120000, 
-    trend: "down",
-    change: -4.5
-  },
-  occupancy: {
-    current: 87,
-    previous: 92,
-    trend: "down", 
-    change: -5.4
-  },
-  reserves: {
-    current: 234,
-    previous: 198,
+    current: 5067250,
+    previous: 4890000, 
     trend: "up",
-    change: 18.2
+    change: 3.6
   }
 };
 
-const expenseCategories = [
-  { name: "Mantenimiento", amount: 1450000, percentage: 27.6, color: "bg-blue-500" },
-  { name: "Seguridad", amount: 1250000, percentage: 23.8, color: "bg-green-500" },
-  { name: "Servicios", amount: 980000, percentage: 18.7, color: "bg-yellow-500" },
-  { name: "Administración", amount: 675000, percentage: 12.9, color: "bg-purple-500" },
-  { name: "Limpieza", amount: 545000, percentage: 10.4, color: "bg-teal-500" },
-  { name: "Otros", amount: 350000, percentage: 6.6, color: "bg-gray-500" }
+// Resumen financiero detallado
+const financialSummary = {
+  totalFacturado: 5475000,
+  cobrado: 5067250,
+  pendiente: 407750,
+  tasaCobranza: 92.5,
+  meta: 95,
+  propietariosPendientes: 6
+};
+
+// Transacciones de pagos estilo PagoTIC
+const paymentTransactions = [
+  {
+    fecha: "18/09/2025",
+    idTransaccion: "9736-18092025143307",
+    concepto: "CM",
+    descripcion: "CANON 09/2025",
+    pagador: "Muller German",
+    importe: 375000,
+    cbu: "0000003900000000000047",
+    estado: "En Progreso"
+  },
+  {
+    fecha: "18/09/2025", 
+    idTransaccion: "9737-18092025143415",
+    concepto: "CM",
+    descripcion: "CANON 09/2025",
+    pagador: "De Las Carreras Rafael",
+    importe: 365011.83,
+    cbu: "0071",
+    estado: "Rechazado"
+  },
+  {
+    fecha: "17/09/2025",
+    idTransaccion: "9735-17092025091205",
+    concepto: "PP",
+    descripcion: "PLAN DE PAGOS ARBA",
+    pagador: "Rodriguez Maria Elena",
+    importe: 285000,
+    cbu: "0000003900000000000089",
+    estado: "Aprobado"
+  },
+  {
+    fecha: "17/09/2025",
+    idTransaccion: "9734-17092025085532",
+    concepto: "CM",
+    descripcion: "CANON 09/2025",
+    pagador: "Gonzalez Carlos Alberto",
+    importe: 325000,
+    cbu: "0000003900000000000156",
+    estado: "Aprobado"
+  },
+  {
+    fecha: "16/09/2025",
+    idTransaccion: "9733-16092025143307",
+    concepto: "EX",
+    descripcion: "SERVICIOS EXTRAORDINARIOS",
+    pagador: "Martinez Ana Laura",
+    importe: 125000,
+    cbu: "0000003900000000000234",
+    estado: "Pendiente"
+  },
+  {
+    fecha: "16/09/2025",
+    idTransaccion: "9732-16092025120845",
+    concepto: "CM",
+    descripcion: "CANON 09/2025",
+    pagador: "Lopez Juan Carlos",
+    importe: 340000,
+    cbu: "0000003900000000000178",
+    estado: "Aprobado"
+  },
+  {
+    fecha: "15/09/2025",
+    idTransaccion: "9731-15092025161234",
+    concepto: "PP",
+    descripcion: "PLAN DE PAGOS ARBA",
+    pagador: "Fernandez Patricia",
+    importe: 195000,
+    cbu: "0000003900000000000267",
+    estado: "Objetado"
+  },
+  {
+    fecha: "15/09/2025",
+    idTransaccion: "9730-15092025145612",
+    concepto: "CM",
+    descripcion: "CANON 09/2025",
+    pagador: "Silva Roberto",
+    importe: 310000,
+    cbu: "0000003900000000000301",
+    estado: "Cancelado"
+  }
 ];
 
 const paymentStatus = [
@@ -60,78 +137,46 @@ const paymentStatus = [
   { status: "Vencido +60 días", count: 3, percentage: 1.6, color: "text-red-700" }
 ];
 
-const serviceUsage = [
-  { service: "Restaurante", reservations: 156, revenue: 890000, avgTicket: 5705 },
-  { service: "Canchas Deportivas", reservations: 89, revenue: 0, avgTicket: 0 },
-  { service: "Espacios Comunes", reservations: 234, revenue: 0, avgTicket: 0 }
-];
-
-// Enhanced financial data for comprehensive reporting
-const comprehensiveFinancials = {
-  cte: {
-    personal: 2850000,
-    mantenimiento: 1450000,
-    servicios: 980000,
-    seguros: 425000,
-    administracion: 675000,
-    otros: 350000
-  },
-  assetProfitability: [
-    { asset: "Vehículos", investment: 15000000, monthlyRevenue: 890000, roi: 7.1 },
-    { asset: "Maquinaria", investment: 45000000, monthlyRevenue: 2250000, roi: 6.0 },
-    { asset: "Personal", investment: 0, monthlyCost: 2850000, efficiency: 92.3 },
-    { asset: "Áreas Comunes", investment: 8500000, monthlyRevenue: 340000, roi: 4.8 }
-  ],
-  kpis: {
-    costPerOwner: 29100,
-    operatingMargin: 18.5,
-    maintenanceCostRatio: 27.6,
-    collectionEfficiency: 93.1
+// Función para obtener el color del badge según el estado
+const getStatusBadgeColor = (estado: string) => {
+  switch (estado) {
+    case "Aprobado":
+      return "bg-emerald-500 hover:bg-emerald-600";
+    case "En Progreso":
+      return "bg-blue-500 hover:bg-blue-600";
+    case "Pendiente":
+      return "bg-orange-500 hover:bg-orange-600";
+    case "Rechazado":
+      return "bg-red-500 hover:bg-red-600";
+    case "Objetado":
+      return "bg-yellow-500 hover:bg-yellow-600";
+    case "Cancelado":
+      return "bg-gray-500 hover:bg-gray-600";
+    default:
+      return "bg-gray-500 hover:bg-gray-600";
   }
 };
 
-const reports = [
-  {
-    id: "RPT-001",
-    name: "Estado Financiero Mensual",
-    type: "Financiero",
-    generated: "2024-02-15",
-    status: "Completado",
-    size: "2.4 MB"
-  },
-  {
-    id: "RPT-002", 
-    name: "Reporte de Cobranzas",
-    type: "Cobranzas",
-    generated: "2024-02-10",
-    status: "Completado", 
-    size: "1.8 MB"
-  },
-  {
-    id: "RPT-003",
-    name: "Análisis de Ocupación",
-    type: "Ocupación",
-    generated: "2024-02-05",
-    status: "Completado",
-    size: "965 KB"
-  },
-  {
-    id: "RPT-004",
-    name: "CTE y Rentabilidad",
-    type: "CTE",
-    generated: "2024-02-12",
-    status: "Completado",
-    size: "3.2 MB"
-  },
-  {
-    id: "RPT-005",
-    name: "ROI por Activos",
-    type: "ROI",
-    generated: "En proceso...",
-    status: "Generando",
-    size: "-"
+// Función para obtener el icono según el estado
+const getStatusIcon = (estado: string) => {
+  switch (estado) {
+    case "Aprobado":
+      return <CheckCircle className="h-3 w-3" />;
+    case "En Progreso":
+      return <Clock className="h-3 w-3" />;
+    case "Pendiente":
+      return <AlertTriangle className="h-3 w-3" />;
+    case "Rechazado":
+      return <XCircle className="h-3 w-3" />;
+    case "Objetado":
+      return <AlertTriangle className="h-3 w-3" />;
+    case "Cancelado":
+      return <XCircle className="h-3 w-3" />;
+    default:
+      return <Clock className="h-3 w-3" />;
   }
-];
+};
+
 
 export default function AdminReportes() {
   const formatCurrency = (amount: number) => {
@@ -156,8 +201,8 @@ export default function AdminReportes() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Panel de Reportes
+              <CreditCard className="h-5 w-5" />
+              Pagos
             </CardTitle>
             <div className="flex gap-2">
               <Button variant="outline">
@@ -173,8 +218,8 @@ export default function AdminReportes() {
         </CardHeader>
       </Card>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {/* Key Metrics - Solo Canon y Pagos */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -199,247 +244,192 @@ export default function AdminReportes() {
                 <p className="text-2xl font-bold">{formatCurrency(monthlyStats.payments.current)}</p>
                 <div className={`flex items-center gap-1 text-sm ${getTrendColor(monthlyStats.payments.trend)}`}>
                   {getTrendIcon(monthlyStats.payments.trend)}
-                  <span>{Math.abs(monthlyStats.payments.change)}%</span>
+                  <span>{monthlyStats.payments.change}%</span>
                 </div>
               </div>
               <CheckCircle className="h-8 w-8 text-emerald-500" />
             </div>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm">Ocupación</p>
-                <p className="text-2xl font-bold">{monthlyStats.occupancy.current}%</p>
-                <div className={`flex items-center gap-1 text-sm ${getTrendColor(monthlyStats.occupancy.trend)}`}>
-                  {getTrendIcon(monthlyStats.occupancy.trend)}
-                  <span>{Math.abs(monthlyStats.occupancy.change)}%</span>
-                </div>
-              </div>
-              <Users className="h-8 w-8 text-purple-500" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm">Reservas</p>
-                <p className="text-2xl font-bold">{monthlyStats.reserves.current}</p>
-                <div className={`flex items-center gap-1 text-sm ${getTrendColor(monthlyStats.reserves.trend)}`}>
-                  {getTrendIcon(monthlyStats.reserves.trend)}
-                  <span>{monthlyStats.reserves.change}%</span>
-                </div>
-              </div>
-              <Calendar className="h-8 w-8 text-orange-500" />
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
-      {/* Detailed Reports */}
-      <Tabs defaultValue="financial">
-        <TabsList>
-          <TabsTrigger value="financial">Financiero</TabsTrigger>
-          <TabsTrigger value="collections">Cobranzas</TabsTrigger>
-          <TabsTrigger value="services">Servicios</TabsTrigger>
-          <TabsTrigger value="generated">Reportes Generados</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="financial" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Expense Breakdown */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <PieChart className="h-5 w-5" />
-                  Distribución de Gastos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {expenseCategories.map((category, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium">{category.name}</span>
-                        <span className="text-sm font-bold">{formatCurrency(category.amount)}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className={`${category.color} h-2 rounded-full`}
-                            style={{ width: `${category.percentage}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-xs text-muted-foreground w-12">{category.percentage}%</span>
-                      </div>
-                    </div>
-                  ))}
+      {/* Resumen Financiero */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DollarSign className="h-5 w-5" />
+            Resumen Financiero - Septiembre 2025
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-foreground">{formatCurrency(financialSummary.totalFacturado)}</div>
+              <p className="text-sm text-muted-foreground">Total Facturado</p>
+            </div>
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-emerald-600">{formatCurrency(financialSummary.cobrado)}</div>
+              <p className="text-sm text-muted-foreground">Cobrado</p>
+            </div>
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-orange-600">{formatCurrency(financialSummary.pendiente)}</div>
+              <p className="text-sm text-muted-foreground">Pendiente</p>
+            </div>
+            <div className="text-center p-4 border rounded-lg">
+              <div className="flex flex-col items-center">
+                <div className="text-2xl font-bold text-emerald-600">{financialSummary.tasaCobranza}%</div>
+                <p className="text-sm text-muted-foreground">Tasa de Cobranza</p>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div 
+                    className="bg-emerald-500 h-2 rounded-full"
+                    style={{ width: `${financialSummary.tasaCobranza}%` }}
+                  ></div>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Payment Status */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Estado de Pagos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {paymentStatus.map((status, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-3 h-3 rounded-full ${
-                          index === 0 ? "bg-emerald-500" : 
-                          index === 1 ? "bg-orange-500" : "bg-red-500"
-                        }`}></div>
-                        <span className="font-medium">{status.status}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className={`font-bold ${status.color}`}>{status.count}</div>
-                        <div className="text-xs text-muted-foreground">{status.percentage}%</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                <p className="text-xs text-muted-foreground mt-1">Meta: {financialSummary.meta}%</p>
+              </div>
+            </div>
           </div>
-        </TabsContent>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              {financialSummary.propietariosPendientes} propietarios con pagos pendientes
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="collections" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Análisis de Cobranzas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center p-4 border rounded-lg">
-                  <div className="text-2xl font-bold text-emerald-600">93.1%</div>
-                  <p className="text-sm text-muted-foreground">Tasa de Cobranza</p>
+      {/* Estado de Pagos */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <CheckCircle className="h-5 w-5" />
+            Estado de Pagos
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {paymentStatus.map((status, index) => (
+              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className={`w-3 h-3 rounded-full ${
+                    index === 0 ? "bg-emerald-500" : 
+                    index === 1 ? "bg-orange-500" : "bg-red-500"
+                  }`}></div>
+                  <span className="font-medium text-sm">{status.status}</span>
                 </div>
-                <div className="text-center p-4 border rounded-lg">
-                  <div className="text-2xl font-bold text-orange-600">18 días</div>
-                  <p className="text-sm text-muted-foreground">Promedio de Cobro</p>
-                </div>
-                <div className="text-center p-4 border rounded-lg">
-                  <div className="text-2xl font-bold text-red-600">{formatCurrency(360000)}</div>
-                  <p className="text-sm text-muted-foreground">Deuda Vencida</p>
+                <div className="text-right">
+                  <div className={`font-bold ${status.color}`}>{status.count}</div>
+                  <div className="text-xs text-muted-foreground">{status.percentage}%</div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="services" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Uso de Servicios
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {serviceUsage.map((service, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-semibold">{service.service}</h4>
-                      <p className="text-sm text-muted-foreground">{service.reservations} reservas este mes</p>
-                    </div>
-                    <div className="text-right">
-                      {service.revenue > 0 ? (
-                        <>
-                          <div className="font-bold">{formatCurrency(service.revenue)}</div>
-                          <div className="text-sm text-muted-foreground">
-                            Avg: {formatCurrency(service.avgTicket)}
-                          </div>
-                        </>
-                      ) : (
-                        <Badge variant="secondary">Gratuito</Badge>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="generated" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Reportes Generados
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {reports.map((report) => (
-                  <div key={report.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <FileText className="h-8 w-8 text-muted-foreground" />
-                      <div>
-                        <h4 className="font-semibold">{report.name}</h4>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                          <span>Tipo: {report.type}</span>
-                          <span>•</span>
-                          <span>{report.generated}</span>
-                          {report.size !== "-" && (
-                            <>
-                              <span>•</span>
-                              <span>{report.size}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Badge 
-                        variant={report.status === "Completado" ? "default" : "secondary"}
-                        className={report.status === "Completado" ? "bg-emerald-600" : "bg-orange-500"}
-                      >
-                        {report.status === "Completado" ? (
-                          <>
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            Completado
-                          </>
-                        ) : (
-                          <>
-                            <AlertTriangle className="h-3 w-3 mr-1" />
-                            Generando
-                          </>
-                        )}
+      {/* Tabla de Transacciones - Estilo PagoTIC */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <CreditCard className="h-5 w-5" />
+            Transacciones de Pago
+          </CardTitle>
+          
+          {/* Filtros */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <div className="flex gap-2">
+              <Select defaultValue="todos">
+                <SelectTrigger className="w-[160px]">
+                  <SelectValue placeholder="Estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="todos">Todos</SelectItem>
+                  <SelectItem value="objetados">Objetados</SelectItem>
+                  <SelectItem value="en-proceso">En proceso</SelectItem>
+                  <SelectItem value="aprobados">Aprobados</SelectItem>
+                  <SelectItem value="rechazados">Rechazados</SelectItem>
+                  <SelectItem value="pendiente">Pendiente</SelectItem>
+                  <SelectItem value="cancelado">Cancelado</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select defaultValue="septiembre">
+                <SelectTrigger className="w-[160px]">
+                  <SelectValue placeholder="Período" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="septiembre">Septiembre 2025</SelectItem>
+                  <SelectItem value="agosto">Agosto 2025</SelectItem>
+                  <SelectItem value="julio">Julio 2025</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar por pagador, concepto..."
+                className="pl-8"
+              />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>ID Transacción</TableHead>
+                  <TableHead>Concepto</TableHead>
+                  <TableHead>Descripción</TableHead>
+                  <TableHead>Nombre Pagador</TableHead>
+                  <TableHead>Importe</TableHead>
+                  <TableHead>CBU/Nro Tarjeta</TableHead>
+                  <TableHead>Estado</TableHead>
+                  <TableHead>Acciones</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paymentTransactions.map((transaction, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{transaction.fecha}</TableCell>
+                    <TableCell className="font-mono text-sm">{transaction.idTransaccion}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="font-mono">
+                        {transaction.concepto}
                       </Badge>
-                      
-                      {report.status === "Completado" && (
-                        <div className="flex gap-1">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4 mr-1" />
-                            Ver
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Download className="h-4 w-4 mr-1" />
-                            Descargar
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                    </TableCell>
+                    <TableCell>{transaction.descripcion}</TableCell>
+                    <TableCell>{transaction.pagador}</TableCell>
+                    <TableCell className="font-semibold">
+                      {formatCurrency(transaction.importe)}
+                    </TableCell>
+                    <TableCell className="font-mono text-sm">{transaction.cbu}</TableCell>
+                    <TableCell>
+                      <Badge 
+                        className={`${getStatusBadgeColor(transaction.estado)} text-white`}
+                      >
+                        {getStatusIcon(transaction.estado)}
+                        <span className="ml-1">{transaction.estado}</span>
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="sm">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
