@@ -104,7 +104,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent Activity - Full Width */}
-        <ExpandableWidget expandUrl="/admin/activity" expandText="ver más">
+        <ExpandableWidget expandUrl="/admin/monitoreo" expandText="ver más">
           <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

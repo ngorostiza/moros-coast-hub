@@ -97,23 +97,23 @@ export default function AdminMonitoreo() {
         
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Lotes Ocupados</CardTitle>
+            <CardTitle className="text-sm font-medium">Estado Accesos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{communityStatus.occupiedLots}/{communityStatus.totalLots}</div>
-            <div className="text-xs text-muted-foreground mt-1">
-              {((communityStatus.occupiedLots/communityStatus.totalLots)*100).toFixed(1)}% ocupación
-            </div>
+            <div className="text-2xl font-bold">Operativo</div>
+            <Progress value={99.98} className="h-2 mt-2" />
+            <div className="text-xs text-muted-foreground mt-1">99.98% uptime</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Reservas Activas</CardTitle>
+            <CardTitle className="text-sm font-medium">Estado Cámaras</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{communityStatus.activeReservations}</div>
-            <div className="text-xs text-muted-foreground mt-1">Espacios comunes</div>
+            <div className="text-2xl font-bold">Operativo</div>
+            <Progress value={99.2} className="h-2 mt-2" />
+            <div className="text-xs text-muted-foreground mt-1">99.2% uptime</div>
           </CardContent>
         </Card>
 
@@ -128,74 +128,42 @@ export default function AdminMonitoreo() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Services Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Estado de Servicios</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {services.map((service) => (
-                <div key={service.name} className="flex items-center justify-between p-3 rounded bg-muted/30">
-                  <div className="font-medium">{service.name}</div>
-                  <div className="flex items-center gap-3">
-                    <Badge variant="outline" className={
-                      service.status === "Operativo" ? "bg-green-50 text-green-700 border-green-200" : 
-                      "bg-yellow-50 text-yellow-700 border-yellow-200"
-                    }>
-                      {service.status}
-                    </Badge>
-                    <div className="text-sm text-muted-foreground w-20">
-                      {service.uptime}%
-                    </div>
-                    <div className="text-sm text-muted-foreground w-16">
-                      {service.latency}ms
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Actividad Reciente
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3 max-h-80 overflow-y-auto">
-              {recentActivity.map((activity, index) => (
-                <div 
-                  key={index} 
-                  className={`flex items-start gap-3 p-3 rounded-lg border ${getStatusColor(activity.status)}`}
-                >
-                  <div className="mt-0.5">
-                    {getActivityIcon(activity.type)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium truncate">
-                        {activity.description}
-                      </p>
-                      <span className="text-xs font-mono">
-                        {activity.time}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {activity.user}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-}
+       {/* Recent Activity - Full Width */}
+       <Card>
+         <CardHeader>
+           <CardTitle className="flex items-center gap-2">
+             <Clock className="h-5 w-5" />
+             Actividad Reciente
+           </CardTitle>
+         </CardHeader>
+         <CardContent>
+           <div className="space-y-3 max-h-80 overflow-y-auto">
+             {recentActivity.map((activity, index) => (
+               <div 
+                 key={index} 
+                 className={`flex items-start gap-3 p-3 rounded-lg border ${getStatusColor(activity.status)}`}
+               >
+                 <div className="mt-0.5">
+                   {getActivityIcon(activity.type)}
+                 </div>
+                 <div className="flex-1 min-w-0">
+                   <div className="flex items-center justify-between">
+                     <p className="text-sm font-medium truncate">
+                       {activity.description}
+                     </p>
+                     <span className="text-xs font-mono">
+                       {activity.time}
+                     </span>
+                   </div>
+                   <p className="text-xs text-muted-foreground mt-1">
+                     {activity.user}
+                   </p>
+                 </div>
+               </div>
+             ))}
+           </div>
+         </CardContent>
+       </Card>
+     </div>
+   );
+ }

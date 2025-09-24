@@ -31,7 +31,7 @@ const adminItems = [
     icon: BarChart3,
     subItems: [
       { title: "Vista General", url: "/admin/dashboard" },
-      { title: "Reportes", url: "/admin/reportes" },
+      { title: "Pagos", url: "/admin/reportes" },
       { title: "Monitoreo", url: "/admin/monitoreo" },
       { title: "Movilidad", url: "/admin/fuel" },
       { title: "Horas Máquina", url: "/admin/machinery" },
