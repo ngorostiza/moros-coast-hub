@@ -60,9 +60,9 @@ export default function CanonEstado() {
         <CardContent>
           <div className="space-y-4">
             {[
-              { fecha: "15 Feb 2024", concepto: "Canon Mensual", monto: 89500, estado: "Pagado" },
-              { fecha: "15 Ene 2024", concepto: "Canon Mensual", monto: 89500, estado: "Pagado" },
-              { fecha: "15 Dic 2023", concepto: "Canon Mensual", monto: 85000, estado: "Pagado" },
+              { fecha: "15 Sep 2025", concepto: "Canon Lote 87 Mes Septiembre 2025", monto: 89500, estado: "Pagado" },
+              { fecha: "15 Ago 2025", concepto: "Plan de pagos ARBA 6/6", monto: 42300, estado: "Pagado" },
+              { fecha: "15 Jul 2025", concepto: "Canon Lote 87 Mes Agosto 2025", monto: 85200, estado: "Pagado" },
             ].map((pago, index) => (
               <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                 <div>

@@ -19,58 +19,6 @@ import {
 
 const reservations = [
   {
-    id: "RES-001",
-    type: "restaurant",
-    service: "El Club - Restaurante",
-    date: "2024-02-17",
-    time: "20:00",
-    duration: "2 horas",
-    guests: 4,
-    status: "confirmed",
-    notes: "Mesa con vista al mar, celebración de cumpleaños",
-    icon: UtensilsCrossed,
-    location: "Playa Mía",
-    details: {
-      tableType: "Vista al mar",
-      specialRequests: "Sin mariscos, mesa para 4"
-    }
-  },
-  {
-    id: "RES-002", 
-    type: "surf",
-    service: "Clase de Surf Intermedio",
-    date: "2024-02-20",
-    time: "10:00",
-    duration: "1.5 horas",
-    guests: 1,
-    status: "confirmed",
-    notes: "Clase individual con instructor certificado",
-    icon: Waves,
-    location: "Playa Principal",
-    details: {
-      level: "Intermedio",
-      instructor: "Carlos Mendez",
-      equipment: "Incluido"
-    }
-  },
-  {
-    id: "RES-003",
-    type: "equipment",
-    service: "Alquiler Tabla de Surf",
-    date: "2024-02-22",
-    time: "09:00",
-    duration: "Todo el día",
-    guests: 1,
-    status: "pending",
-    notes: "Tabla longboard para principiante",
-    icon: Waves,
-    location: "Centro de Deportes",
-    details: {
-      equipment: "Longboard 9'2\" + Traje 3/2mm",
-      returnTime: "18:00"
-    }
-  },
-  {
     id: "RES-004",
     type: "amenity",
     service: "Cancha de Tenis",
@@ -85,6 +33,23 @@ const reservations = [
     details: {
       court: "Cancha 1 - Polvo de Ladrillo",
       equipment: "Raquetas disponibles en recepción"
+    }
+  },
+  {
+    id: "RES-005",
+    type: "amenity",
+    service: "Cancha de Paddle",
+    date: "2024-02-28",
+    time: "18:00", 
+    duration: "1 hora",
+    guests: 4,
+    status: "pending",
+    notes: "Partido dobles",
+    icon: Dumbbell,
+    location: "Complejo Deportivo",
+    details: {
+      court: "Cancha 2 - Césped sintético",
+      equipment: "Paletas disponibles"
     }
   }
 ];

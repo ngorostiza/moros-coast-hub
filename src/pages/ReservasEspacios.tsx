@@ -58,20 +58,19 @@ export default function ReservasEspacios() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  <span>{espacio.horarios}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  <span>{espacio.capacidad}</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold">{espacio.precio}</span>
-                <Button size="sm">Reservar</Button>
-              </div>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>{espacio.horarios}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              <span>{espacio.capacidad}</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <Button size="sm">Reservar</Button>
+          </div>
             </CardContent>
           </Card>
         ))}

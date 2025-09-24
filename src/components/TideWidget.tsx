@@ -12,7 +12,7 @@ export default function TideWidget() {
       { time: "06:15", type: "Baja", height: 0.3 },
       { time: "12:45", type: "Alta", height: 2.1 },
       { time: "18:20", type: "Baja", height: 0.4 },
-      { time: "24:50", type: "Alta", height: 1.9 }
+      { time: "23:50", type: "Alta", height: 1.9 }
     ]
   };
 

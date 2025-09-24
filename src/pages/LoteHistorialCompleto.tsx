@@ -9,7 +9,8 @@ import {
   Wrench,
   CheckCircle,
   Clock,
-  AlertTriangle
+  AlertTriangle,
+  Users
 } from "lucide-react";
 
 export default function LoteHistorialCompleto() {
@@ -229,10 +230,10 @@ export default function LoteHistorialCompleto() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Construcción</p>
-                <p className="text-xl font-bold text-foreground">85%</p>
+                <p className="text-muted-foreground text-sm">Propietarios Actuales</p>
+                <p className="text-xl font-bold text-foreground">1</p>
               </div>
-              <Building className="h-8 w-8 text-blue-500" />
+              <Users className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>

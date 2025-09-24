@@ -47,7 +47,6 @@ export default function Dashboard() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Dashboard Propietario</h1>
-          <p className="text-muted-foreground">Lote 87 - Sector Del Campo</p>
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
@@ -178,46 +177,60 @@ export default function Dashboard() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <DollarSign className="h-5 w-5" />
-                Canon de su lote
+                Pagos
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-4">
                 {/* Current */}
-                <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
-                  <div className="flex items-center gap-3">
-                    <Clock className="h-5 w-5 text-orange-600" />
-                    <div>
-                      <p className="font-medium">Febrero 2024</p>
-                      <p className="text-sm text-muted-foreground">Vence: {expenseData.current.dueDate}</p>
+                  <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-5 w-5 text-orange-600" />
+                      <div>
+                        <p className="font-medium">Canon Lote 87 Mes Septiembre 2025</p>
+                        <p className="text-sm text-muted-foreground">Vence: {expenseData.current.dueDate}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold">${expenseData.current.amount.toLocaleString()}</p>
+                      <Badge variant="outline" className="bg-orange-100 text-orange-700 border-orange-200">
+                        Pendiente
+                      </Badge>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold">${expenseData.current.amount.toLocaleString()}</p>
-                    <Badge variant="outline" className="bg-orange-100 text-orange-700 border-orange-200">
-                      Pendiente
-                    </Badge>
-                  </div>
-                </div>
 
-                {/* History */}
-                {expenseData.history.map((expense, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                  {/* New payments */}
+                  <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg border border-emerald-200">
                     <div className="flex items-center gap-3">
                       <CheckCircle className="h-5 w-5 text-emerald-600" />
                       <div>
-                        <p className="font-medium">{expense.month}</p>
+                        <p className="font-medium">Plan de pagos ARBA 6/6</p>
                         <p className="text-sm text-muted-foreground">Pagado</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold">${expense.amount.toLocaleString()}</p>
+                      <p className="font-bold">$42,300</p>
                       <Badge variant="outline" className="bg-emerald-100 text-emerald-700 border-emerald-200">
                         Pagado
                       </Badge>
                     </div>
                   </div>
-                ))}
+                  
+                  <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-emerald-600" />
+                      <div>
+                        <p className="font-medium">Canon Lote 87 Mes Agosto 2025</p>
+                        <p className="text-sm text-muted-foreground">Pagado</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold">$85,200</p>
+                      <Badge variant="outline" className="bg-emerald-100 text-emerald-700 border-emerald-200">
+                        Pagado
+                      </Badge>
+                    </div>
+                  </div>
               </div>
               
               <Button className="w-full mt-4" variant="ocean">
