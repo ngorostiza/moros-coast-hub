@@ -11,7 +11,7 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Detect subdomain for routing
+// Detect subdomain or admin path for routing
 const getSubdomain = () => {
   const hostname = window.location.hostname;
   const parts = hostname.split('.');
@@ -21,8 +21,14 @@ const getSubdomain = () => {
   return null;
 };
 
-const App = () => {
+const isAdminAccess = () => {
   const subdomain = getSubdomain();
+  const pathname = window.location.pathname;
+  return subdomain === 'admin' || pathname.startsWith('/admin');
+};
+
+const App = () => {
+  const showAdminLayout = isAdminAccess();
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -30,7 +36,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          {subdomain === 'admin' ? (
+          {showAdminLayout ? (
             <AdminLayout />
           ) : (
             <OwnerLayout />
