@@ -276,17 +276,8 @@ export default function AdminReportes() {
               <p className="text-sm text-muted-foreground">Pendiente</p>
             </div>
             <div className="text-center p-4 border rounded-lg">
-              <div className="flex flex-col items-center">
-                <div className="text-2xl font-bold text-emerald-600">{financialSummary.tasaCobranza}%</div>
-                <p className="text-sm text-muted-foreground">Tasa de Cobranza</p>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div 
-                    className="bg-emerald-500 h-2 rounded-full"
-                    style={{ width: `${financialSummary.tasaCobranza}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">Meta: {financialSummary.meta}%</p>
-              </div>
+              <div className="text-2xl font-bold text-emerald-600">{financialSummary.tasaCobranza}%</div>
+              <p className="text-sm text-muted-foreground">Tasa de Cobranza</p>
             </div>
           </div>
           <div className="mt-4 text-center">

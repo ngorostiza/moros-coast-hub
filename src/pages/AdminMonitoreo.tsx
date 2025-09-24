@@ -52,6 +52,48 @@ export default function AdminMonitoreo() {
       description: "Ronda de seguridad completada - Zona Residencial", 
       user: "Guardia López",
       status: "success"
+    },
+    { 
+      time: "13:05", 
+      type: "access", 
+      description: "Salida vehicular - Lote 78", 
+      user: "Sistema Automático",
+      status: "success"
+    },
+    { 
+      time: "12:58", 
+      type: "security", 
+      description: "Patrulla de seguridad - Sector Sur", 
+      user: "Guardia Martinez",
+      status: "info"
+    },
+    { 
+      time: "12:45", 
+      type: "access", 
+      description: "Ingreso peatonal - Administración", 
+      user: "Personal Administrativo",
+      status: "success"
+    },
+    { 
+      time: "12:32", 
+      type: "maintenance", 
+      description: "Mantenimiento preventivo - Cámara 8", 
+      user: "Técnico López",
+      status: "info"
+    },
+    { 
+      time: "12:18", 
+      type: "security", 
+      description: "Ronda de seguridad completada - Zona Club", 
+      user: "Guardia Fernández",
+      status: "success"
+    },
+    { 
+      time: "12:05", 
+      type: "access", 
+      description: "Ingreso vehicular - Lote 12", 
+      user: "Sistema Automático",
+      status: "success"
     }
   ];
 
@@ -83,26 +125,14 @@ export default function AdminMonitoreo() {
   return (
     <div className="space-y-6">
       {/* Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Uptime General</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">98.7%</div>
-            <Progress value={98.7} className="h-2 mt-2" />
-            <div className="mt-1 text-xs text-muted-foreground">Últimas 24h</div>
-          </CardContent>
-        </Card>
-        
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">        
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Estado Accesos</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">Operativo</div>
-            <Progress value={99.98} className="h-2 mt-2" />
-            <div className="text-xs text-muted-foreground mt-1">99.98% uptime</div>
+            <div className="text-2xl font-bold">10/10</div>
+            <div className="text-xs text-muted-foreground mt-1">Todos operativos</div>
           </CardContent>
         </Card>
 
@@ -111,18 +141,7 @@ export default function AdminMonitoreo() {
             <CardTitle className="text-sm font-medium">Estado Cámaras</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">Operativo</div>
-            <Progress value={99.2} className="h-2 mt-2" />
-            <div className="text-xs text-muted-foreground mt-1">99.2% uptime</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Cámaras Online</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">23/24</div>
+            <div className="text-2xl font-bold">49/50</div>
             <div className="text-xs text-muted-foreground mt-1">1 en revisión</div>
           </CardContent>
         </Card>
