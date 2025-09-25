@@ -58,7 +58,7 @@ export default function AdminDashboard() {
     reservationsToday: 8,
     collectionRate: 92.5,
     pendingPayments: 6,
-    staffBdlM: 28
+    staffBdlM: 21
   };
 
   const monthlyData = {
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
             </div>
             <div className="mt-2 flex items-center gap-1">
               <CheckCircle className="h-3 w-3" />
-              <span className="text-xs text-white/80">Personal activo</span>
+              <span className="text-xs text-white/80">En BdlM</span>
             </div>
           </CardContent>
         </Card>
@@ -225,12 +225,14 @@ export default function AdminDashboard() {
         {/* Tank Levels - Full Width - Expandable */}
         <ExpandableWidget expandUrl="/admin/fuel" expandText="ver más">
           <Card className="w-full">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <MapPin className="h-5 w-5 text-muted-foreground" />
-                <h3 className="text-lg font-semibold">Niveles de Tanques de Combustible</h3>
-                <span className="text-sm text-muted-foreground">(Capacidad máxima: 5,000L)</span>
-              </div>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MapPin className="h-5 w-5" />
+                Niveles de Tanques de Combustible
+                <span className="text-sm text-muted-foreground font-normal">(Capacidad máxima: 5,000L)</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
