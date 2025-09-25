@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import CollapsibleGISMap from "@/components/CollapsibleGISMap";
 import MachineryHoursWidget from "@/components/MachineryHoursWidget";
 import ExpandableWidget from "@/components/ExpandableWidget";
 import { AIChatWidget } from "@/components/AIChatWidget";
@@ -20,7 +19,10 @@ import {
   Building,
   Waves,
   MapPin,
-  RefreshCw
+  RefreshCw,
+  Home,
+  Hammer,
+  Plus
 } from "lucide-react";
 import { useState } from "react";
 
@@ -306,10 +308,86 @@ export default function AdminDashboard() {
           <AIChatWidget />
         </div>
 
-        {/* GIS Map - Collapsible */}
-        <div className="w-full">
-          <CollapsibleGISMap />
-        </div>
+        {/* Lotes Summary - Expandable */}
+        <ExpandableWidget expandUrl="/admin/lotes/abm" expandText="ver más">
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Home className="h-5 w-5" />
+                Resumen de Lotes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <Home className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">150</p>
+                        <p className="text-sm text-muted-foreground">Total Lotes</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-green-100 rounded-lg">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">85</p>
+                        <p className="text-sm text-muted-foreground">Vendidos</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-blue-100 rounded-lg">
+                        <Building className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">60</p>
+                        <p className="text-sm text-muted-foreground">Construidos</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-orange-100 rounded-lg">
+                        <Hammer className="h-4 w-4 text-orange-600" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">6</p>
+                        <p className="text-sm text-muted-foreground">En Construcción</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg">
+                        <Plus className="h-4 w-4 text-gray-600" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">65</p>
+                        <p className="text-sm text-muted-foreground">Disponibles</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </ExpandableWidget>
 
         {/* Machinery Hours Widget - Full Width */}
         <ExpandableWidget expandUrl="/admin/machinery" expandText="ver más">
