@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Edit, Trash2, MapPin, Home, CheckCircle, Building, Hammer } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2, Eye, MapPin, Home, CheckCircle, Building, Hammer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -12,10 +12,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import LoteDetailModal from "@/components/LoteDetailModal";
 
 export default function LotesABM() {
   const navigate = useNavigate();
-  // Generar 150 lotes con datos realistas
+  const [selectedLote, setSelectedLote] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Generar 150 lotes con datos realistas y expandidos
   const [lotes] = useState(() => {
     const propietarios = ["FENDA", "Rafael De Las Carreras", "Marcelo Giunti"];
     const calles = ["De Abajo", "El Zorro", "El Encuentro"];
@@ -38,12 +42,49 @@ export default function LotesABM() {
         propietario: estado === "Disponible" ? "-" : propietarios[i % propietarios.length],
         superficie: superficies[i % superficies.length],
         estado: estado,
-        calle: calles[i % calles.length]
+        calle: calles[i % calles.length],
+        dimensiones: {
+          frente: `${Math.floor(Math.random() * 30) + 70}m`,
+          fondo: `${Math.floor(Math.random() * 40) + 100}m`,
+          orientacion: ["Norte-Sur", "Este-Oeste", "Noreste-Suroeste"][Math.floor(Math.random() * 3)]
+        },
+        servicios: ["Agua", "Luz", "Gas", "Internet", "Cloacas"].filter(() => Math.random() > 0.2),
+        historial: [
+          {
+            fecha: "15/03/2020",
+            evento: "Venta del lote",
+            descripcion: "Primer propietario registrado"
+          },
+          {
+            fecha: "22/11/2021", 
+            evento: "Inicio de construcción",
+            descripcion: "Permisos aprobados y obras iniciadas"
+          }
+        ],
+        documentos: estado !== "Disponible" ? [
+          { nombre: "Escritura", tipo: "Legal", url: "/docs/escritura.pdf" },
+          { nombre: "Plano de mensura", tipo: "Técnico", url: "/docs/mensura.pdf" }
+        ] : [],
+        fotos: estado === "Construido" ? [
+          { nombre: "Vista aérea", url: "/photos/aerial.jpg", fecha: "25/09/2025" },
+          { nombre: "Frente de la casa", url: "/photos/front.jpg", fecha: "25/09/2025" }
+        ] : [],
+        proyecto: estado === "Construido" || estado === "En Construcción" ? {
+          tipoVivienda: ["Casa familiar", "Chalet", "Casa moderna"][Math.floor(Math.random() * 3)],
+          metrosCubiertos: `${Math.floor(Math.random() * 200) + 150} m²`,
+          dormitorios: Math.floor(Math.random() * 3) + 2,
+          banos: Math.floor(Math.random() * 2) + 2
+        } : undefined
       });
     }
     
     return lotes;
   });
+
+  const handleViewDetails = (lote) => {
+    setSelectedLote(lote);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -174,6 +215,9 @@ export default function LotesABM() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
+                      <Button variant="ghost" size="sm" onClick={() => handleViewDetails(lote)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
                       <Button variant="ghost" size="sm">
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -188,6 +232,12 @@ export default function LotesABM() {
           </Table>
         </CardContent>
       </Card>
+
+      <LoteDetailModal 
+        lote={selectedLote}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

@@ -4,19 +4,41 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Users, UserCheck, UserPlus, Heart, Building, Briefcase, Edit, Trash2, Home, KeyRound, Hammer } from "lucide-react";
+import { ArrowLeft, Users, UserCheck, UserPlus, Heart, Building, Briefcase, Edit, Trash2, Eye, Home, KeyRound, Hammer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import UserDetailModal from "@/components/UserDetailModal";
 
 export default function UsuariosAutorizados() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 10;
 
-  // Sample data with new structure - REF and expiration dates
+  // Realistic Argentinian names
+  const nombresReales = [
+    "Carlos Rodríguez", "María González", "Juan Martínez", "Ana López", 
+    "Luis Fernández", "Carmen Sánchez", "Diego Pérez", "Elena García",
+    "Pablo Morales", "Laura Ruiz", "Andrés Silva", "Sofía Herrera",
+    "Roberto Castro", "Valentina Torres", "Miguel Ramírez", "Isabella Santos",
+    "Fernando Díaz", "Camila Vega", "Sebastián Flores", "Luciana Ortiz",
+    "Maximiliano Romero", "Agustina Cruz", "Nicolás Mendoza", "Florencia Vargas",
+    "Matías Guerrero", "Antonella León", "Joaquín Navarro", "Martina Campos",
+    "Tomás Moreno", "Catalina Jiménez", "Ignacio Ríos", "Julieta Paz",
+    "Facundo Herrera", "Delfina Silva", "Benjamín Torres", "Esperanza García",
+    "Emiliano López", "Victoria Martín", "Thiago Ruiz", "Mía Fernández",
+    "Santino González", "Emma Sánchez", "Lautaro Pérez", "Alma Castro",
+    "Bautista Morales", "Olivia Díaz", "Gael Vega", "Chloe Santos",
+    "Ian Romero", "Zoe Flores", "Kevin Mendoza", "Ariana Vargas"
+  ];
+
+  // Sample data with realistic names and enhanced structure
   const [usuarios] = useState(() => {
     const users = [];
+    let nombreIndex = 0;
+    const getNextNombre = () => nombresReales[nombreIndex++ % nombresReales.length];
     
     // Propietarios (85) - Asignados a lotes L-001 a L-085, sin vencimiento
     for (let i = 1; i <= 85; i++) {
@@ -25,12 +47,16 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Propietario ${i}`,
+        nombre: getNextNombre(),
         tipo: "Propietarios",
         ref: `L-${String(i).padStart(3, '0')}`,
         estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
         fechaVencimiento: null,
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 30) + 1960}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
@@ -43,12 +69,16 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Inquilino ${i - 85}`,
+        nombre: getNextNombre(),
         tipo: "Inquilinos", 
         ref: `L-${String(i).padStart(3, '0')}`,
         estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
         fechaVencimiento: fechaVencimiento.toLocaleDateString(),
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 30) + 1970}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
@@ -60,12 +90,16 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Familiar ${i - 130}`,
+        nombre: getNextNombre(),
         tipo: "Familiares",
         ref: refOwner.nombre,
         estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
         fechaVencimiento: null,
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 40) + 1970}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
@@ -79,12 +113,16 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Invitado ${i - 250}`,
+        nombre: getNextNombre(),
         tipo: "Invitados",
         ref: refOwner.nombre,
         estado: Math.random() > 0.15 ? "Activo" : "Inactivo",
         fechaVencimiento: fechaVencimiento.toLocaleDateString(),
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 50) + 1960}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
@@ -98,12 +136,16 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Casero ${i - 310}`,
+        nombre: getNextNombre(),
         tipo: "Caseros",
         ref: refOwner.nombre,
         estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
         fechaVencimiento: fechaVencimiento.toLocaleDateString(),
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 40) + 1960}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
@@ -117,17 +159,26 @@ export default function UsuariosAutorizados() {
         "Sin registro";
       users.push({
         id: i,
-        nombre: `Empleado ${i - 335}`,
+        nombre: getNextNombre(),
         tipo: "Empleados",
         ref: refOwner.nombre,
         estado: Math.random() > 0.08 ? "Activo" : "Inactivo",
         fechaVencimiento: fechaVencimiento.toLocaleDateString(),
-        ultimaEntrada
+        ultimaEntrada,
+        dni: `${Math.floor(Math.random() * 90000000) + 10000000}`,
+        fechaNacimiento: `${Math.floor(Math.random() * 28) + 1}/${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 40) + 1970}`,
+        email: `${getNextNombre().toLowerCase().replace(/\s+/g, '.')}@gmail.com`,
+        telefono: `+54 11 ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`
       });
     }
     
     return users;
   });
+
+  const handleViewDetails = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
 
   const filteredUsers = useMemo(() => {
     return usuarios.filter(user => {
@@ -308,16 +359,19 @@ export default function UsuariosAutorizados() {
                   <TableCell className="text-sm">
                     {user.ultimaEntrada}
                   </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Button variant="ghost" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+                   <TableCell>
+                     <div className="flex gap-2">
+                       <Button variant="ghost" size="sm" onClick={() => handleViewDetails(user)}>
+                         <Eye className="h-4 w-4" />
+                       </Button>
+                       <Button variant="ghost" size="sm">
+                         <Edit className="h-4 w-4" />
+                       </Button>
+                       <Button variant="ghost" size="sm">
+                         <Trash2 className="h-4 w-4" />
+                       </Button>
+                     </div>
+                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -349,6 +403,12 @@ export default function UsuariosAutorizados() {
           )}
         </CardContent>
       </Card>
+
+      <UserDetailModal 
+        user={selectedUser}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
