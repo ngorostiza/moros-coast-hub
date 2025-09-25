@@ -13,11 +13,23 @@ import {
   Eye,
   AlertTriangle,
   CheckCircle,
-  Clock
+  Clock,
+  ChevronDown
 } from "lucide-react";
 import TideWidget from "@/components/TideWidget";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 export default function Dashboard() {
+  const [selectedLote, setSelectedLote] = useState("087");
+  
+  const lotesDelPropietario = [
+    { numero: "087", sector: "Del Campo", superficie: "1,250 m²", estado: "Escriturado" },
+    { numero: "124", sector: "Costa Norte", superficie: "980 m²", estado: "En Construcción" },
+    { numero: "156", sector: "Reserva", superficie: "2,100 m²", estado: "Proyecto Aprobado" }
+  ];
+  
+  const currentLote = lotesDelPropietario.find(l => l.numero === selectedLote) || lotesDelPropietario[0];
   const weatherData = {
     current: {
       temp: 18,
@@ -49,6 +61,20 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold text-foreground">Dashboard Propietario</h1>
         </div>
         <div className="flex items-center gap-3">
+          <Select value={selectedLote} onValueChange={setSelectedLote}>
+            <SelectTrigger className="w-48">
+              <SelectValue>
+                Gestionar Lote: L-{selectedLote}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {lotesDelPropietario.map((lote) => (
+                <SelectItem key={lote.numero} value={lote.numero}>
+                  L-{lote.numero} - {lote.sector}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
             <CheckCircle className="w-3 h-3 mr-1" />
             Al día
@@ -136,19 +162,19 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Número de Lote</p>
-                  <p className="font-semibold">87</p>
+                  <p className="font-semibold">{currentLote.numero}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Sector</p>
-                  <p className="font-semibold">Del Campo</p>
+                  <p className="font-semibold">{currentLote.sector}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Superficie</p>
-                  <p className="font-semibold">10,101 m²</p>
+                  <p className="font-semibold">{currentLote.superficie}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Tipo</p>
-                  <p className="font-semibold">Lote Residencial</p>
+                  <p className="text-sm text-muted-foreground">Estado</p>
+                  <Badge variant="default">{currentLote.estado}</Badge>
                 </div>
               </div>
               
@@ -187,7 +213,7 @@ export default function Dashboard() {
                     <div className="flex items-center gap-3">
                       <Clock className="h-5 w-5 text-orange-600" />
                       <div>
-                        <p className="font-medium">Canon Lote 87 Mes Septiembre 2025</p>
+                        <p className="font-medium">Canon Lote {currentLote.numero} Mes Septiembre 2025</p>
                         <p className="text-sm text-muted-foreground">Vence: {expenseData.current.dueDate}</p>
                       </div>
                     </div>
@@ -220,7 +246,7 @@ export default function Dashboard() {
                     <div className="flex items-center gap-3">
                       <CheckCircle className="h-5 w-5 text-emerald-600" />
                       <div>
-                        <p className="font-medium">Canon Lote 87 Mes Agosto 2025</p>
+                        <p className="font-medium">Canon Lote {currentLote.numero} Mes Agosto 2025</p>
                         <p className="text-sm text-muted-foreground">Pagado</p>
                       </div>
                     </div>

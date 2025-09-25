@@ -41,15 +41,28 @@ export default function UsuariosAutorizados() {
     const getNextNombre = () => nombresReales[nombreIndex++ % nombresReales.length];
     
     // Propietarios (85) - Asignados a lotes L-001 a L-085, sin vencimiento
+    // Algunos propietarios con múltiples lotes
     for (let i = 1; i <= 85; i++) {
       const ultimaEntrada = Math.random() > 0.1 ? 
         `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
         "Sin registro";
+      
+      let ref = `L-${String(i).padStart(3, '0')}`;
+      // 8% de propietarios tienen múltiples lotes
+      if (Math.random() < 0.08 && i <= 75) {
+        const numLotes = Math.random() < 0.6 ? 2 : Math.random() < 0.9 ? 3 : 4;
+        const loteNumbers = [i];
+        for (let j = 1; j < numLotes && i + j * 25 <= 150; j++) {
+          loteNumbers.push(i + j * 25);
+        }
+        ref = loteNumbers.map(n => `L-${String(n).padStart(3, '0')}`).join(', ');
+      }
+      
       users.push({
         id: i,
         nombre: getNextNombre(),
         tipo: "Propietarios",
-        ref: `L-${String(i).padStart(3, '0')}`,
+        ref: ref,
         estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
         fechaVencimiento: null,
         ultimaEntrada,

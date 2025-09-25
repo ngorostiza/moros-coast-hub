@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Home, FileText, Calendar, Wrench, Edit, Eye } from "lucide-react";
+import { MapPin, Home, FileText, Calendar, Wrench, Edit, Eye, Trash2 } from "lucide-react";
 
 interface LoteData {
   id: number;
@@ -72,10 +72,16 @@ export default function LoteDetailModal({ lote, isOpen, onClose }: LoteDetailMod
               }>
                 {lote.estado}
               </Badge>
-              <Button variant="outline" size="sm">
-                <Edit className="h-4 w-4 mr-2" />
-                Editar
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
+                </Button>
+                <Button variant="destructive" size="sm">
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Eliminar
+                </Button>
+              </div>
             </div>
           </div>
         </DialogHeader>

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, FileText, Calendar, MapPin, User, Edit } from "lucide-react";
+import { Phone, Mail, FileText, Calendar, MapPin, User, Edit, Trash2 } from "lucide-react";
 
 interface StaffMember {
   id: number;
@@ -60,15 +60,21 @@ export default function StaffDetailModal({ staff, isOpen, onClose }: StaffDetail
                 ))}
                 {staff.esTambien && (
                   <Badge className="bg-purple-100 text-purple-800">
-                    {staff.esTambien}
+                    {staff.esTambien.includes("Propietaria") ? "Propietaria" : staff.esTambien.includes("Propietario") ? "Propietario" : staff.esTambien.includes("Inquilina") ? "Inquilina" : "Inquilino"}
                   </Badge>
                 )}
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              <Edit className="h-4 w-4 mr-2" />
-              Editar
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">
+                <Edit className="h-4 w-4 mr-2" />
+                Editar
+              </Button>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Eliminar
+              </Button>
+            </div>
           </div>
         </DialogHeader>
 

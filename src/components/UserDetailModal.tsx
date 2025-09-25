@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, FileText, Calendar, User, Edit, Home } from "lucide-react";
+import { Phone, Mail, FileText, Calendar, User, Edit, Home, Trash2 } from "lucide-react";
 
 interface UserData {
   id: number;
@@ -54,10 +54,16 @@ export default function UserDetailModal({ user, isOpen, onClose }: UserDetailMod
                 </Badge>
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              <Edit className="h-4 w-4 mr-2" />
-              Editar
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">
+                <Edit className="h-4 w-4 mr-2" />
+                Editar
+              </Button>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Eliminar
+              </Button>
+            </div>
           </div>
         </DialogHeader>
 
@@ -110,6 +116,18 @@ export default function UserDetailModal({ user, isOpen, onClose }: UserDetailMod
               <div>
                 <p className="text-sm text-muted-foreground">Referencia</p>
                 <p className="font-medium">{user.ref}</p>
+                {user.ref.includes(',') && (
+                  <div className="mt-2">
+                    <p className="text-sm text-muted-foreground">Lotes Asociados:</p>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {user.ref.split(',').map((lote, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {lote.trim()}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Estado</p>

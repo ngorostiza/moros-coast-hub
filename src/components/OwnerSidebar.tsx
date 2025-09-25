@@ -30,13 +30,8 @@ const ownerItems = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
   { 
     title: "Mi Lote", 
-    url: "/lote", 
-    icon: Building,
-    subItems: [
-      { title: "Información General", url: "/lote/info" },
-      { title: "Planos y Documentos", url: "/lote/planos" },
-      { title: "Historial", url: "/lote/historial" },
-    ]
+    url: "/lote/info", 
+    icon: Building
   },
   { 
     title: "Pagos", 

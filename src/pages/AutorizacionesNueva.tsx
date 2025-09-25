@@ -12,8 +12,15 @@ export default function AutorizacionesNueva() {
     nombre: "", 
     apellido: "", 
     tipo: "", 
-    fechaCaducidad: "" 
+    fechaCaducidad: "",
+    loteSeleccionado: ""
   });
+  
+  const lotesDisponibles = [
+    { numero: "087", sector: "Del Campo" },
+    { numero: "124", sector: "Costa Norte" },
+    { numero: "156", sector: "Reserva" }
+  ];
   
   const [invitationLink, setInvitationLink] = useState("");
 
@@ -22,12 +29,15 @@ export default function AutorizacionesNueva() {
   
   const handleTipoChange = (value: string) => 
     setForm({ ...form, tipo: value });
+  
+  const handleLoteChange = (value: string) => 
+    setForm({ ...form, loteSeleccionado: value });
 
   const generateInvitation = () => {
-    if (!form.nombre || !form.apellido || !form.tipo || !form.fechaCaducidad) {
+    if (!form.nombre || !form.apellido || !form.tipo || !form.fechaCaducidad || !form.loteSeleccionado) {
       toast({ 
         title: "Error", 
-        description: "Por favor complete todos los campos",
+        description: "Por favor complete todos los campos incluyendo el lote",
         variant: "destructive"
       });
       return;
@@ -38,7 +48,7 @@ export default function AutorizacionesNueva() {
     
     toast({ 
       title: "Invitación generada", 
-      description: `Invitación para ${form.nombre} ${form.apellido} creada exitosamente`
+      description: `Invitación para ${form.nombre} ${form.apellido} en Lote ${form.loteSeleccionado} creada exitosamente`
     });
   };
 
@@ -62,6 +72,22 @@ export default function AutorizacionesNueva() {
           <CardTitle>Nueva Autorización</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="mb-4">
+            <label className="text-sm font-medium text-muted-foreground">Para Lote:</label>
+            <Select onValueChange={handleLoteChange}>
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Seleccionar lote para autorizar" />
+              </SelectTrigger>
+              <SelectContent>
+                {lotesDisponibles.map((lote) => (
+                  <SelectItem key={lote.numero} value={lote.numero}>
+                    L-{lote.numero} - {lote.sector}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input 
               name="nombre" 
@@ -117,7 +143,7 @@ export default function AutorizacionesNueva() {
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Comparta este enlace con {form.nombre} {form.apellido} para que complete la autorización.
+                    Comparta este enlace con {form.nombre} {form.apellido} para que complete la autorización en Lote L-{form.loteSeleccionado}.
                   </p>
                 </div>
               </CardContent>

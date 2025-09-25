@@ -194,11 +194,11 @@ export default function UsuariosStaff() {
                 <div className="space-y-1">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-muted-foreground">Total:</span>
-                    <span className="font-bold text-lg">{categoria.total}</span>
+                    <span className="font-bold text-xl">{categoria.total}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-muted-foreground">En BdlM:</span>
-                    <span className={`font-bold text-lg text-${categoria.color}-600`}>{categoria.enBdlM}</span>
+                    <span className={`font-bold text-xl text-${categoria.color}-600`}>{categoria.enBdlM}</span>
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">{categoria.descripcion}</p>
@@ -214,7 +214,7 @@ export default function UsuariosStaff() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <CardTitle>Personal Completo - ABM</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-3">
                 {filteredPersonal.length} de {personalData.length} empleados
               </p>
             </div>
