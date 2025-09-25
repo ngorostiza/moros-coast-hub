@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/Dashboard";
 import LoteInfo from "@/pages/LoteInfo";
-import LotePlanos from "@/pages/LotePlanosDocumentos";
-import LoteHistorial from "@/pages/LoteHistorialCompleto";
+import LotePlanosDocumentos from "@/pages/LotePlanosDocumentos";
+import LoteHistorialCompleto from "@/pages/LoteHistorialCompleto";
 import CanonEstado from "@/pages/CanonEstado";
 import ReservasEspacios from "@/pages/ReservasEspacios";
 import ReservasMisReservas from "@/pages/ReservasMisReservas";
@@ -17,8 +17,8 @@ export default function OwnerRoutes() {
       
       {/* Mi Lote */}
       <Route path="/lote/info" element={<LoteInfo />} />
-      <Route path="/lote/planos" element={<LotePlanos />} />
-      <Route path="/lote/historial" element={<LoteHistorial />} />
+      <Route path="/lote/planos" element={<LotePlanosDocumentos />} />
+      <Route path="/lote/historial" element={<LoteHistorialCompleto />} />
 
       {/* Pagos (formerly Canon) */}
       <Route path="/pagos/estado" element={<CanonEstado />} />
