@@ -20,13 +20,17 @@ export default function UsuariosAutorizados() {
     
     // Propietarios (85) - Asignados a lotes L-001 a L-085, sin vencimiento
     for (let i = 1; i <= 85; i++) {
+      const ultimaEntrada = Math.random() > 0.1 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Propietario ${i}`,
         tipo: "Propietarios",
         ref: `L-${String(i).padStart(3, '0')}`,
         estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
-        fechaVencimiento: null
+        fechaVencimiento: null,
+        ultimaEntrada
       });
     }
     
@@ -34,26 +38,34 @@ export default function UsuariosAutorizados() {
     for (let i = 86; i <= 130; i++) {
       const fechaVencimiento = new Date();
       fechaVencimiento.setMonth(fechaVencimiento.getMonth() + Math.floor(Math.random() * 24) + 6);
+      const ultimaEntrada = Math.random() > 0.1 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Inquilino ${i - 85}`,
         tipo: "Inquilinos", 
         ref: `L-${String(i).padStart(3, '0')}`,
         estado: Math.random() > 0.1 ? "Activo" : "Inactivo",
-        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+        fechaVencimiento: fechaVencimiento.toLocaleDateString(),
+        ultimaEntrada
       });
     }
     
     // Familiares (120) - Dependen de propietarios/inquilinos, sin vencimiento
     for (let i = 131; i <= 250; i++) {
       const refOwner = users[Math.floor(Math.random() * 130)];
+      const ultimaEntrada = Math.random() > 0.15 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Familiar ${i - 130}`,
         tipo: "Familiares",
         ref: refOwner.nombre,
         estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
-        fechaVencimiento: null
+        fechaVencimiento: null,
+        ultimaEntrada
       });
     }
     
@@ -62,13 +74,17 @@ export default function UsuariosAutorizados() {
       const refOwner = users[Math.floor(Math.random() * 130)];
       const fechaVencimiento = new Date();
       fechaVencimiento.setDate(fechaVencimiento.getDate() + Math.floor(Math.random() * 30) + 1);
+      const ultimaEntrada = Math.random() > 0.2 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Invitado ${i - 250}`,
         tipo: "Invitados",
         ref: refOwner.nombre,
         estado: Math.random() > 0.15 ? "Activo" : "Inactivo",
-        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+        fechaVencimiento: fechaVencimiento.toLocaleDateString(),
+        ultimaEntrada
       });
     }
     
@@ -77,13 +93,17 @@ export default function UsuariosAutorizados() {
       const refOwner = users[Math.floor(Math.random() * 130)];
       const fechaVencimiento = new Date();
       fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() + 1);
+      const ultimaEntrada = Math.random() > 0.1 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Casero ${i - 310}`,
         tipo: "Caseros",
         ref: refOwner.nombre,
         estado: Math.random() > 0.05 ? "Activo" : "Inactivo",
-        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+        fechaVencimiento: fechaVencimiento.toLocaleDateString(),
+        ultimaEntrada
       });
     }
     
@@ -92,13 +112,17 @@ export default function UsuariosAutorizados() {
       const refOwner = users[Math.floor(Math.random() * 130)];
       const fechaVencimiento = new Date();
       fechaVencimiento.setMonth(fechaVencimiento.getMonth() + Math.floor(Math.random() * 12) + 3);
+      const ultimaEntrada = Math.random() > 0.12 ? 
+        `${Math.floor(Math.random() * 30) + 1}/09/2025 ${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}` : 
+        "Sin registro";
       users.push({
         id: i,
         nombre: `Empleado ${i - 335}`,
         tipo: "Empleados",
         ref: refOwner.nombre,
         estado: Math.random() > 0.08 ? "Activo" : "Inactivo",
-        fechaVencimiento: fechaVencimiento.toLocaleDateString()
+        fechaVencimiento: fechaVencimiento.toLocaleDateString(),
+        ultimaEntrada
       });
     }
     
@@ -254,16 +278,17 @@ export default function UsuariosAutorizados() {
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>REF</TableHead>
-                <TableHead>Estado</TableHead>
-                <TableHead>Vencimiento</TableHead>
-                <TableHead>Acciones</TableHead>
-              </TableRow>
-            </TableHeader>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nombre</TableHead>
+                    <TableHead>Tipo</TableHead>
+                    <TableHead>REF</TableHead>
+                    <TableHead>Estado</TableHead>
+                    <TableHead>Vencimiento</TableHead>
+                    <TableHead>Última Entrada</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
             <TableBody>
               {filteredUsers.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map((user) => (
                 <TableRow key={user.id}>
@@ -279,6 +304,9 @@ export default function UsuariosAutorizados() {
                   </TableCell>
                   <TableCell>
                     {user.fechaVencimiento ? user.fechaVencimiento : "Sin vencimiento"}
+                  </TableCell>
+                  <TableCell className="text-sm">
+                    {user.ultimaEntrada}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">

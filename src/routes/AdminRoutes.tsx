@@ -4,7 +4,7 @@ import FuelAnalysis from "@/pages/FuelAnalysis";
 import MachineryAnalysis from "@/pages/MachineryAnalysis";
 import CommonSpacesAnalysis from "@/pages/CommonSpacesAnalysis";
 import ActivityLog from "@/pages/ActivityLog";
-import AdminUsuariosPersonal from "@/pages/AdminUsuariosPersonal";
+
 import AdminUsuariosPermisos from "@/pages/AdminUsuariosPermisos";
 import AdminReportes from "@/pages/AdminReportes";
 import AdminEficiencia from "@/pages/AdminEficiencia";
@@ -40,8 +40,7 @@ export default function AdminRoutes() {
       
       {/* User Management */}
       <Route path="/admin/usuarios/autorizados" element={<UsuariosAutorizados />} />
-      <Route path="/admin/usuarios/staff" element={<UsuariosStaff />} />
-      <Route path="/admin/usuarios/personal" element={<AdminUsuariosPersonal />} />
+        <Route path="/admin/usuarios/staff" element={<UsuariosStaff />} />
       <Route path="/admin/usuarios/permisos" element={<AdminUsuariosPermisos />} />
       
       {/* Configuration */}
