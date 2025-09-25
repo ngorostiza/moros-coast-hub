@@ -273,7 +273,7 @@ export default function UsuariosStaff() {
                         {person.nombre}
                         {person.esTambien && (
                           <Badge variant="outline" className="ml-2 bg-purple-50 text-purple-700 text-xs">
-                            {person.esTambien}
+                            {person.esTambien.split(' ')[0]}
                           </Badge>
                         )}
                       </div>
