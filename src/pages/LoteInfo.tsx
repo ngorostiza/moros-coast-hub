@@ -23,26 +23,21 @@ export default function LoteInfo() {
       dimensiones: {
         frente: "25m",
         fondo: "50m",
-        forma: "Rectangular"
+        orientacion: "Norte-Sur"
       },
-      servicios: {
-        agua: true,
-        luz: true,
-        gas: false,
-        cloacas: true
-      },
+      servicios: ["Agua", "Luz", "Cloacas"],
       historial: [
-        { fecha: "2024-01-15", evento: "Escritura registrada", tipo: "legal" },
-        { fecha: "2023-06-10", evento: "Pago inicial realizado", tipo: "pago" }
+        { fecha: "2024-01-15", evento: "Escritura registrada", descripcion: "Documentación legal completada" },
+        { fecha: "2023-06-10", evento: "Pago inicial realizado", descripcion: "Primera cuota abonada" }
       ],
       documentos: [
-        { nombre: "Escritura", tipo: "PDF", fecha: "2024-01-15" },
-        { nombre: "Plano aprobado", tipo: "PDF", fecha: "2023-05-20" }
+        { nombre: "Escritura", tipo: "Legal", url: "/docs/escritura.pdf" },
+        { nombre: "Plano aprobado", tipo: "Técnico", url: "/docs/plano.pdf" }
       ],
       fotos: [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+        { nombre: "Vista del lote", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c", fecha: "15/01/2024" }
       ],
-      proyecto: null
+      proyecto: undefined
     },
     { 
       id: 2, 
@@ -56,31 +51,26 @@ export default function LoteInfo() {
       dimensiones: {
         frente: "20m",
         fondo: "49m",
-        forma: "Irregular"
+        orientacion: "Este-Oeste"
       },
-      servicios: {
-        agua: true,
-        luz: true,
-        gas: false,
-        cloacas: false
-      },
+      servicios: ["Agua", "Luz"],
       historial: [
-        { fecha: "2024-03-01", evento: "Avance 60% de obra", tipo: "construccion" },
-        { fecha: "2023-09-15", evento: "Inicio de construcción", tipo: "construccion" },
-        { fecha: "2023-03-10", evento: "Compra del lote", tipo: "venta" }
+        { fecha: "2024-03-01", evento: "Avance 60% de obra", descripcion: "Construcción en proceso" },
+        { fecha: "2023-09-15", evento: "Inicio de construcción", descripcion: "Permisos aprobados y obras iniciadas" },
+        { fecha: "2023-03-10", evento: "Compra del lote", descripcion: "Primera venta registrada" }
       ],
       documentos: [
-        { nombre: "Escritura", tipo: "PDF", fecha: "2023-03-10" },
-        { nombre: "Permiso de construcción", tipo: "PDF", fecha: "2023-08-20" }
+        { nombre: "Escritura", tipo: "Legal", url: "/docs/escritura.pdf" },
+        { nombre: "Permiso de construcción", tipo: "Legal", url: "/docs/permiso.pdf" }
       ],
       fotos: [
-        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea"
+        { nombre: "Vista de la construcción", url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea", fecha: "01/03/2024" }
       ],
       proyecto: {
-        estado: "En Construcción",
-        avance: 60,
-        tipo: "Casa moderna",
-        superficie_cubierta: 180
+        tipoVivienda: "Casa moderna",
+        metrosCubiertos: "180 m²",
+        dormitorios: 3,
+        banos: 2
       }
     },
     { 
@@ -95,28 +85,23 @@ export default function LoteInfo() {
       dimensiones: {
         frente: "30m",
         fondo: "70m",
-        forma: "Rectangular"
+        orientacion: "Noreste-Suroeste"
       },
-      servicios: {
-        agua: true,
-        luz: true,
-        gas: false,
-        cloacas: true
-      },
+      servicios: ["Agua", "Luz", "Cloacas"],
       historial: [
-        { fecha: "2023-12-05", evento: "Proyecto aprobado", tipo: "legal" },
-        { fecha: "2023-08-10", evento: "Compra del lote", tipo: "venta" }
+        { fecha: "2023-12-05", evento: "Proyecto aprobado", descripcion: "Permisos de construcción otorgados" },
+        { fecha: "2023-08-10", evento: "Compra del lote", descripcion: "Adquisición registrada" }
       ],
       documentos: [
-        { nombre: "Escritura", tipo: "PDF", fecha: "2023-08-10" },
-        { nombre: "Proyecto aprobado", tipo: "PDF", fecha: "2023-12-05" }
+        { nombre: "Escritura", tipo: "Legal", url: "/docs/escritura.pdf" },
+        { nombre: "Proyecto aprobado", tipo: "Técnico", url: "/docs/proyecto.pdf" }
       ],
       fotos: [],
       proyecto: {
-        estado: "Proyecto Aprobado",
-        avance: 0,
-        tipo: "Casa de campo",
-        superficie_cubierta: 250
+        tipoVivienda: "Casa de campo",
+        metrosCubiertos: "250 m²",
+        dormitorios: 4,
+        banos: 3
       }
     }
   ];
