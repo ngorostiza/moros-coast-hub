@@ -1,38 +1,137 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Building, MapPin, Calendar, Users, History, FileText } from "lucide-react";
+import LoteDetailModal from "@/components/LoteDetailModal";
 
 export default function LoteInfo() {
+  const [selectedLote, setSelectedLote] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("resumen");
+
   const lotesDelPropietario = [
     { 
       id: 1, 
       numero: "087", 
+      propietario: "Juan Pérez",
       sector: "Del Campo", 
       superficie: "1,250 m²", 
       estado: "Escriturado",
       calle: "Camino Principal Norte",
-      coordenadas: "-38.1234, -57.5678"
+      coordenadas: "-38.1234, -57.5678",
+      dimensiones: {
+        frente: "25m",
+        fondo: "50m",
+        forma: "Rectangular"
+      },
+      servicios: {
+        agua: true,
+        luz: true,
+        gas: false,
+        cloacas: true
+      },
+      historial: [
+        { fecha: "2024-01-15", evento: "Escritura registrada", tipo: "legal" },
+        { fecha: "2023-06-10", evento: "Pago inicial realizado", tipo: "pago" }
+      ],
+      documentos: [
+        { nombre: "Escritura", tipo: "PDF", fecha: "2024-01-15" },
+        { nombre: "Plano aprobado", tipo: "PDF", fecha: "2023-05-20" }
+      ],
+      fotos: [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+      ],
+      proyecto: null
     },
     { 
       id: 2, 
       numero: "124", 
+      propietario: "Juan Pérez",
       sector: "Costa Norte", 
       superficie: "980 m²", 
       estado: "En Construcción",
       calle: "Av. Costanera",
-      coordenadas: "-38.1156, -57.5432"
+      coordenadas: "-38.1156, -57.5432",
+      dimensiones: {
+        frente: "20m",
+        fondo: "49m",
+        forma: "Irregular"
+      },
+      servicios: {
+        agua: true,
+        luz: true,
+        gas: false,
+        cloacas: false
+      },
+      historial: [
+        { fecha: "2024-03-01", evento: "Avance 60% de obra", tipo: "construccion" },
+        { fecha: "2023-09-15", evento: "Inicio de construcción", tipo: "construccion" },
+        { fecha: "2023-03-10", evento: "Compra del lote", tipo: "venta" }
+      ],
+      documentos: [
+        { nombre: "Escritura", tipo: "PDF", fecha: "2023-03-10" },
+        { nombre: "Permiso de construcción", tipo: "PDF", fecha: "2023-08-20" }
+      ],
+      fotos: [
+        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea"
+      ],
+      proyecto: {
+        estado: "En Construcción",
+        avance: 60,
+        tipo: "Casa moderna",
+        superficie_cubierta: 180
+      }
     },
     { 
       id: 3, 
       numero: "156", 
+      propietario: "Juan Pérez",
       sector: "Reserva", 
       superficie: "2,100 m²", 
       estado: "Proyecto Aprobado",
       calle: "Sendero del Bosque",
-      coordenadas: "-38.1289, -57.5789"
+      coordenadas: "-38.1289, -57.5789",
+      dimensiones: {
+        frente: "30m",
+        fondo: "70m",
+        forma: "Rectangular"
+      },
+      servicios: {
+        agua: true,
+        luz: true,
+        gas: false,
+        cloacas: true
+      },
+      historial: [
+        { fecha: "2023-12-05", evento: "Proyecto aprobado", tipo: "legal" },
+        { fecha: "2023-08-10", evento: "Compra del lote", tipo: "venta" }
+      ],
+      documentos: [
+        { nombre: "Escritura", tipo: "PDF", fecha: "2023-08-10" },
+        { nombre: "Proyecto aprobado", tipo: "PDF", fecha: "2023-12-05" }
+      ],
+      fotos: [],
+      proyecto: {
+        estado: "Proyecto Aprobado",
+        avance: 0,
+        tipo: "Casa de campo",
+        superficie_cubierta: 250
+      }
     }
   ];
+
+  const handleVerHistorial = (lote: any) => {
+    setSelectedLote(lote);
+    setActiveTab("historial");
+    setIsModalOpen(true);
+  };
+
+  const handleVerDocumentos = (lote: any) => {
+    setSelectedLote(lote);
+    setActiveTab("documentos");
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -78,11 +177,11 @@ export default function LoteInfo() {
               </div>
               
               <div className="flex flex-col gap-2 pt-4 border-t">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => handleVerHistorial(lote)}>
                   <History className="h-4 w-4 mr-2" />
                   Ver Historial
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => handleVerDocumentos(lote)}>
                   <FileText className="h-4 w-4 mr-2" />
                   Ver Documentación
                 </Button>
@@ -91,6 +190,12 @@ export default function LoteInfo() {
           </Card>
         ))}
       </div>
+
+      <LoteDetailModal
+        lote={selectedLote}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
