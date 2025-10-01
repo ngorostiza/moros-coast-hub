@@ -151,60 +151,6 @@ export default function LotesABM() {
         </Button>
       </div>
 
-      {/* Filtros y búsqueda */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="md:col-span-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar por lote, propietario o calle..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                  className="pl-9"
-                />
-              </div>
-            </div>
-            <Select value={filterEstado} onValueChange={(value) => {
-              setFilterEstado(value);
-              setCurrentPage(1);
-            }}>
-              <SelectTrigger>
-                <SelectValue placeholder="Filtrar por estado" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos los estados</SelectItem>
-                <SelectItem value="Construido">Construido</SelectItem>
-                <SelectItem value="En Construcción">En Construcción</SelectItem>
-                <SelectItem value="Vendido">Vendido</SelectItem>
-                <SelectItem value="Disponible">Disponible</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={filterCalle} onValueChange={(value) => {
-              setFilterCalle(value);
-              setCurrentPage(1);
-            }}>
-              <SelectTrigger>
-                <SelectValue placeholder="Filtrar por calle" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todas las calles</SelectItem>
-                <SelectItem value="De Abajo">De Abajo</SelectItem>
-                <SelectItem value="El Zorro">El Zorro</SelectItem>
-                <SelectItem value="El Encuentro">El Encuentro</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="mt-4 text-sm text-muted-foreground">
-            Mostrando {paginatedLotes.length} de {filteredLotes.length} lotes
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <Card>
@@ -273,6 +219,60 @@ export default function LotesABM() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Filtros y búsqueda */}
+      <Card>
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="md:col-span-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Buscar por lote, propietario o calle..."
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="pl-9"
+                />
+              </div>
+            </div>
+            <Select value={filterEstado} onValueChange={(value) => {
+              setFilterEstado(value);
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger>
+                <SelectValue placeholder="Filtrar por estado" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los estados</SelectItem>
+                <SelectItem value="Construido">Construido</SelectItem>
+                <SelectItem value="En Construcción">En Construcción</SelectItem>
+                <SelectItem value="Vendido">Vendido</SelectItem>
+                <SelectItem value="Disponible">Disponible</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={filterCalle} onValueChange={(value) => {
+              setFilterCalle(value);
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger>
+                <SelectValue placeholder="Filtrar por calle" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todas las calles</SelectItem>
+                <SelectItem value="De Abajo">De Abajo</SelectItem>
+                <SelectItem value="El Zorro">El Zorro</SelectItem>
+                <SelectItem value="El Encuentro">El Encuentro</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="mt-4 text-sm text-muted-foreground">
+            Mostrando {paginatedLotes.length} de {filteredLotes.length} lotes
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Lotes Table */}
       <Card>
